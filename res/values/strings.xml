@@ -7,5 +7,17 @@
     <string name="cancel">Cancel</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
-
+    <string name="settings">Settings</string>
+    <string name="sendregid">Send Regid</string>
+    <string name="contacts">Contacts</string>
+    <string name="detach">Detach</string>
+    <string name="iamback">I am Back</string>
+    <string name="status">Update Status</string>
+    <string name="currentstatus">Driving until 10am</string>
+    <string name="whatshappening">What\'s Happening?</string>
+	<string name="statusicon">StatusIcon</string>
+	<string name="username">Detach User</string>
+	<string name="userstatus">User Status</string>
+	<string name="updatedat">Updated At</string>
+	<string name="timeremaining">Time Remaining</string>
 </resources>
