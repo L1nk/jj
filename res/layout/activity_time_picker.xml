@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ff000000" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center|top"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:padding="50dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="Time Setting"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffffff" />
+
+        <Button
+            android:id="@+id/buttonStartTime"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="#ff33b5e5"
+            android:onClick="showTimePickerDialog"
+            android:text="Start"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonEndTime"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="#ff33b5e5"
+            android:onClick="showTimePickerDialog"
+            android:text="End"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:background="#ff000000"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textStartDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Start Time: You have not chosen a start time."
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#ffffffff" />
+
+            <TextView
+                android:id="@+id/textEndDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="End Time: You have not chosen an end time."
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#ffffffff" />
+
+            <CheckBox
+                android:id="@+id/checkboxEveryDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="checkboxHandler"
+                android:text="Every Day"
+                android:textColor="#ffffffff" />
+
+            <CheckBox
+                android:id="@+id/checkboxRepeat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="checkboxHandler"
+                android:text="Repeat"
+                android:textColor="#ffffffff" />
+
+            <TableLayout
+                android:id="@+id/tableDaysOfTheWeek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" >
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/textSun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="toggleDayToRepeat"
+                        android:padding="10dp"
+                        android:text="SUN"
+                        android:textColor="#ff33b5e5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textMon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="toggleDayToRepeat"
+                        android:padding="10dp"
+                        android:text="MON"
+                        android:textColor="#ff33b5e5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textTu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="toggleDayToRepeat"
+                        android:padding="10dp"
+                        android:text="TUE"
+                        android:textColor="#ff33b5e5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textWed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="toggleDayToRepeat"
+                        android:padding="10dp"
+                        android:text="WED"
+                        android:textColor="#ff33b5e5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textThu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="toggleDayToRepeat"
+                        android:padding="10dp"
+                        android:text="THU"
+                        android:textColor="#ff33b5e5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textFri"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="toggleDayToRepeat"
+                        android:padding="10dp"
+                        android:text="FRI"
+                        android:textColor="#ff33b5e5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textSat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:onClick="toggleDayToRepeat"
+                        android:padding="10dp"
+                        android:text="SAT"
+                        android:textColor="#ff33b5e5"
+                        android:textStyle="bold" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonSaveTimeSetting"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="#ffffbb33"
+            android:onClick="saveTimeSetting"
+            android:text="Save"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="10dp" />
+    </LinearLayout>
+
+</ScrollView>

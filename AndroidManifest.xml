@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wwc.jajing"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+
+    <application
+        android:name="com.wwc.jajing.system.JJApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="detach"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="DATABASE"
+            android:value="JaJingPrototype.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="2" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.wwc.jajing.entity" />
+
+        <!-- This is our dashboard -->
+        <activity
+            android:name="com.wwc.jajing.activities.MainActivity"
+            android:clearTaskOnLaunch="true"
+            android:label="detach"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- This shows the available away options -->
+        <activity
+            android:name="com.wwc.jajing.activities.AwayOptions"
+            android:label=""
+            android:launchMode="singleTop"
+            android:parentActivityName="com.wwc.jajing.activities.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wwc.jajing.activities.MainActivity" />
+        </activity>
+        <!-- This shows the "Locked" screen -->
+        <activity
+            android:name="com.wwc.jajing.activities.AwayActivity"
+            android:label=""
+            android:launchMode="singleTop"
+            android:parentActivityName="com.wwc.jajing.activities.AwayOptions"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wwc.jajing.activities.AwayOptions" />
+        </activity>
+        <!-- Scrren users uses to choose a custom unavailable message -->
+        <activity
+            android:name="com.wwc.jajing.activities.CustomAvailabilityStatus"
+            android:label=""
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" >
+        </activity>
+        <!-- This  is the options screen the caller sees when the call receiving is busy -->
+        <activity
+            android:name="com.wwc.jajing.activities.OptionsToCallingParty"
+            android:label=""
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- This is the options screen the caller sees when he decided not to disturb -->
+        <activity
+            android:name="com.wwc.jajing.activities.DoNotDisturbOptions"
+            android:label=""
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- This is the options screen the call receiver sees when the caller wants to disturb him -->
+        <activity
+            android:name="com.wwc.jajing.activities.WantsToDisturb"
+            android:label=""
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- This is the screen the user sees his missed activity -->
+        <activity
+            android:name="com.wwc.jajing.activities.MissedLog"
+            android:label=""
+            android:parentActivityName="com.wwc.jajing.activities.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wwc.jajing.activities.MainActivity" />
+        </activity>
+        <!-- This is the screen the user sees his missed calls -->
+        <activity
+            android:name="com.wwc.jajing.activities.MissedCalls"
+            android:label=""
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- This is the screen the user sees his missed calls -->
+        <activity
+            android:name="com.wwc.jajing.activities.MissedMessages"
+            android:label=""
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- This is the screen the user sees where he wants to set his time settings -->
+        <activity
+            android:name="com.wwc.jajing.activities.TimeSettings"
+            android:label="Time Settings"
+            android:parentActivityName="com.wwc.jajing.activities.MainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- This is the screen the user sees where he wants to view his time settings -->
+        <activity
+            android:name="com.wwc.jajing.activities.MyTimeSettings"
+            android:label=""
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!-- This is the screen the user sees when the time setting is up. This is a prompt screen -->
+        <activity
+            android:name="com.wwc.jajing.activities.TimeOnEnd"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" >
+        </activity>
+        <!-- This is the screen the user sees when the app is doing something in the background -->
+        <activity
+            android:name="com.wwc.jajing.activities.PleaseWait"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" >
+        </activity>
+        <!-- This is the screen the user sees when he is abot to break through -->
+        <activity
+            android:name="com.wwc.jajing.activities.AboutToBreakThrough"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" >
+        </activity>
+        <!-- This is just a plain alert dialog screen with custom title description and positive button -->
+        <activity
+            android:name="com.wwc.jajing.activities.PlainAlertDialog"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent" >
+        </activity>
+
+        <receiver
+            android:name="com.wwc.jajing.sms.JJSMSBroadcastReceiver"
+            android:enabled="true" >
+            <intent-filter android:priority="999" >
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <!-- responsible for handling events associated with turning on/off specific time settings -->
+        <receiver
+            android:name="com.wwc.jajing.receivers.TimeSettingReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.exmaple.jajingprototype.system.event.TIME_SETTING_ON" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.exmaple.jajingprototype.system.event.TIME_SETTING_OFF" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.wwc.jajing.settings.time.TimeSettingTaskManagerNotifcationReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.exmaple.jajingprototype.system.event.TIME_SETTING_ENDED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.wwc.jajing.sms.SMSReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.exmaple.jajingprototype.sms.NEW_SMS" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.wwc.jajing.receivers.OutgoingCallReceiver"
+            android:enabled="true" >
+            <intent-filter android:priority="999" >
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.wwc.jajing.receivers.JJSystemInitReceiver"
+            android:enabled="true" >
+            <intent-filter android:priority="999" >
+                <action android:name="com.exmaple.jajingprototype.system.event.INIT_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.wwc.jajing.services.JJOnAwayService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name="com.wwc.jajing.sms.JJSMSService"
+            android:exported="false" >
+        </service>
+    </application>
+
+</manifest>

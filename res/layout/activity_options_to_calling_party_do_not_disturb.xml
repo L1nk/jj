@@ -1,0 +1,92 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ff000000"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:padding="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="20dp" >
+    </View>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" >
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="What do you want to do?"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffffff" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonLeaveVoiceMail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffbb33"
+        android:onClick="leaveVoiceMail"
+        android:text="Leave Voicemail"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="10dp" />
+
+    <Button
+        android:id="@+id/buttonWillCallBack"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffbb33"
+        android:onClick="willCallBack"
+        android:text="Will Call Back"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="10dp" />
+
+    <Button
+        android:id="@+id/buttonHangUp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffbb33"
+        android:onClick="hangUp"
+        android:text="Hang Up"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="10dp" />
+
+    <Button
+        android:id="@+id/buttonLeaveTextMessage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffbb33"
+        android:onClick="leaveTextMessage"
+        android:text="Leave Text Message"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="10dp" />
+
+</LinearLayout>
