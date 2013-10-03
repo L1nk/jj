@@ -72,7 +72,7 @@ public class LeaveVoicemailReceiver implements CommandReceiver{
 	
 	private void sendLeaveVoicemailOKResponse()
 	{
-		this.jjsmsMessenger.sendRawSms(new JJSMS("#detach/LEAVE_VOICEMAIL?ISRESPONSE=TRUE"), this.jjsms.getSendersPhoneNumber().toString());
+		this.jjsmsMessenger.sendRawSms(new JJSMS("#jj/LEAVE_VOICEMAIL?ISRESPONSE=TRUE"), this.jjsms.getSendersPhoneNumber().toString());
 		Log.d(TAG, "Finished sending OK response");
 
 	}

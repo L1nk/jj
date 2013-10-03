@@ -1,0 +1,106 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#ff000000"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical" >
+
+        <!-- The header view -->
+
+        <TableLayout
+            android:id="@+id/tableview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#ff000000" >
+
+            <TextView
+                android:id="@+id/whatshappening"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/whatshappening"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffffff" />
+
+            <RelativeLayout
+                android:id="@+id/button_layout1"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" >
+
+                <Button
+                    android:id="@+id/whataminow"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#ffffffff"
+                    android:text="@string/currentstatus"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp" />
+                
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/button_layout2"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" >
+
+                <Button
+                    android:id="@+id/buttonStatus"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="45dp"
+                    android:background="#ff33b5e5"
+                    android:text="@string/status"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/buttonAvailable"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="45dp"
+                    android:background="#ffffbb33"
+                    android:text="@string/iamback"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <com.wwc.jajing.activities.FastSearchListView
+                android:id="@+id/left_drawer"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="fill_vertical"
+                android:animateLayoutChanges="true"
+                android:layout_marginRight="10dp"
+                android:background="#ff000000"
+                android:choiceMode="singleChoice"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="2dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="10dp" />
+        </TableLayout>
+
+    </LinearLayout>
+
+</ScrollView>

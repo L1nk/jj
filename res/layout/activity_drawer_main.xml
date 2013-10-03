@@ -3,16 +3,15 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!-- The main content view -->
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff000000">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ff000000">
-
-    <LinearLayout
-        android:orientation="vertical"
+    <TableLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:background="#ff000000" >
 
         <ImageView
@@ -26,68 +25,86 @@
 
         <TextView
             android:id="@+id/textHeading"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Want to get away?"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="18dp"/>
-
-        <Button
-            android:id="@+id/buttonStatus"
-            android:layout_width="250dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
-            android:background="#ffffbb33"
-            android:onClick="awayOptionsMenu"
-            android:text="set your status"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:textSize="32dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:gravity="center"
-            android:text="to temporarily Detach from
-all calls, texts, and notifications"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="18dp"/>
+            android:text="What&apos;s Your Status ?"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#ffffffff" />
 
-        <TextView
-            android:id="@+id/textCallersCanForceDisturb"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="40dp"
-            android:gravity="center"
-            android:text="Anyone who tries to reach you will be
-notified of your status via text and asked
-to try again later."
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="13dp"/>
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:gravity="center"
-            android:text="Android users with Detach are given the
-option to interrupt you if they absolutely
-need to."
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="13dp"/>
+            <Button
+                android:id="@+id/buttonStatus"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20dp"
+                android:background="#ffffbb33"
+                android:onClick="awayOptionsMenu"
+                android:text="Not Available"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="(rejects calls/text messages for specified time)"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#ffffff" />
 
-    </ScrollView>
+            <TextView
+                android:id="@+id/textCallersCanForceDisturb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="(but callers can force disturb you)"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#ffffff" />
+
+            <Button
+                android:id="@+id/buttonAvailable"
+                android:layout_width="250dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:background="#ff33b5e5"
+                android:onClick="goAvailable"
+                android:text="Available"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="(re-sets to allow incoming calls/text messages)"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#ffffff" />
+            
+            <TextView
+                android:id="@+id/registerID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Not Registered"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#ffffff" />
+            
+        </LinearLayout>
+    </TableLayout>
+
+</ScrollView>
     <!-- The navigation drawer -->
     <ListView android:id="@+id/left_drawer"
         android:layout_width="240dp"

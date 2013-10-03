@@ -75,7 +75,7 @@ public class UnknownReceiver implements  CommandReceiver{
 	private String[] getReasonAndAvailabilityTime()
 	{
 
-		String [] reasonSecondHalf = this.jjsms.getRawJJSMS().split("#detach/The person you are trying to reach is ");
+		String [] reasonSecondHalf = this.jjsms.getRawJJSMS().split("#jj/The person you are trying to reach is ");
 		String [] reason = reasonSecondHalf[1].split(" and will be unavailable until ");
 		return new String[] {reason[0], reason[1]};
 	}

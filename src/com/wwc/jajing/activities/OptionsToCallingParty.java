@@ -98,7 +98,7 @@ public class OptionsToCallingParty extends Activity {
 	public void requestToDisturbHandler(View view)
 	{
 		//to keep track of the request have to attach a requestid
-		String jjsmsRequestStr = "#detach/DISTURB?";
+		String jjsmsRequestStr = "#jj/DISTURB?";
 		this.jjsmsMessenger.sendRawSms(new JJSMS(jjsmsRequestStr), this.jjsms.getSendersPhoneNumber().toString());
 		this.finish();
 		Log.d(TAG, "request to disturb sent.");
@@ -110,7 +110,7 @@ public class OptionsToCallingParty extends Activity {
 		Intent i = new Intent(this, PleaseWait.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		i.putExtra("title", "Connecting Call....");
-		i.putExtra("description", "please wait while detach connects your call...");
+		i.putExtra("description", "please wait while jajing connects your call...");
 
 		
 		this.startActivity(i);

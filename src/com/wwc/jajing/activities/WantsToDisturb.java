@@ -91,7 +91,7 @@ public class WantsToDisturb extends Activity {
 		Log.d(TAG, "Finished giving caller permissions");
 		
 		// now send a JJSMS response for DISTURB
-		this.jjsmsMessenger.sendRawSms(new JJSMS("#detach/DISTURB?ISRESPONSE=TRUE,ALLOW=TRUE"), this.callersPNumber.toString());
+		this.jjsmsMessenger.sendRawSms(new JJSMS("#jj/DISTURB?ISRESPONSE=TRUE,ALLOW=TRUE"), this.callersPNumber.toString());
 
 		Log.d(TAG, "Call receiving has chose to ALLLOW the caller to disturb!JJSMS Response sent.");
 
@@ -102,7 +102,7 @@ public class WantsToDisturb extends Activity {
 	public void denyCallerToDisturbHandler(View view)
 	{
 
-		this.jjsmsMessenger.sendRawSms(new JJSMS("#detach/DISTURB?ISRESPONSE=TRUE,ALLOW=FALSE"), this.callersPNumber.toString());
+		this.jjsmsMessenger.sendRawSms(new JJSMS("#jj/DISTURB?ISRESPONSE=TRUE,ALLOW=FALSE"), this.callersPNumber.toString());
 		Log.d(TAG, "Call receiving has chose to DENY the caller to disturb!JJSMS Response sent.");
 
 		this.finish();

@@ -36,7 +36,7 @@ public class JJCallReceivingBusyReceiver implements JJCommand{
 		 * 
 		 */
 		
-		//JJSMS jjsms = jjsmsManager.getFactory().createJJSMS(context, "#detach/show_caller_is_busy_menu?key1=val1");
+		//JJSMS jjsms = jjsmsManager.getFactory().createJJSMS(context, "#jj/show_caller_is_busy_menu?key1=val1");
 		
 		//**
 		

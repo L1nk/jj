@@ -21,7 +21,7 @@ public class JJSMS implements Serializable {
 
 	public static final String TAG = "JJSMS";
 	
-	public static final String INITIAL_MESSAGE = "#detach/The person you are trying to reach is ";
+	public static final String INITIAL_MESSAGE = "#jj/The person you are trying to reach is ";
 
 	final private String jjsmsStr;
 	final private JJSMSSenderPhoneNumber sendersPhoneNumber;
@@ -153,7 +153,7 @@ public class JJSMS implements Serializable {
 	public String toString() {
 		Log.d(TAG, extras.toString());
 		Log.d(TAG, "The converted extras are:" + convertExtrasToString());
-		return "#detach/" + this.getCommand().toString() + "?"
+		return "#jj/" + this.getCommand().toString() + "?"
 				+ convertExtrasToString();
 
 	}

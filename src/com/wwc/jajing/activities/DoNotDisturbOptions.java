@@ -51,7 +51,7 @@ public class DoNotDisturbOptions extends Activity {
 		JJSMSManager jjsmsManager = (JJSMSManager) JJSystemImpl.getInstance()
 				.getSystemService(Services.SMS_MANAGER);
 		jjsmsManager.getMessenger().sendRawSms(
-				new JJSMS("#detach/LEAVE_VOICEMAIL"),
+				new JJSMS("#jj/LEAVE_VOICEMAIL"),
 				this.jjsms.getSendersPhoneNumber().toString());
 		Log.d(TAG, this.jjsms.getSendersPhoneNumber().toString());
 		this.finish();
@@ -62,7 +62,7 @@ public class DoNotDisturbOptions extends Activity {
 		// let the call receiver know that this caller wants to hang up
 		JJSMSManager jjsmsManager = (JJSMSManager) JJSystemImpl.getInstance()
 				.getSystemService(Services.SMS_MANAGER);
-		jjsmsManager.getMessenger().sendRawSms(new JJSMS("#detach/HANG_UP"),
+		jjsmsManager.getMessenger().sendRawSms(new JJSMS("#jj/HANG_UP"),
 				this.jjsms.getSendersPhoneNumber().toString());
 		Log.d(TAG, this.jjsms.getSendersPhoneNumber().toString());
 		this.finish();
@@ -73,7 +73,7 @@ public class DoNotDisturbOptions extends Activity {
 		// let the call receiver know that this caller wants to hang up
 		JJSMSManager jjsmsManager = (JJSMSManager) JJSystemImpl.getInstance()
 				.getSystemService(Services.SMS_MANAGER);
-		jjsmsManager.getMessenger().sendRawSms(new JJSMS("#detach/WILL_CALL_BACK"),
+		jjsmsManager.getMessenger().sendRawSms(new JJSMS("#jj/WILL_CALL_BACK"),
 				this.jjsms.getSendersPhoneNumber().toString());
 		Log.d(TAG, this.jjsms.getSendersPhoneNumber().toString());
 		this.finish();

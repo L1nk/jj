@@ -1,10 +1,12 @@
 package com.wwc.jajing.services;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -71,11 +73,12 @@ public class JJOnAwayService extends Service {
 	}
 	
 	@SuppressLint("NewApi")
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void startAwayForegruondService()
 	{
-		Notification notification = new Notification.Builder(this).setContentTitle("Unavailable")
+		/*Notification notification = new Notification.Builder(this).setContentTitle("Unavailable")
 				.setSmallIcon(R.drawable.logo).build();
-		startForeground(1, notification);
+		startForeground(1, notification);*/
 	}
 
 

@@ -66,7 +66,7 @@ public class UserStatusReceiver implements CommandReceiver {
 			String requestId = (String) jjsms.getFromExtras("REQUESTID");
 			
 			UserStatus us = user.getUserStatus();
-			String jjsmsResponseStr = "#detach/USER_STATUS?availabilityStatus="
+			String jjsmsResponseStr = "#jj/USER_STATUS?availabilityStatus="
 					+ us.getAvailabilityStatus() + ",availabilityTime="
 					+ us.getavailabilityTime() + ",isResponse=True,requestId=" + requestId;
 			JJSMS jjsmsResponse = new JJSMS(jjsmsResponseStr);
@@ -114,7 +114,7 @@ public class UserStatusReceiver implements CommandReceiver {
 		jjsmsResponseDispatcher.registerListener(requestId, aJJSMSResponseListner);
 		
 		
-		String requestJJSMSstr = "#detach/USER_STATUS?REQUESTID=" + requestId;
+		String requestJJSMSstr = "#jj/USER_STATUS?REQUESTID=" + requestId;
 		jjsmsMessenger.sendRawSms(new JJSMS(requestJJSMSstr), this.jjsms.getSendersPhoneNumber().toString());
 		
 		Log.d(TAG, "Sent request for UserStatus");
@@ -127,7 +127,7 @@ public class UserStatusReceiver implements CommandReceiver {
 	{
 		Intent i = new Intent(context, PleaseWait.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		i.putExtra("title", "detach is connecting....");
+		i.putExtra("title", "JaJing is Connecting....");
 		i.putExtra("description", "please wait...");
 
 		
