@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dip" >
+
+    <!-- Detach Contact List Row With Status Image -->
+
+    <LinearLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip"
+        android:padding="3dip" >
+        <ImageView
+            android:id="@+id/contact_image"
+            android:contentDescription="@string/statusicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dip"
+            android:src="@drawable/available" />
+    </LinearLayout>
+
+    <!-- Detach Contact Full Name -->
+
+    <TextView
+        android:id="@+id/contactname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="@string/username"
+        android:textColor="#00BBEE"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <!-- Contact Current Status Message -->
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contactname"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="@string/userstatus"
+        android:textColor="#FFDD11"
+        android:textSize="15sp" />
+
+    <!-- Updated Time Status -->
+
+    <TextView
+        android:id="@+id/updateon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/contactname"
+        android:layout_marginRight="15dip"
+        android:gravity="right"
+        android:text="@string/updatedat"
+        android:textColor="#10bcc9"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+    
+    <!-- Time Remaining -->
+    
+    <TextView
+        android:id="@+id/timeremaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/contactname"
+        android:layout_marginRight="15dip"
+        android:layout_marginTop="25dip"
+        android:gravity="right"
+        android:text="@string/timeremaining"
+        android:textColor="#10bcc9"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+    
+
+</RelativeLayout>
