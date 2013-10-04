@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
 
-		this.mDisplay = (TextView) findViewById( R.id.registerID );
+		//this.mDisplay = (TextView) findViewById( R.id.registerID );
 		
 		this.registerReceiver(this.dashboardReceiver, this.intentFilter);
 		// CACHE JJSYSTEM
@@ -326,7 +326,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	}
 
 	private void changeButtonAvailableText(String textForButton) {
-		this.buttonAvailable.setText(textForButton);
+		//this.buttonAvailable.setText(textForButton);
 	}
 
 	private BroadcastReceiver dashboardReceiver = new BroadcastReceiver() {
