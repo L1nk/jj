@@ -2,6 +2,8 @@ package com.wwc.jajing.domain.entity;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimerTask;
 
 import android.app.ActivityManager;
@@ -11,18 +13,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
-import com.wwc.jajing.domain.entity.TimeSetting.Days;
 import com.wwc.jajing.domain.value.AvailabilityTime;
 import com.wwc.jajing.domain.value.PhoneNumber;
 import com.wwc.jajing.domain.value.UserStatus;
 import com.wwc.jajing.permissions.PermissionManager;
 import com.wwc.jajing.permissions.PermissionManager.Permissions;
 import com.wwc.jajing.services.JJOnAwayService;
-import com.wwc.jajing.settings.time.TimeSettingId;
 import com.wwc.jajing.settings.time.TimeSettingTaskManager;
 import com.wwc.jajing.system.JJSystemImpl;
 import com.wwc.jajing.system.JJSystemImpl.Services;
@@ -44,6 +43,9 @@ public class UserImpl extends SugarRecord implements User {
 	private String availabilityTime;
 	
 	@Ignore
+	private Map<String,String> userProfile = new HashMap<String, String>();
+	
+	@Ignore
 	private mEndTaskTimerTask currentEndTask;
 	
 	@Ignore
@@ -62,6 +64,8 @@ public class UserImpl extends SugarRecord implements User {
 	private static final UserImpl instance = new UserImpl(
 			(Context) JJSystemImpl.getInstance().getSystemService(
 					Services.CONTEXT));
+	@Ignore
+	private String status = "" ;
 
 	@Ignore
 	private PermissionManager pm = null;
@@ -326,10 +330,5 @@ public class UserImpl extends SugarRecord implements User {
 		this.setAvailabilityTime(anAvailabilityTime);
 		return this.availTime;
 	}
-
-
-
-
-	
 
 }
