@@ -35,7 +35,7 @@ public class JJCallReceivingBusyReceiver implements JJCommand{
 		 * action...Facotry has two responsibilities, we should create a new class that handles the formatting, reading of jjsms strings.
 		 * 
 		 */
-		
+
 		//JJSMS jjsms = jjsmsManager.getFactory().createJJSMS(context, "#detach/show_caller_is_busy_menu?key1=val1");
 		
 		//**
