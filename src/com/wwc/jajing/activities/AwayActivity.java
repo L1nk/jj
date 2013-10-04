@@ -37,26 +37,27 @@ public class AwayActivity extends Activity {
 	TextView availabilityTime;
 	TextView notification;
 	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_away);
 
-		user = (User) JJSystemImpl.getInstance().getSystemService(
-				Services.USER);
-		//timeSetting = TimeSetting.findById(TimeSetting.class, this.getIntent().getLongExtra(EXTRA_KEY_TIME_SETTING_ID, 1L));
-		Log.d(TAG, TimeSettingTaskManager.getInstance().getTimeSettingIdClosestToBeingDone().toString());
-		timeSetting = TimeSetting.findById(TimeSetting.class, TimeSettingTaskManager.getInstance().getTimeSettingIdClosestToBeingDone());
+		user = (User) JJSystemImpl.getInstance()
+				.getSystemService(Services.USER);
+		// timeSetting = TimeSetting.findById(TimeSetting.class,
+		// this.getIntent().getLongExtra(EXTRA_KEY_TIME_SETTING_ID, 1L));
+		Log.d(TAG, TimeSettingTaskManager.getInstance()
+				.getTimeSettingIdClosestToBeingDone().toString());
+		timeSetting = TimeSetting.findById(TimeSetting.class,
+				TimeSettingTaskManager.getInstance()
+						.getTimeSettingIdClosestToBeingDone());
 		awayStatus = (TextView) findViewById(R.id.textStatus);
 
 		availabilityTime = (TextView) findViewById(R.id.textAvailabilityTime);
 		notification = (TextView) findViewById(R.id.textNotification);
 
-		
 		awayStatus.setText(user.getUserStatus().getAvailabilityStatus());
 
-		
 
 	}
 
@@ -83,14 +84,10 @@ public class AwayActivity extends Activity {
 
 	}
 	
-	
 	public void continueHome(View view){
 		Intent i = new Intent(this, MainActivity.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		this.startActivity(i);
 	}
-
-	
-	
 	
 }
