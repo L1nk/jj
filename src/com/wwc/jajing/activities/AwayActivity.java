@@ -1,5 +1,9 @@
 package com.wwc.jajing.activities;
 
+import java.io.IOException;
+
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -8,9 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.media.AudioManager;
+import android.widget.Toast;
 
 import com.wwc.jajing.R;
+import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
+import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
 import com.wwc.jajing.domain.entity.TimeSetting;
 import com.wwc.jajing.domain.entity.User;
 import com.wwc.jajing.settings.time.TimeSettingTaskManager;
@@ -38,14 +44,19 @@ public class AwayActivity extends Activity {
 	TextView awayStatus;
 	TextView availabilityTime;
 	TextView notification;
-
-    AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-
+	
+	CloudBackendAsync m_cloudAsync ;
+	Context mContext ;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_away);
 
+		mContext = getApplicationContext() ;
+		
+		m_cloudAsync = new CloudBackendAsync(mContext);
+		
 		user = (User) JJSystemImpl.getInstance()
 				.getSystemService(Services.USER);
 		// timeSetting = TimeSetting.findById(TimeSetting.class,
@@ -62,22 +73,18 @@ public class AwayActivity extends Activity {
 
 		awayStatus.setText(user.getUserStatus().getAvailabilityStatus());
 
-
+		this.updateStatusOnCloud( user );
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-
-        audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-
+		
 		if(this.user.isAvailable()){//if the user is available make him go unavailable
-
 			availabilityTime.setText("");
 			notification.setText("");
 
 		} else {
-
 			availabilityTime.setText("(some callers may disturb you during this time)");
 			if(timeSetting.getEndTime().equalsIgnoreCase("") || timeSetting.getStartTime().equalsIgnoreCase("") || TimeSetting.hasEndTimePassed(timeSetting.getEndTime())) {
 				notification.setVisibility(View.INVISIBLE);
@@ -96,6 +103,25 @@ public class AwayActivity extends Activity {
 		Intent i = new Intent(this, MainActivity.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		this.startActivity(i);
+	}
+	
+	/**
+	 * Asynchronously loads detached user contacts from cloud
+	 * 
+	 */
+	private void updateStatusOnCloud( User user ) {
+
+		CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
+			@Override
+			public void onComplete( JSONObject results ) {
+				Toast.makeText( mContext , "Status pushed to Cloud successfully", Toast.LENGTH_LONG ).show();
+			}
+			@Override
+			public void onError( IOException exception ) {
+				CloudBackendAsync.handleEndpointException( exception );
+			}
+		};
+		m_cloudAsync.pushStatusToCloud( 1231231l , user , handler );
 	}
 	
 }

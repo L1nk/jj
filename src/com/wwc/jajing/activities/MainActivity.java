@@ -1,5 +1,10 @@
 package com.wwc.jajing.activities;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -9,9 +14,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -26,17 +35,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wwc.jajing.R;
+import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
+import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
 import com.wwc.jajing.domain.entity.User;
 import com.wwc.jajing.domain.services.CallManager;
 import com.wwc.jajing.system.JJSystem;
 import com.wwc.jajing.system.JJSystemImpl;
 import com.wwc.jajing.system.JJSystemImpl.Services;
+import com.wwc.jajing.util.AppLogger;
 
 public class MainActivity extends Activity implements ActionBar.TabListener, ActionBar.OnMenuVisibilityListener {
 
 	private static final String TAG = "MainActivity";
 	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
-
+	
 	/* For Navigation Drawer */
 	private String[] navigation = new String[] { "History", "Time Settings", "My Status" };
 	private DrawerLayout mDrawerLayout;
@@ -53,8 +65,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	private User user;
 	private CallManager cm;
 	private String status;
-
+	private Context mContext ;
 	TextView mDisplay;
+	CloudBackendAsync m_cloudAsync ;
+	
+	private static final String AUTOSYNC = "AutoSync" ;
+	private static final String USER_ID = "id" ;
+	private static final String NUMBER_OF_CONTACTS = "number_of_contacts" ;
 	
 	private IntentFilter intentFilter = new IntentFilter(
 			MainActivity.DASHBOARD_INTENT);
@@ -71,12 +88,25 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 		StrictMode.setThreadPolicy(policy); 
 		
+		mContext = getApplicationContext();
+		m_cloudAsync = new CloudBackendAsync(mContext);
+		
+		
+		if( isNetworkAvailable( getApplicationContext() ) == Boolean.FALSE ) {
+			Toast.makeText( mContext , "Network not available to push status updates", Toast.LENGTH_SHORT ).show();
+		}
+		
+		if ( isContactsPushedToCloud() == Boolean.FALSE ) {
+			pushLocalPhoneContactsToCloud();
+			Toast.makeText( mContext , "Phone contacts already pushed", Toast.LENGTH_SHORT ).show();
+		}
+		
 		this.buttonStatus = (Button) findViewById(R.id.buttonStatus);
 		this.buttonAvailable = (Button) findViewById(R.id.buttonAvailable);
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
 
-		this.mDisplay = (TextView) findViewById( R.id.registerID );
+		//this.mDisplay = (TextView) findViewById( R.id.registerID );
 		
 		this.registerReceiver(this.dashboardReceiver, this.intentFilter);
 		// CACHE JJSYSTEM
@@ -326,7 +356,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	}
 
 	private void changeButtonAvailableText(String textForButton) {
-		this.buttonAvailable.setText(textForButton);
+		//this.buttonAvailable.setText(textForButton);
 	}
 
 	private BroadcastReceiver dashboardReceiver = new BroadcastReceiver() {
@@ -372,6 +402,70 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	public boolean onCreateOptionsMenu( Menu menu ) {
 		getMenuInflater().inflate( R.menu.main_activity_menu, menu );
 		return true;
+	}
+	
+	private boolean isContactsPushedToCloud() {
+		SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
+		boolean returnBool = shared.getBoolean( AUTOSYNC , false ) ;
+		return returnBool ;
+	}
+	
+	private void updateContactsPreferences( JSONObject statusObject ) throws JSONException {
+		SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
+		SharedPreferences.Editor _editor = shared.edit();
+		_editor.putBoolean( AUTOSYNC , statusObject.getBoolean( "success" ) );
+		_editor.putInt( USER_ID , statusObject.getInt( "id" ));
+		_editor.putInt( NUMBER_OF_CONTACTS , statusObject.getInt( "number_of_contacts" ) );
+		_editor.commit();
+	}
+
+	/**
+	 * Asynchronously pushes phone local contacts to detach.io
+	 * 
+	 * This will happen only once and application preferences
+	 * will be updated upon successful updates to cloud
+	 * 
+	 */
+	private void pushLocalPhoneContactsToCloud() {
+
+		CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
+			@Override
+			public void onComplete( JSONObject results ) {
+				try {
+					updateContactsPreferences( results );
+				} catch ( JSONException e ) {
+					Toast.makeText( mContext , e.toString(), Toast.LENGTH_LONG ).show();
+					AppLogger.error( String.format( TAG , "Unable to push local contacts to Cloud" ) );
+				}
+			}
+			@Override
+			public void onError( IOException exception ) {
+				CloudBackendAsync.handleEndpointException( exception );
+			}
+		};
+		try {
+			//Change userId to actual user phone number
+			long userId = 1231231 ;
+			m_cloudAsync.pushContactsToCloud( userId , handler );
+		} catch ( JSONException e ) {
+			Toast.makeText( mContext , e.toString(), Toast.LENGTH_LONG ).show();
+			AppLogger.error( String.format( TAG , "Unable to push local contacts to Cloud" ) );
+		}
+	}
+	
+	public static boolean isNetworkAvailable( Context con ) {
+		try {
+			ConnectivityManager connectivityManager = (ConnectivityManager) con.getSystemService( Context.CONNECTIVITY_SERVICE );
+			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+			if ( null != networkInfo ) {
+				if ( networkInfo.isAvailable() && networkInfo.isConnected() ) {
+					return true;
+				}
+			}
+		} catch ( Exception e ) {
+			AppLogger.error( String.format( TAG , String.format( "CheckConnectivity Exception: %s " + e.getMessage() ) ) );
+		}
+		return false;
 	}
 
 }

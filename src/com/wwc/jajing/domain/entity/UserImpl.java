@@ -1,5 +1,7 @@
 package com.wwc.jajing.domain.entity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,7 +43,8 @@ public class UserImpl extends SugarRecord implements User {
 	private Long id;
 	private String availabilityStatus = AVAILAILBLE;
 	private String availabilityTime;
-	
+	@Ignore
+	public static SimpleDateFormat fullDateTimeFormatter = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSZ" );
 	@Ignore
 	private Map<String,String> userProfile = new HashMap<String, String>();
 	
@@ -329,6 +332,22 @@ public class UserImpl extends SugarRecord implements User {
 		AvailabilityTime anAvailabilityTime = new AvailabilityTime(this.availabilityTime);
 		this.setAvailabilityTime(anAvailabilityTime);
 		return this.availTime;
+	}
+
+	@Override
+	public String getFullStartDateTime() {
+		return fullDateTimeFormatter.format( new Date() );
+	}
+
+	@SuppressWarnings( "deprecation" )
+	@Override
+	public String getFullEndDateTime() {
+		Date endTime = new Date() ;
+		int minute = (int) (availTime.getTime() / (1000 * 60)) % 60;
+		int hour = (int) (availTime.getTime() / (1000 * 60 * 60)) % 24;
+		endTime.setHours( hour );
+		endTime.setMinutes( minute );
+		return fullDateTimeFormatter.format( endTime );
 	}
 
 }

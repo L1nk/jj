@@ -66,7 +66,6 @@ public class TimeSetting extends SugarRecord implements Entity{
 	public static SimpleDateFormat dateFormatterTIME_SECONDS = new SimpleDateFormat("hh:mm:ss a");
 	
 	
-	
 	public Long getId() {
 		return this.id;
 	}
@@ -318,17 +317,6 @@ public class TimeSetting extends SugarRecord implements Entity{
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 }

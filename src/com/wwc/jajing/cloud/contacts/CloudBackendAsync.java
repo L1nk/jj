@@ -6,16 +6,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Application;
 import android.app.Fragment;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Handler;
+import android.provider.ContactsContract;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.wwc.jajing.activities.DetachUser;
+import com.wwc.jajing.domain.entity.User;
 import com.wwc.jajing.util.AppLogger;
 
 /**
@@ -27,7 +34,7 @@ import com.wwc.jajing.util.AppLogger;
  
 public class CloudBackendAsync {
 
-	protected final Application application;
+	protected static Application application;
 
 	protected static final Map<String, DetachUser> detachContacts = new ConcurrentHashMap<String, DetachUser>();
 
@@ -36,10 +43,13 @@ public class CloudBackendAsync {
 	private static final String DETACH_CONTACTS_API_URI = "/contacts";
 	private static final String DETACH_MOBILE_BACKEND_URI = "/?client=mobile-android&client_secret=detach1101";
 	private static final String DETACH_USER_PRERFERNCE_URI = "/user/%s";
+	
+	private static final String PHONE_NUMBER_TAG = "phone_number" ;
+	private static final String CONTACTS_TAG = "contacts" ;
 
 	public CloudBackendAsync(Context context) {
 		// set Application
-		this.application = (Application) (context != null ? context
+		application = (Application) (context != null ? context
 				.getApplicationContext() : null);
 	}
 
@@ -64,51 +74,65 @@ public class CloudBackendAsync {
 		}).start();
 	}
 	
-	public void pushContactsToCloud(long phoneNumber, List<DetachUser> users, CloudCallbackHandler<JSONObject> handler) {
-		this.createContacts(phoneNumber, users, handler);
+	public void pushContactsToCloud(long phoneNumber, CloudCallbackHandler<JSONObject> handler) throws JSONException {
+		this.createContacts(phoneNumber, handler);
 	}
 	
-	private void createContacts(long phoneNumber, final List<DetachUser> users, CloudCallbackHandler<JSONObject> handler) {
+	private void createContacts(long phoneNumber, CloudCallbackHandler<JSONObject> handler) throws JSONException {
 		(new BackendCaller<Long, JSONObject>(phoneNumber, handler) {
 			@Override
 			protected JSONObject callBackend(Long phoneNumber)
 					throws IOException {
-				JSONParser jParser = JSONParser.getParser();
-				String userPreference = String.format( DETACH_USER_PRERFERNCE_URI , phoneNumber ); 
-		        String postUrl = String.format("%s%s%s%s",DETACH_API_URI , userPreference, DETACH_CREATE_API_URI, DETACH_MOBILE_BACKEND_URI );
-		        JSONObject newContactsJson = jParser.buildJsonContactsList(users);
-		        jParser.postJsonToUrl(postUrl, newContactsJson );
-				return  new JSONObject();
+				JSONObject users = null;
+				try {
+					//Retrieve local contacts
+					JSONArray contacts = getPhoneLocalContactsList();
+					users = new JSONObject();
+					if ( contacts.length() > 0 ) {
+						users.put( CONTACTS_TAG, contacts );
+					}
+					//Push to cloud
+					JSONParser jParser = JSONParser.getParser();
+					String userPreference = String.format( DETACH_USER_PRERFERNCE_URI , phoneNumber ); 
+			        String postUrl = String.format("%s%s%s%s",DETACH_API_URI , userPreference, DETACH_CREATE_API_URI, DETACH_MOBILE_BACKEND_URI );
+			        JSONObject returnObject = jParser.postJsonToUrl(postUrl, users );
+			        AppLogger.debug(String.format("Phone contacts pushed to cloud : %s" , users.toString() )) ;
+					return  returnObject ;
+				} catch ( JSONException e ) {
+					Toast.makeText( application , e.toString(), Toast.LENGTH_LONG ).show();
+				}
+				return users ;
 			}
 		}).start();
 	}
 	
 	
-	public void pushStatusToCloud(long phoneNumber, String status, CloudCallbackHandler<JSONObject> handler) {
-		this.pushMyStatus(phoneNumber, status, handler);
+	public void pushStatusToCloud(long phoneNumber, User user, CloudCallbackHandler<JSONObject> handler) {
+		this.pushMyStatus(phoneNumber, user, handler);
 	}
 	
-	private void pushMyStatus(long phoneNumber, String status, CloudCallbackHandler<JSONObject> handler) {
-		(new BackendCaller<String, JSONObject>(status , handler) {
+	private void pushMyStatus(final long phoneNumber, User user, CloudCallbackHandler<JSONObject> handler) {
+		(new BackendCaller<User, JSONObject>(user , handler) {
 			@Override
-			protected JSONObject callBackend(String status)
+			protected JSONObject callBackend(User user)
 					throws IOException {
 				JSONParser jParser = JSONParser.getParser();
-		        String postUrl = String.format("%s%s%s",DETACH_API_URI , DETACH_USER_PRERFERNCE_URI, DETACH_MOBILE_BACKEND_URI );
+				String userPreference = String.format( DETACH_USER_PRERFERNCE_URI , phoneNumber ); 
+		        String postUrl = String.format("%s%s%s",DETACH_API_URI , userPreference, DETACH_MOBILE_BACKEND_URI );
 		        JSONObject json = new JSONObject();
 		        try {
-					json.put("status", status);
+					json.put("status", user.getUserStatus().getAvailabilityStatus() );
+					json.put( "status_start", user.getFullStartDateTime() );
+					json.put( "status_end", user.getFullEndDateTime() );
+					AppLogger.debug(String.format("Status update json : %s" , json.toString() )) ;
 				} catch (JSONException e) {
 					AppLogger.error( String.format(e.getMessage()) );
 				}
-		        jParser.postJsonToUrl(postUrl, json);
-				return  new JSONObject();
+				return  jParser.postJsonToUrl(postUrl, json);
 			}
 		}).start();
 	}
 
-	// a Thread class that will call backend API asynchronously
-	// and call back the handler on UI thread
 	/**
 	 * a Thread class that will call backend API asynchronously
 	 * and call back the handler on UI thread
@@ -176,4 +200,41 @@ public class CloudBackendAsync {
 	public List<DetachUser> list(long phoneNumber) throws IOException {
 		return new ArrayList<DetachUser>();
 	}
+	
+	public static void handleEndpointException( IOException e ) {
+		Toast.makeText( application  , e.toString(), Toast.LENGTH_LONG ).show();
+		Log.e( "Error", e.toString() );
+	}
+	
+	private static JSONArray getPhoneLocalContactsList() throws JSONException {
+		JSONArray returnList = new JSONArray() ;
+	    Cursor cursor = application.getContentResolver().query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI , new String[] {
+	    	ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER }, null, null, null);
+	    String contactId = "";
+	    while (cursor.moveToNext()) {
+            contactId = cursor.getString(cursor
+                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            
+            if( contactId != null && contactId.length() > 0 ) {
+            	contactId = contactId.trim();
+            	if( contactId.contains( " " )) {
+            		contactId = contactId.replace( " ", "" );
+            	}
+            	if( contactId.contains( "-" )) {
+            		contactId = contactId.replace( "-", "" );
+            	}
+            	if( contactId.contains( "+" )) {
+            		contactId = contactId.replace( "+", "" );
+            	}
+            	JSONObject contact = new JSONObject();
+                contact.put( PHONE_NUMBER_TAG , contactId );
+                returnList.put( contact );
+            }
+            
+        }
+	    cursor.close();
+	    cursor = null;
+		return returnList ;
+	}
+	
 }

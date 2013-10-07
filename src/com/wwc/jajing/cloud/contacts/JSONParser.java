@@ -13,9 +13,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -182,7 +182,8 @@ public class JSONParser {
 			 // add entity parameters
 	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 	        nameValuePairs.add(new BasicNameValuePair("contacts", json.toString() ));
-	        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+	        //keep json as raw string
+	        httpPost.setEntity(new StringEntity(json.toString()));
 	        // add json content-type
 	        httpPost.setHeader("content-type", "application/json");
 	        // execute post request

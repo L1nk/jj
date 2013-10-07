@@ -23,4 +23,7 @@ public interface User extends Entity {
 	public void denyPermission(Caller aPermissable, Permissions aPermission);
 	public boolean isMakingCall();
 	public void setIsMakingCall(boolean isMakingCall);
+	
+	public String getFullStartDateTime();
+	public String getFullEndDateTime();
 }

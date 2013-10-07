@@ -20,7 +20,10 @@ import android.widget.Toast;
 import com.wwc.jajing.R;
 import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
 import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
+import com.wwc.jajing.domain.entity.User;
 import com.wwc.jajing.listadapter.FastIndexEntityAdapter;
+import com.wwc.jajing.system.JJSystemImpl;
+import com.wwc.jajing.system.JJSystemImpl.Services;
 
 /**
  * This activity initialized through contacts icon of home screen
@@ -38,7 +41,7 @@ public class DetachActivity extends FragmentActivity {
 	FastSearchListView m_entityListView = null;
 	List<DetachUser> m_detachUsers = new ArrayList<DetachUser>();
 	CloudBackendAsync m_cloudAsync ;
-
+	User user ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,6 +50,8 @@ public class DetachActivity extends FragmentActivity {
 		m_cloudAsync = new CloudBackendAsync(getApplicationContext());
 		
 		m_entityListView = (FastSearchListView) findViewById(R.id.left_drawer);
+		
+		user = (User) JJSystemImpl.getInstance().getSystemService(Services.USER);
 		
 		OnItemLongClickListener listItemClicked = new OnItemLongClickListener() {
 			@Override
@@ -83,9 +88,9 @@ public class DetachActivity extends FragmentActivity {
 			public void onComplete( List<DetachUser> results ) {
 				if ( results.size() > 0 ) {
 					m_entityListAdapter = new FastIndexEntityAdapter( results, getApplicationContext() );
+					m_entityListAdapter.notifyDataSetChanged();
+					m_entityListView.setAdapter( m_entityListAdapter );
 				} 
-				m_entityListAdapter.notifyDataSetChanged();
-				m_entityListView.setAdapter( m_entityListAdapter );
 				//Atomic update
 				m_detachUsers = results;
 			}
@@ -95,7 +100,9 @@ public class DetachActivity extends FragmentActivity {
 				handleEndpointException( exception );
 			}
 		};
-		m_cloudAsync.getDetachContacts(  1231231l , handler, new Handler());
+		//Change userId to actual user phone number
+		long userId = 1231231 ;
+		m_cloudAsync.getDetachContacts(  userId , handler, new Handler());
 	}
 	
 	private void handleEndpointException( IOException e ) {

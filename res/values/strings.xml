@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">JaJing</string>
+    <string name="app_name">Detach</string>
     <string name="action_settings">Settings</string>
     <string name="sqlCreateTableMissedActivity">CREATE TABLE MissedActivity (ID INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), phone BIGINT(11) NOT NULL, time DATETIME, action VARCHAR(50) NOT NULL, message VARCHAR(150));</string>
     <string name="ok">Ok</string>
