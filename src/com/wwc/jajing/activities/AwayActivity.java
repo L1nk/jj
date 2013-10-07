@@ -2,11 +2,13 @@ package com.wwc.jajing.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.media.AudioManager;
 
 import com.wwc.jajing.R;
 import com.wwc.jajing.domain.entity.TimeSetting;
@@ -36,7 +38,9 @@ public class AwayActivity extends Activity {
 	TextView awayStatus;
 	TextView availabilityTime;
 	TextView notification;
-	
+
+    AudioManager audio = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,12 +68,16 @@ public class AwayActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		
+
+        audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+
 		if(this.user.isAvailable()){//if the user is available make him go unavailable
+
 			availabilityTime.setText("");
 			notification.setText("");
 
 		} else {
+
 			availabilityTime.setText("(some callers may disturb you during this time)");
 			if(timeSetting.getEndTime().equalsIgnoreCase("") || timeSetting.getStartTime().equalsIgnoreCase("") || TimeSetting.hasEndTimePassed(timeSetting.getEndTime())) {
 				notification.setVisibility(View.INVISIBLE);
