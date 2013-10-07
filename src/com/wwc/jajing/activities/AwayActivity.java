@@ -1,19 +1,17 @@
 package com.wwc.jajing.activities;
 
 import java.io.IOException;
-
 import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.wwc.jajing.R;
 import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
 import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
@@ -31,12 +29,7 @@ import com.wwc.jajing.system.JJSystemImpl.Services;
 public class AwayActivity extends Activity {
 
 	private static final String TAG = "AwayActivity";
-	public static final String AVAILABILITY_STATUS = "AVAILABILITY_STATUS";
 	public static final String EXTRA_KEY_TIME_SETTING_ID = "time_setting_id";
-	
-
-	// The intent that is broadcasted when the user is AWAY
-	public static final String AWAY_INTENT = "com.exmaple.jajingprototype.intent.action.AWAY";
 	
 	User user;
 	TimeSetting timeSetting;
@@ -47,6 +40,8 @@ public class AwayActivity extends Activity {
 	
 	CloudBackendAsync m_cloudAsync ;
 	Context mContext ;
+
+    AudioManager audio =  (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +54,6 @@ public class AwayActivity extends Activity {
 		
 		user = (User) JJSystemImpl.getInstance()
 				.getSystemService(Services.USER);
-		// timeSetting = TimeSetting.findById(TimeSetting.class,
-		// this.getIntent().getLongExtra(EXTRA_KEY_TIME_SETTING_ID, 1L));
 		Log.d(TAG, TimeSettingTaskManager.getInstance()
 				.getTimeSettingIdClosestToBeingDone().toString());
 		timeSetting = TimeSetting.findById(TimeSetting.class,
@@ -79,6 +72,8 @@ public class AwayActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+        audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 		
 		if(this.user.isAvailable()){//if the user is available make him go unavailable
 			availabilityTime.setText("");
