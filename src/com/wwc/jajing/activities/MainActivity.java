@@ -1,10 +1,9 @@
 package com.wwc.jajing.activities;
 
 import java.io.IOException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import com.helpshift.Helpshift;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -50,7 +49,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-	private String[] navigation = new String[] { "History", "Time Settings", "My Status" };
+	private String[] navigation = new String[] { "History", "Time Settings", "My Status", "Help" };
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -76,6 +75,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	private IntentFilter intentFilter = new IntentFilter(
 			MainActivity.DASHBOARD_INTENT);
 
+    Helpshift hs;
+
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		setContentView(R.layout.activity_drawer_main);
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle("   Welcome   ");
-		
+
+        hs =  new Helpshift(this);
+        hs.install(this, "3bc1308ceb500d13a03d86846d14049c", "detach.helpshift.com",
+                   "detach_platform_20130816203536774-eca8fae11820a43");
+
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
 		StrictMode.setThreadPolicy(policy); 
@@ -255,6 +260,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				long id) {
 			selectItem(position);
 			Log.d(TAG, position + "");
+
+            System.out.println(position + "FUASDSADASDASDASDASODNASDIS");
 			switch (position) {
 			case 0:
 				// send the user to his missed call/message log
@@ -282,7 +289,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 					MainActivity.this.setTitle("Welcome");
 				}
 				break;
-
+            case 3:
+                hs.showSupport(MainActivity.this);
+                break;
 			}
 		}
 
