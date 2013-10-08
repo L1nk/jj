@@ -43,12 +43,14 @@ public class AwayActivity extends Activity {
 	CloudBackendAsync m_cloudAsync ;
 	Context mContext ;
 
-    AudioManager audio =  (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    AudioManager audio;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_away);
+
+        audio =  (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
 		mContext = getApplicationContext() ;
 		

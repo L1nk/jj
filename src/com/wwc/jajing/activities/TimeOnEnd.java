@@ -21,11 +21,13 @@ public class TimeOnEnd extends Activity {
 	private User user = (User) JJSystemImpl.getInstance().getSystemService(
 			Services.USER);
 
-    AudioManager audio =  (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    AudioManager audio;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        audio =  (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("your time setting is up. do you want to go available?");
