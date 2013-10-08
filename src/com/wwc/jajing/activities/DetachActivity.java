@@ -6,11 +6,9 @@ import java.util.List;
 
 import android.content.ContentUris;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.provider.ContactsContract.RawContacts;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -26,7 +24,6 @@ import com.wwc.jajing.domain.entity.User;
 import com.wwc.jajing.listadapter.FastIndexEntityAdapter;
 import com.wwc.jajing.system.JJSystemImpl;
 import com.wwc.jajing.system.JJSystemImpl.Services;
-import com.wwc.jajing.util.AppLogger;
 
 /**
  * This activity initialized through contacts icon of home screen
@@ -93,8 +90,7 @@ public class DetachActivity extends FragmentActivity {
 					m_entityListAdapter = new FastIndexEntityAdapter( results, getApplicationContext() );
 					m_entityListAdapter.notifyDataSetChanged();
 					m_entityListView.setAdapter( m_entityListAdapter );
-					AppLogger.debug( String.format( "Received contacts : %s " , results.toString() ) ) ;
-				}
+				} 
 				//Atomic update
 				m_detachUsers = results;
 			}
@@ -105,12 +101,7 @@ public class DetachActivity extends FragmentActivity {
 			}
 		};
 		//Change userId to actual user phone number
-		long userId = 1l ;
-		SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
-		userId = shared.getLong( "id" , 1l ) ;
-		if( userId == 1l ) {
-			Toast.makeText( this, "Not valid phone number for API calls", Toast.LENGTH_LONG ).show();
-		}
+		long userId = 1231231 ;
 		m_cloudAsync.getDetachContacts(  userId , handler, new Handler());
 	}
 	

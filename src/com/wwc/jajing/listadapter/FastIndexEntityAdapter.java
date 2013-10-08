@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.BaseColumns;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.util.Log;
@@ -87,7 +86,7 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 
 		//Load remaining time
 		TextView remainingHours = (TextView) contactView.findViewById(R.id.timeremaining );
-		remainingHours.setText(( detachUser.getTimeRemainingAsString() == null ? "" : detachUser
+		remainingHours.setText(( detachUser.getTimeRemainingAsString() == null ? "20 minutes more" : detachUser
 				.getTimeRemainingAsString()));
 		
 		return contactView;
@@ -98,8 +97,6 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 	public int getPositionForSection(int section) {
 		Log.d("ListView", "Get position for section");
 		for (int i = 0; i < this.getCount(); i++) {
-			if( this.getItem(i) == null || this.getItem(i).getName() == null )
-				break ;
 			String item = this.getItem(i).getName().toLowerCase();
 			if (item.charAt(0) == sections.charAt(section))
 				return i;
@@ -151,21 +148,21 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 	 */
 	private String getContactId( Context context, String phoneNumber ) {
 	    Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI,
-	            phoneNumber);
+	            Uri.encode(phoneNumber));
 	    Cursor cursor = context.getContentResolver().query(uri, new String[] {
-	            PhoneLookup.DISPLAY_NAME, BaseColumns._ID }, null, null, null);
+	            PhoneLookup.DISPLAY_NAME, PhoneLookup._ID }, null, null, null);
 	    String contactId = "";
 	    if (cursor.moveToFirst()) {
 	        do {
 	            contactId = cursor.getString(cursor
-	                    .getColumnIndex(BaseColumns._ID));
+	                    .getColumnIndex(PhoneLookup._ID));
 	        } while (cursor.moveToNext());
 	    }
 	    cursor.close();
 	    cursor = null;
 	    return contactId;
 	}
-	
+
 	/**
 	 * Query contact display name value of any given phone number.
 	 * 

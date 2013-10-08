@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Fragment;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
@@ -96,7 +97,6 @@ public class CloudBackendAsync {
 			        String postUrl = String.format("%s%s%s%s",DETACH_API_URI , userPreference, DETACH_CREATE_API_URI, DETACH_MOBILE_BACKEND_URI );
 			        JSONObject returnObject = jParser.postJsonToUrl(postUrl, users );
 			        AppLogger.debug(String.format("Phone contacts pushed to cloud : %s" , users.toString() )) ;
-			        AppLogger.debug( String.format("Cloud return json : %s " , returnObject.toString() ) );
 					return  returnObject ;
 				} catch ( JSONException e ) {
 					Toast.makeText( application , e.toString(), Toast.LENGTH_LONG ).show();
@@ -210,40 +210,24 @@ public class CloudBackendAsync {
 		JSONArray returnList = new JSONArray() ;
 	    Cursor cursor = application.getContentResolver().query( ContactsContract.CommonDataKinds.Phone.CONTENT_URI , new String[] {
 	    	ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER }, null, null, null);
-	    String contactNumber = "";
+	    String contactId = "";
 	    while (cursor.moveToNext()) {
-	    	contactNumber = cursor.getString(cursor
+            contactId = cursor.getString(cursor
                     .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             
-            if( contactNumber != null && contactNumber.length() > 0 ) {
-            	contactNumber = contactNumber.trim();
-            	if( contactNumber.contains( " " )) {
-            		contactNumber = contactNumber.replace( " ", "" );
+            if( contactId != null && contactId.length() > 0 ) {
+            	contactId = contactId.trim();
+            	if( contactId.contains( " " )) {
+            		contactId = contactId.replace( " ", "" );
             	}
-            	if( contactNumber.contains( "-" )) {
-            		contactNumber = contactNumber.replace( "-", "" );
+            	if( contactId.contains( "-" )) {
+            		contactId = contactId.replace( "-", "" );
             	}
-            	if( contactNumber.contains( "+" )) {
-            		contactNumber = contactNumber.replace( "+", "" );
+            	if( contactId.contains( "+" )) {
+            		contactId = contactId.replace( "+", "" );
             	}
-            	if( contactNumber.contains( "(" ) || contactNumber.contains( ")" ) ) {
-            		contactNumber = contactNumber.replace( "(", "" );
-            		contactNumber = contactNumber.replace( ")", "" );
-            	}
-            	if( contactNumber.length() > 11 && contactNumber.startsWith("+1")) {
-    				contactNumber = contactNumber.replace("+1", "");
-    				AppLogger.debug( String.format("Truncated +1 from my mobile number %s " , contactNumber ) );
-    			} 
-            	if ( contactNumber.length() > 10 && contactNumber.startsWith("1")) {
-    				contactNumber = contactNumber.replaceFirst( "1", "");
-    				AppLogger.debug( String.format("Truncated starting '1' from my mobile number %s " , contactNumber ) );
-    			} 
-            	if ( contactNumber.contains("+")) {
-    				contactNumber = contactNumber.replace("+", "");
-    				AppLogger.debug( String.format("Truncated '+' from my mobile number %s " , contactNumber ) );
-    			}
             	JSONObject contact = new JSONObject();
-                contact.put( PHONE_NUMBER_TAG , contactNumber );
+                contact.put( PHONE_NUMBER_TAG , contactId );
                 returnList.put( contact );
             }
             
