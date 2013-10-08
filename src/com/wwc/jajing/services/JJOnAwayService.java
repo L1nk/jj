@@ -3,11 +3,13 @@ package com.wwc.jajing.services;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -40,6 +42,7 @@ public class JJOnAwayService extends Service {
 	private static final String TAG = "JJOnAwayService";
 	private TelephonyManager tm;
 	private CallManager cm;
+    private NotificationManager nm;
 	
 	private PhoneStateListener cslOnUnavailble;
 	private PhoneStateListener cslOnAvailble;
@@ -138,6 +141,7 @@ public class JJOnAwayService extends Service {
 
 	}
 
+
 	/*
 	 * Service should implement this to clean up any resources such as threads,
 	 * registered listeners, receivers, etc. This is the last call the service
@@ -159,6 +163,14 @@ public class JJOnAwayService extends Service {
 		
 		//deliver text messages that were missed
 		this.cm.getRecentMissedMessageLog().deliverRecentMissedMessagesToInbox();
+
+        if(this.cm.getRecentMissedCallLog().getRecentCalls().size() > 0 &&
+           this.cm.getRecentMissedMessageLog().getRecentMessages().size() > 0)
+        {
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            // Vibrate for 500 milliseconds
+            v.vibrate(500);
+        }
 		
 		//set user's availability status to available
 		user.goAvailable();

@@ -30,15 +30,17 @@ public class TimeOnEnd extends Activity {
         audio =  (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("your time setting is up. do you want to go available?");
-		builder.setTitle("Time Setting Alert");
+
+        TimeOnEnd.this.user.goAvailable();
+
+		builder.setMessage("You are now available. Do you want to see what you missed?");
+		builder.setTitle("Way to manage your time.");
 
 		builder.setPositiveButton(R.string.ok,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
                         audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 						// User clicked OK button
-						TimeOnEnd.this.user.goAvailable();
 						TimeOnEnd.this.finish();
 						// show his recent history
 						Intent intent = new Intent(TimeOnEnd.this,
