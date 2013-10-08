@@ -126,7 +126,7 @@ public class FastSearchListView extends ListView {
 				this.setSelection(((SectionIndexer) getAdapter())
 						.getPositionForSection(currentPosition));
 				listHandler = new ListHandler();
-				listHandler.sendEmptyMessageDelayed(0, 3 * 1000);
+				listHandler.sendEmptyMessageDelayed(0, 2 * 1000);
 			}
 			break;
 		}

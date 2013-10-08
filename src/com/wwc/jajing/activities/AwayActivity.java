@@ -7,7 +7,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -30,7 +32,7 @@ public class AwayActivity extends Activity {
 
 	private static final String TAG = "AwayActivity";
 	public static final String EXTRA_KEY_TIME_SETTING_ID = "time_setting_id";
-	
+
 	User user;
 	TimeSetting timeSetting;
 
@@ -42,7 +44,7 @@ public class AwayActivity extends Activity {
 	Context mContext ;
 
     AudioManager audio =  (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,7 +76,7 @@ public class AwayActivity extends Activity {
 		super.onStart();
 
         audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-		
+
 		if(this.user.isAvailable()){//if the user is available make him go unavailable
 			availabilityTime.setText("");
 			notification.setText("");
@@ -116,7 +118,14 @@ public class AwayActivity extends Activity {
 				CloudBackendAsync.handleEndpointException( exception );
 			}
 		};
-		m_cloudAsync.pushStatusToCloud( 1231231l , user , handler );
+		//Change userId to actual user phone number
+		long userId = 1l ;
+		SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
+		userId = shared.getLong( "id" , 1l ) ;
+		if( userId == 1l ) {
+			Toast.makeText( this, "Not valid phone number for API calls", Toast.LENGTH_LONG ).show();
+		}
+		m_cloudAsync.pushStatusToCloud( userId , user , handler );
 	}
 	
 }
