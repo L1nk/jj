@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-	private String[] navigation = new String[] { "History", "Time Settings", "My Status" };
+	private String[] navigation = new String[] { "What did I miss?", "What am I up to?" };
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -262,13 +262,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
-			case 1:
+			case 2:
 				// send the user to set his time settings
 				Intent i1 = new Intent(MainActivity.this, TimeSettings.class);
 				i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i1);
 				break;
-			case 2:
+			case 1:
 				if (!MainActivity.this.user.getUserStatus().getavailabilityTime()
 						.equalsIgnoreCase("UNKNOWN")) {
 					// send the user to set his status page
