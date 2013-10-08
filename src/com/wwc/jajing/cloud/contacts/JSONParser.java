@@ -59,6 +59,8 @@ public class JSONParser {
 	private static final String TAG_SUCCESS = "success";
 	private static final String TAG_STATUS = "status";
 	private static final String TAG_DETACH_AVAILABLILTY = "is_available";
+	private static final String TAG_STATUS_START = "status_start" ;
+	private static final String TAG_STATUS_END  = "status_end" ;
 
 
 	public JSONObject getJSONFromUrl(String url) {
@@ -125,19 +127,26 @@ public class JSONParser {
 			for (int i = 0; i < jArray.length(); i++) {
 				try {
 					JSONObject c = (JSONObject) jArray.getJSONObject(i);
-					//String id = c.getString(TAG_ID);
-					//String name = c.getString(TAG_NAME);
+					AppLogger.debug( String.format("Contact : %s " , c.toString() ) );
 					String status = c.getString(TAG_STATUS);
 					String phone_number = c.getString(TAG_PHONE);
 					String detachAvailblilty = c
 							.getString(TAG_DETACH_AVAILABLILTY);
+					String lastUpdatedAt = c.getString( TAG_STATUS_START );
+					String updatesLastTo = c.getString( TAG_STATUS_END );
+					
 					DetachUser user = new DetachUser();
-					//user.setName(name);
 					user.setPhoneno(phone_number);
 					user.setStatusmessage(status);
-					user.setStatusId(UserStatus.AWAY);
+					if( Boolean.parseBoolean(detachAvailblilty) == false )
+						user.setStatusId(UserStatus.AWAY);
+					else 
+						user.setStatusId(UserStatus.AVAILABLE);
 					user.setDetachAvailablity(Boolean
 							.parseBoolean(detachAvailblilty));
+					user.setLastUpdated( lastUpdatedAt );
+					user.setTimeRemaining( updatesLastTo );
+					
 					_returnUser.add(user);
 				} catch (Exception e) {
 					AppLogger.error( e.getMessage() );

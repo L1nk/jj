@@ -130,7 +130,7 @@ public class CSLonUnavailable extends PhoneStateListener {
 					if(TimeSetting.hasEndTimePassed(availabilityTime)) availabilityTime = "00:00 --";
 					availabilityTime = availabilityTime + " " + this.user.getAvailabilityTime().getTimeZoneString();
 					// This indirectly check if other user has app installed, and forces callers who have the app to query for user status
-					jjsmsMessenger.sendRawSms(new JJSMS(JJSMS.INITIAL_MESSAGE + this.user.getUserStatus().getAvailabilityStatus() + " and will be unavailable until " + availabilityTime.toLowerCase()), formattedIncomingNumber);
+					jjsmsMessenger.sendRawSms(new JJSMS(JJSMS.INITIAL_MESSAGE + this.user.getUserStatus().getAvailabilityStatus() + " and will be unavailable until " + availabilityTime.toLowerCase() + " Download the App: www.jajing.com"), formattedIncomingNumber);
 					Log.d(TAG, "JJSMS Initial Message Sent.");
 					//Log the missed call
 					this.logMissedCall(formattedIncomingNumber);
@@ -157,7 +157,7 @@ public class CSLonUnavailable extends PhoneStateListener {
 					if(TimeSetting.hasEndTimePassed(availabilityTime)) availabilityTime = "00:00 --";
 					availabilityTime = availabilityTime + " " + this.user.getAvailabilityTime().getTimeZoneString();
 					// This indirectly check if other user has app installed, and forces callers who have the app to query for user status
-					jjsmsMessenger.sendRawSms(new JJSMS(JJSMS.INITIAL_MESSAGE + this.user.getUserStatus().getAvailabilityStatus() + " and will be unavailable until " + availabilityTime.toLowerCase()), formattedIncomingNumber);
+					jjsmsMessenger.sendRawSms(new JJSMS(JJSMS.INITIAL_MESSAGE + this.user.getUserStatus().getAvailabilityStatus() + " and will be unavailable until " + availabilityTime.toLowerCase() + " Download the App: www.jajing.com"), formattedIncomingNumber);
 					Log.d(TAG, "The Default JJSMS Initial Message Was Sent.");
 					//log missed call
 					this.logMissedCall(formattedIncomingNumber);

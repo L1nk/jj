@@ -9,6 +9,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,6 +24,7 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +53,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-	private String[] navigation = new String[] { "What did I miss?", "What am I up to?" };
+	private String[] navigation = new String[] { "History", "Time Settings", "My Status" };
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -71,7 +74,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	
 	private static final String AUTOSYNC = "AutoSync" ;
 	private static final String USER_ID = "id" ;
-	private static final String NUMBER_OF_CONTACTS = "number_of_contacts" ;
+	private static final String NUMBER_OF_CONTACTS = "number_of_contacts_added" ;
 	
 	private IntentFilter intentFilter = new IntentFilter(
 			MainActivity.DASHBOARD_INTENT);
@@ -83,36 +86,34 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		setContentView(R.layout.activity_drawer_main);
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle("   Welcome   ");
-		
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
-		StrictMode.setThreadPolicy(policy); 
-		
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+				.permitAll().build();
+
+		StrictMode.setThreadPolicy(policy);
+
 		mContext = getApplicationContext();
 		m_cloudAsync = new CloudBackendAsync(mContext);
-		
-		
-		if( isNetworkAvailable( getApplicationContext() ) == Boolean.FALSE ) {
-			Toast.makeText( mContext , "Network not available to push status updates", Toast.LENGTH_SHORT ).show();
+
+		if (isNetworkAvailable(getApplicationContext()) == Boolean.FALSE) {
+			Toast.makeText(mContext,
+					"Network not available to push status updates",
+					Toast.LENGTH_SHORT).show();
 		}
-		
-		if ( isContactsPushedToCloud() == Boolean.FALSE ) {
-			pushLocalPhoneContactsToCloud();
-			Toast.makeText( mContext , "Phone contacts already pushed", Toast.LENGTH_SHORT ).show();
-		}
-		
+
 		this.buttonStatus = (Button) findViewById(R.id.buttonStatus);
 		this.buttonAvailable = (Button) findViewById(R.id.buttonAvailable);
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
 
-		//this.mDisplay = (TextView) findViewById( R.id.registerID );
-		
+		// this.mDisplay = (TextView) findViewById( R.id.registerID );
+
 		this.registerReceiver(this.dashboardReceiver, this.intentFilter);
 		// CACHE JJSYSTEM
 		JJSystem jjSystem = JJSystemImpl.getInstance();
 		// set our user
 		this.user = (User) jjSystem.getSystemService(Services.USER);
+
 		// set our call manager
 		this.cm = (CallManager) jjSystem
 				.getSystemService(Services.CALL_MANAGER);
@@ -125,7 +126,19 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		} else {
 			this.user.goAvailable();
 		}
-		
+
+		String userId = getContactId();
+		if (userId.equals("")) {
+			Toast.makeText(mContext, "Not able to find Phone number.",
+					Toast.LENGTH_LONG).show();
+			updatePhoneNumber();
+		} else {
+			updateUserContact(getContactId());
+			if (isContactsPushedToCloud() == Boolean.FALSE) {
+				pushLocalPhoneContactsToCloud();
+			}
+		}
+
 		initNavigationDrawer();
 
 	}
@@ -165,7 +178,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
 	}
 
 	@Override
@@ -262,13 +275,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
-			case 2:
+			case 1:
 				// send the user to set his time settings
 				Intent i1 = new Intent(MainActivity.this, TimeSettings.class);
 				i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i1);
 				break;
-			case 1:
+			case 2:
 				if (!MainActivity.this.user.getUserStatus().getavailabilityTime()
 						.equalsIgnoreCase("UNKNOWN")) {
 					// send the user to set his status page
@@ -282,7 +295,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 					MainActivity.this.setTitle("Welcome");
 				}
 				break;
-
+			case 3:
+				updatePhoneNumber();
+				break ;
 			}
 		}
 
@@ -413,10 +428,21 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	private void updateContactsPreferences( JSONObject statusObject ) throws JSONException {
 		SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
 		SharedPreferences.Editor _editor = shared.edit();
-		_editor.putBoolean( AUTOSYNC , statusObject.getBoolean( "success" ) );
-		_editor.putInt( USER_ID , statusObject.getInt( "id" ));
-		_editor.putInt( NUMBER_OF_CONTACTS , statusObject.getInt( "number_of_contacts" ) );
+		_editor.putBoolean( AUTOSYNC , statusObject.getBoolean( AUTOSYNC ) );
+		_editor.putInt( USER_ID , statusObject.getInt( USER_ID ));
+		_editor.putInt( NUMBER_OF_CONTACTS , statusObject.getInt( NUMBER_OF_CONTACTS ) );
 		_editor.commit();
+	}
+	
+	private void updateUserContact( String contactId ) {
+		if( contactId.length() > 0 ) {
+			SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
+			SharedPreferences.Editor _editor = shared.edit();
+			_editor.putLong( USER_ID , Long.parseLong( contactId ) );
+			_editor.commit();
+		} else {
+			Toast.makeText( mContext, "Not valid phone number found", Toast.LENGTH_LONG ).show();
+		}
 	}
 
 	/**
@@ -445,8 +471,15 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		};
 		try {
 			//Change userId to actual user phone number
-			long userId = 1231231 ;
+			long userId = 1l ;
+			SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
+			userId = shared.getLong( USER_ID , 1l ) ;
+			if( userId == 1l ) {
+				Toast.makeText( this, String.format("Not valid phone number (%f) for API calls. Contacts not pushed to cloud" , userId ), Toast.LENGTH_LONG ).show();
+				return ;
+			}
 			m_cloudAsync.pushContactsToCloud( userId , handler );
+			Toast.makeText(mContext, "Phone contacts already pushed",Toast.LENGTH_SHORT).show();
 		} catch ( JSONException e ) {
 			Toast.makeText( mContext , e.toString(), Toast.LENGTH_LONG ).show();
 			AppLogger.error( String.format( TAG , "Unable to push local contacts to Cloud" ) );
@@ -466,6 +499,114 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 			AppLogger.error( String.format( TAG , String.format( "CheckConnectivity Exception: %s " + e.getMessage() ) ) );
 		}
 		return false;
+	}
+	
+	/**
+	 * Checks for valid phone contact number for cloud registration
+	 * 
+	 * @return valid 10 digit contact number for preferences settings.
+	 */
+	private String getContactId() {
+		TelephonyManager phoneManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+		int simState = phoneManager.getSimState() ;
+		if( simState != TelephonyManager.SIM_STATE_READY ) {
+			Toast.makeText( mContext , "No valid sim found in this phone", Toast.LENGTH_LONG ).show();
+		}
+		String contactNumber = ( phoneManager.getLine1Number() == null ? "" : phoneManager.getLine1Number() );
+		AppLogger.debug( String.format("Phone owner number %s : " , contactNumber ) );
+		if( contactNumber != null && contactNumber.length() >= 10 ) {
+			//Check for actual length
+			contactNumber = contactNumber.trim();
+        	if( contactNumber.contains( " " )) {
+        		contactNumber = contactNumber.replace( " ", "" );
+        	}
+        	if( contactNumber.contains( "-" )) {
+        		contactNumber = contactNumber.replace( "-", "" );
+        	}
+        	if( contactNumber.contains( "+" )) {
+        		contactNumber = contactNumber.replace( "+", "" );
+        	}
+        	if( contactNumber.contains( "(" ) || contactNumber.contains( ")" ) ) {
+        		contactNumber = contactNumber.replace( "(", "" );
+        		contactNumber = contactNumber.replace( ")", "" );
+        	}
+        	if( contactNumber.length() > 11 && contactNumber.startsWith("+1")) {
+				contactNumber = contactNumber.replace("+1", "");
+				AppLogger.debug( String.format("Truncated +1 from my mobile number %s " , contactNumber ) );
+			} 
+        	if ( contactNumber.length() > 10 && contactNumber.startsWith("1")) {
+				contactNumber = contactNumber.replaceFirst( "1", "");
+				AppLogger.debug( String.format("Truncated starting '1' from my mobile number %s " , contactNumber ) );
+			} 
+        	if ( contactNumber.contains("+")) {
+				contactNumber = contactNumber.replace("+", "");
+				AppLogger.debug( String.format("Truncated '+' from my mobile number %s " , contactNumber ) );
+			}
+		}
+		AppLogger.debug( String.format("valid contact number %s : " , contactNumber ) );
+		return contactNumber ;
+	}
+	
+	private String parseContactId( String contactId ) {
+		String contactNumber = contactId ;
+		if( contactNumber != null && contactNumber.length() >= 10 ) {
+			//Check for actual length
+			contactNumber = contactNumber.trim();
+        	if( contactNumber.contains( " " )) {
+        		contactNumber = contactNumber.replace( " ", "" );
+        	}
+        	if( contactNumber.contains( "-" )) {
+        		contactNumber = contactNumber.replace( "-", "" );
+        	}
+        	if( contactNumber.contains( "+" )) {
+        		contactNumber = contactNumber.replace( "+", "" );
+        	}
+        	if( contactNumber.contains( "(" ) || contactNumber.contains( ")" ) ) {
+        		contactNumber = contactNumber.replace( "(", "" );
+        		contactNumber = contactNumber.replace( ")", "" );
+        	}
+        	if( contactNumber.length() > 11 && contactNumber.startsWith("+1")) {
+				contactNumber = contactNumber.replace("+1", "");
+				AppLogger.debug( String.format("Truncated +1 from my mobile number %s " , contactNumber ) );
+			} 
+        	if ( contactNumber.length() > 10 && contactNumber.startsWith("1")) {
+				contactNumber = contactNumber.replaceFirst( "1", "");
+				AppLogger.debug( String.format("Truncated starting '1' from my mobile number %s " , contactNumber ) );
+			} 
+        	if ( contactNumber.contains("+")) {
+				contactNumber = contactNumber.replace("+", "");
+				AppLogger.debug( String.format("Truncated '+' from my mobile number %s " , contactNumber ) );
+			}
+		}
+		AppLogger.debug( String.format("Parsed contact number %s : " , contactNumber ) );
+		return contactNumber ;
+	}
+	
+	private void updatePhoneNumber() {
+		final Dialog d = new Dialog( this );
+		d.setContentView( R.layout.activity_add_phonenumber );
+		d.setTitle( "Update Phone Number" );
+		d.setCancelable( true );
+		final EditText edit1 = (EditText) d.findViewById( R.id.phonenumber );
+		Button updateButton = (Button) d.findViewById( R.id.updateNumber );
+		Button cancellButton = (Button) d.findViewById( R.id.updateCancel );
+		updateButton.setOnClickListener( new View.OnClickListener() {
+			public void onClick( View v ) {
+				String contactId = parseContactId( edit1.getText().toString()  ) ;
+				updateUserContact( contactId );
+				if (isContactsPushedToCloud() == Boolean.FALSE) {
+					pushLocalPhoneContactsToCloud();
+				}
+				d.dismiss();
+			}
+		} );
+		cancellButton.setOnClickListener( new View.OnClickListener() {
+			public void onClick( View v ) {
+				d.dismiss();
+			}
+		} );
+
+		d.show();
 	}
 
 }

@@ -350,4 +350,7 @@ public class UserImpl extends SugarRecord implements User {
 		return fullDateTimeFormatter.format( endTime );
 	}
 
+	public void setId( long id ) {
+		this.id = id ;
+	}
 }
