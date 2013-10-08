@@ -1,16 +1,11 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollview"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:background="#ff000000"
-    android:fillViewport="true" >
-
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:fillViewport="true" >
 
         <!-- The header view -->
 
@@ -18,7 +13,8 @@
             android:id="@+id/tableview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#ff000000" >
+            android:background="#ff000000"
+            android:fillViewport="true" >
 
             <TextView
                 android:id="@+id/whatshappening"
@@ -98,9 +94,9 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="2dp"
                 android:paddingBottom="5dp"
-                android:paddingTop="10dp" />
+                android:paddingTop="10dp"
+                />
         </TableLayout>
 
     </LinearLayout>
 
-</ScrollView>

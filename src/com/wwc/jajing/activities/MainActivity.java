@@ -53,7 +53,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-    private String[] navigation = new String[] { "What did I miss?", "What am I up to?" };
+    private String[] navigation = new String[] { "What did I miss?", "What am I up to?", "Add Contacts" };
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -581,30 +581,29 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	}
 
 
-    //TODO implement resyncing of contacts properly
 	private void updatePhoneNumber() {
 		final Dialog d = new Dialog( this );
-//		d.setContentView( R.layout.activity_add_phonenumber );
-//		d.setTitle( "Update Phone Number" );
-//		d.setCancelable( true );
-//		final EditText edit1 = (EditText) d.findViewById( R.id.phonenumber );
-//		Button updateButton = (Button) d.findViewById( R.id.updateNumber );
-//		Button cancellButton = (Button) d.findViewById( R.id.updateCancel );
-//		updateButton.setOnClickListener( new View.OnClickListener() {
-//			public void onClick( View v ) {
-//				String contactId = parseContactId( edit1.getText().toString()  ) ;
-//				updateUserContact( contactId );
-//				if (isContactsPushedToCloud() == Boolean.FALSE) {
-//					pushLocalPhoneContactsToCloud();
-//				}
-//				d.dismiss();
-//			}
-//		} );
-//		cancellButton.setOnClickListener( new View.OnClickListener() {
-//			public void onClick( View v ) {
-//				d.dismiss();
-//			}
-//		} );
+		d.setContentView( R.layout.activity_add_phonenumber );
+		d.setTitle( "Update Phone Number" );
+		d.setCancelable( true );
+		final EditText edit1 = (EditText) d.findViewById( R.id.phonenumber );
+		Button updateButton = (Button) d.findViewById( R.id.updateNumber );
+		Button cancellButton = (Button) d.findViewById( R.id.updateCancel );
+		updateButton.setOnClickListener( new View.OnClickListener() {
+			public void onClick( View v ) {
+				String contactId = parseContactId( edit1.getText().toString()  ) ;
+				updateUserContact( contactId );
+				if (isContactsPushedToCloud() == Boolean.FALSE) {
+					pushLocalPhoneContactsToCloud();
+				}
+				d.dismiss();
+			}
+		} );
+		cancellButton.setOnClickListener( new View.OnClickListener() {
+			public void onClick( View v ) {
+				d.dismiss();
+			}
+		} );
 
 		d.show();
 	}
