@@ -260,8 +260,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				long id) {
 			selectItem(position);
 			Log.d(TAG, position + "");
-
-            System.out.println(position + "FUASDSADASDASDASDASODNASDIS");
 			switch (position) {
 			case 0:
 				// send the user to his missed call/message log
