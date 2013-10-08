@@ -5,23 +5,22 @@
         android:orderInCategory="99"
         android:showAsAction="never"
         android:title="History"/>
-
+    
     <item
         android:id="@+id/time_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Time Settings"/>
-
     <item
         android:id="@+id/my_status"
         android:orderInCategory="101"
         android:showAsAction="never"
         android:title="My Status"/>
     
-    <item
-        android:id="@+id/help"
-        android:orderInCategory="102"
-        android:showAsAction="never"
-        android:title="Help"/>
+   <!-- <item
+        android:id="@+id/home"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:title="Home"/> --> 
 
 </menu>
