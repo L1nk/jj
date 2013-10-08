@@ -99,7 +99,8 @@ public class CloudBackendAsync {
 			        AppLogger.debug( String.format("Cloud return json : %s " , returnObject.toString() ) );
 					return  returnObject ;
 				} catch ( JSONException e ) {
-					Toast.makeText( application , e.toString(), Toast.LENGTH_LONG ).show();
+					//Toast.makeText( application , e.toString(), Toast.LENGTH_LONG ).show();
+                    AppLogger.error( String.format( "CloudBackendAsync" , e.toString()  ) );
 				}
 				return users ;
 			}

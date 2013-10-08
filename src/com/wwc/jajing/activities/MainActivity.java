@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -36,7 +35,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.wwc.jajing.R;
 import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
 import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
@@ -458,8 +456,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				try {
 					updateContactsPreferences( results );
 				} catch ( JSONException e ) {
-					Toast.makeText( mContext , e.toString(), Toast.LENGTH_LONG ).show();
-					AppLogger.error( String.format( TAG , "Unable to push local contacts to Cloud" ) );
+					//Toast.makeText( mContext , e.toString(), Toast.LENGTH_LONG ).show();
+					AppLogger.error( String.format( TAG , e.toString() + ", Unable to push local contacts to Cloud" ) );
 				}
 			}
 			@Override
@@ -479,8 +477,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 			m_cloudAsync.pushContactsToCloud( userId , handler );
 			Toast.makeText(mContext, "Phone contacts already pushed",Toast.LENGTH_SHORT).show();
 		} catch ( JSONException e ) {
-			Toast.makeText( mContext , e.toString(), Toast.LENGTH_LONG ).show();
-			AppLogger.error( String.format( TAG , "Unable to push local contacts to Cloud" ) );
+			//Toast.makeText( mContext , e.toString(), Toast.LENGTH_LONG ).show();
+			AppLogger.error( String.format( TAG ,e.toString() + ", Unable to push local contacts to Cloud" ) );
 		}
 	}
 	
