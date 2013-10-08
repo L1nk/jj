@@ -99,6 +99,11 @@ public class DetachUser {
 		return this.m_localContactId;
 	}
 
+	@Override
+	public int hashCode() {
+		return Integer.parseInt( m_phoneno ) ;
+	}
+
 	public boolean isDetachAvailable() {
 		return m_isDetachAvailable;
 	}
