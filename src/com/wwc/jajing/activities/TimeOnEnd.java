@@ -2,11 +2,10 @@ package com.wwc.jajing.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
+
 import com.wwc.jajing.R;
 import com.wwc.jajing.domain.entity.User;
 import com.wwc.jajing.services.JJOnAwayService;
@@ -21,8 +20,6 @@ public class TimeOnEnd extends Activity {
 	private User user = (User) JJSystemImpl.getInstance().getSystemService(
 			Services.USER);
 
-    AudioManager audio =  (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +31,6 @@ public class TimeOnEnd extends Activity {
 		builder.setPositiveButton(R.string.ok,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-                        audio.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 						// User clicked OK button
 						TimeOnEnd.this.user.goAvailable();
 						TimeOnEnd.this.finish();
