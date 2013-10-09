@@ -21,7 +21,7 @@ public class JJSMS implements Serializable {
 
 	public static final String TAG = "JJSMS";
 	
-	public static final String INITIAL_MESSAGE = "detach/The person you are trying to reach is ";
+	public static final String INITIAL_MESSAGE = "#detach/The person you are trying to reach is ";
 
 	final private String jjsmsStr;
 	final private JJSMSSenderPhoneNumber sendersPhoneNumber;

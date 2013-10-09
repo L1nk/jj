@@ -7,7 +7,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ff000000">
+        android:background="#ff000000"
+        android:fillViewport="false">
 
     <LinearLayout
         android:orientation="vertical"
@@ -15,75 +16,80 @@
         android:layout_height="wrap_content"
         android:background="#ff000000" >
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:padding="50dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/logo" />
-
         <TextView
             android:id="@+id/textHeading"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="101dp"
             android:gravity="center"
             android:text="Want to get away?"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ffffff"
             android:textSize="18dp"/>
 
+        <EditText
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:layout_gravity="center"/>
+
         <Button
             android:id="@+id/buttonStatus"
             android:layout_width="250dp"
-            android:layout_height="60dp"
+            android:layout_height="74dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="61dp"
+            android:layout_marginTop="38dp"
             android:background="#ffffbb33"
             android:onClick="awayOptionsMenu"
-            android:text="set your status"
+            android:text="detach"
             android:textColor="#000000"
             android:textStyle="bold"
             android:textSize="32dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:gravity="center"
-            android:text="to temporarily Detach from
-all calls, texts, and notifications"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="18dp"/>
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            >
 
-        <TextView
-            android:id="@+id/textCallersCanForceDisturb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="40dp"
-            android:gravity="center"
-            android:text="Anyone who tries to reach you will be
-notified of your status via text and asked
-to try again later."
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="13dp"/>
+            <ImageButton
+                android:id="@+id/buttonDriving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="-5sp"
+                 />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
+            <ImageButton
+            android:id="@+id/buttonBusy"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            android:gravity="center"
-            android:text="Android users with Detach are given the
-option to interrupt you if they absolutely
-need to."
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="13dp"/>
+            android:drawablePadding="-5sp"
+            />
+
+            <ImageButton
+                android:id="@+id/buttonNapping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="-5sp"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonFriends"
+            android:layout_width="250dp"
+            android:layout_height="74dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="61dp"
+            android:layout_marginTop="38dp"
+            android:background="#ffffbb33"
+            android:onClick="awayOptionsMenu"
+            android:text="Contacts"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="32dp"/>
+
 
     </LinearLayout>
 

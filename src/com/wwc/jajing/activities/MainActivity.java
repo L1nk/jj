@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-    private String[] navigation = new String[] { "What did I miss?", "What am I up to?", "Add Contacts" };
+    private String[] navigation = new String[] { "What did I miss?", "I'm Back", "Add Contact" };
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -277,7 +277,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i1);
 				break;
-			case 1:
+			case 4:
 				if (!MainActivity.this.user.getUserStatus().getavailabilityTime()
 						.equalsIgnoreCase("UNKNOWN")) {
 					// send the user to set his status page
@@ -294,6 +294,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 			case 2:
 				updatePhoneNumber();
 				break ;
+            case 1:
+                goAvailable();
+                break;
 			}
 		}
 
@@ -322,7 +325,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		startActivity(intent);
 	}
 
-	public void goAvailable(View view) {
+	public void goAvailable() {
 		this.user.goAvailable();
 
 		Intent intent = new Intent(this, MissedLog.class);
@@ -334,18 +337,18 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 	private void updateAvailabilityStatus(String status) {
 
-		if (status.equalsIgnoreCase("AVAILABLE")) {
-			this.setHeading("What's Your Status ?");
-			this.showCallersCanForceDisturb(true);
-			this.changeButtonStatusText("Not Available");
-			this.changeButtonAvailableText("Available");
-
-		} else {
-			this.setHeading("Change Status");
-			this.showCallersCanForceDisturb(false);
-			this.changeButtonStatusText("Still Not Available");
-			this.changeButtonAvailableText("I am now Available");
-		}
+//		if (status.equalsIgnoreCase("AVAILABLE")) {
+//			this.setHeading("What's Your Status ?");
+//			this.showCallersCanForceDisturb(true);
+//			this.changeButtonStatusText("Not Available");
+//			this.changeButtonAvailableText("Available");
+//
+//		} else {
+//			this.setHeading("Change Status");
+//			this.showCallersCanForceDisturb(false);
+//			this.changeButtonStatusText("Still Not Available");
+//			this.changeButtonAvailableText("I am now Available");
+//		}
 		Log.d(TAG, "Availability Status has been updated!" + status);
 	}
 
