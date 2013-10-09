@@ -83,7 +83,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drawer_main);
 		ActionBar actionBar = getActionBar();
-		actionBar.setTitle("   Welcome   ");
 
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
@@ -102,8 +101,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		this.buttonAvailable = (Button) findViewById(R.id.buttonAvailable);
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
-
-		// this.mDisplay = (TextView) findViewById( R.id.registerID );
 
 		this.registerReceiver(this.dashboardReceiver, this.intentFilter);
 		// CACHE JJSYSTEM
@@ -161,12 +158,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
             /** Called when a drawer has settled in a completely closed state. */
 			public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
+                getActionBar().setTitle("");
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
+                getActionBar().setTitle("");
             }
         };
 
@@ -174,7 +171,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        //getActionBar().setHomeButtonEnabled(true);
 	}
 
 	@Override
@@ -192,45 +188,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		this.updateAvailabilityStatus((this.user.getUserStatus()
 				.getAvailabilityStatus() != null) ? this.user.getUserStatus()
 				.getAvailabilityStatus() : "Not Set!");
-		
-		setTitle("Welcome");
-
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 	}
-
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	} */
-
-	/*
-	 * @Override public boolean onOptionsItemSelected(MenuItem item) {
-	 * 
-	 * switch (item.getItemId()) { case R.id.action_missed: // send the user to
-	 * his missed call/message log Intent intent = new Intent(this,
-	 * MissedLog.class); intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	 * startActivity(intent); return true; case R.id.time_settings: // send the
-	 * user to set his time settings Intent i1 = new Intent(this,
-	 * TimeSettings.class); i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	 * startActivity(i1); return true; case R.id.my_status: if
-	 * (!this.user.getUserStatus().getavailabilityTime()
-	 * .equalsIgnoreCase("UNKNOWN")) { // send the user to set his status page
-	 * 
-	 * Intent i2 = new Intent(this, AwayActivity.class);
-	 * i2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); startActivity(i2); return
-	 * true; } else { Toast.makeText(this, "set availability status",
-	 * Toast.LENGTH_SHORT).show(); }
-	 * 
-	 * default: return super.onOptionsItemSelected(item); }
-	 * 
-	 * }
-	 */
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -288,7 +251,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				} else {
 					Toast.makeText(MainActivity.this, "set availability status",
 							Toast.LENGTH_SHORT).show();
-					MainActivity.this.setTitle("Welcome");
 				}
 				break;
 			case 2:
@@ -304,8 +266,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	
 	/** Swaps fragments in the main content view */
     private void selectItem(int position) {
-       
-
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(navigation[position]);
@@ -314,7 +274,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 	@Override
 	public void setTitle(CharSequence title) {
-
 		mTitle = title;
 		getActionBar().setTitle(mTitle);
 	}
@@ -379,7 +338,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(MainActivity.DASHBOARD_INTENT)) {
 				Log.d(TAG,
-						"dashboard intent receiveed. status field has been set.");
+						"dashboard intent received. status field has been set.");
 				// Do something with the string
 				MainActivity.this.status = intent.getStringExtra("status");
 				MainActivity.this.updateAvailabilityStatus(status);

@@ -17,7 +17,6 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.wwc.jajing.R;
 import com.wwc.jajing.activities.callbacks.onUserActivitySelect;
 import com.wwc.jajing.domain.entity.TimeSetting;
