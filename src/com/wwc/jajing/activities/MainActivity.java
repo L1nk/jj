@@ -1,6 +1,9 @@
 package com.wwc.jajing.activities;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,10 +43,12 @@ import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
 import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
 import com.wwc.jajing.domain.entity.User;
 import com.wwc.jajing.domain.services.CallManager;
+import com.wwc.jajing.domain.value.AvailabilityTime;
 import com.wwc.jajing.system.JJSystem;
 import com.wwc.jajing.system.JJSystemImpl;
 import com.wwc.jajing.system.JJSystemImpl.Services;
 import com.wwc.jajing.util.AppLogger;
+import com.wwc.jajing.util.DateHelper;
 
 public class MainActivity extends Activity implements ActionBar.TabListener, ActionBar.OnMenuVisibilityListener {
 
@@ -278,11 +283,64 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		getActionBar().setTitle(mTitle);
 	}
 
+    // Methods mapping to when buttons are clicked on the main screen of the app
 	public void awayOptionsMenu(View view) {
 		Intent intent = new Intent(this, AwayOptions.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		startActivity(intent);
 	}
+
+    public void detachDriving(View view) {
+
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+        String startTime = sdf.format(c.getTime());
+
+        c.add(Calendar.HOUR, 1);
+
+        String endTime = sdf.format(c.getTime());
+
+        System.out.println("Driving");
+        this.user.goUnavailable("Driving", startTime, new AvailabilityTime(endTime));
+        Intent awayActivity = new Intent(this, AwayActivity.class);
+        startActivity(awayActivity);
+    }
+
+    public void detachBusy(View view) {
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+        String startTime = sdf.format(c.getTime());
+
+        c.add(Calendar.HOUR, 1);
+
+        String endTime = sdf.format(c.getTime());
+
+        System.out.println("Busy");
+        this.user.goUnavailable("Busy", startTime, new AvailabilityTime(endTime));
+        Intent awayActivity = new Intent(this, AwayActivity.class);
+        startActivity(awayActivity);
+    }
+
+    public void detachNapping(View view) {
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+        String startTime = sdf.format(c.getTime());
+
+        c.add(Calendar.HOUR, 1);
+
+        String endTime = sdf.format(c.getTime());
+
+        System.out.println("Napping");
+        this.user.goUnavailable("Napping", startTime, new AvailabilityTime(endTime));
+        Intent awayActivity = new Intent(this, AwayActivity.class);
+        startActivity(awayActivity);
+    }
 
 	public void goAvailable() {
 		this.user.goAvailable();
@@ -540,7 +598,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		return contactNumber ;
 	}
 
-
 	private void updatePhoneNumber() {
 		final Dialog d = new Dialog( this );
 		d.setContentView( R.layout.activity_add_phonenumber );
@@ -567,5 +624,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 		d.show();
 	}
+
 
 }

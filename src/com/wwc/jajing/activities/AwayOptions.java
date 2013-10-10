@@ -80,7 +80,7 @@ public class AwayOptions extends Activity implements OnClickListener {
 	    getWindow().setWindowAnimations(Animation.ZORDER_TOP);
 		setContentView(R.layout.activity_away_options);
 
-		// Initialize the UI componenets
+		// Initialize the UI components
 		driving = (Button) findViewById(R.id.buttonDriving);
 		family = (Button) findViewById(R.id.buttonFamily);
 		meeting = (Button) findViewById(R.id.buttonMeeting);
