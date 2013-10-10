@@ -332,7 +332,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         String startTime = sdf.format(c.getTime());
 
-        c.add(Calendar.HOUR, 1);
+        c.add(Calendar.MINUTE, 30);
 
         String endTime = sdf.format(c.getTime());
 
@@ -344,6 +344,25 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 	public void goAvailable() {
 		this.user.goAvailable();
+
+        CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
+            @Override
+            public void onComplete( JSONObject results ) {
+                Toast.makeText( mContext , "Status pushed to Cloud successfully", Toast.LENGTH_LONG ).show();
+            }
+            @Override
+            public void onError( IOException exception ) {
+                CloudBackendAsync.handleEndpointException( exception );
+            }
+        };
+        //Change userId to actual user phone number
+        long userId = 1l ;
+        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
+        userId = shared.getLong( "id" , 1l ) ;
+        if( userId == 1l ) {
+            Toast.makeText( this, "Not valid phone number for API calls", Toast.LENGTH_LONG ).show();
+        }
+        m_cloudAsync.pushStatusToCloud( userId , user , handler );
 
 		Intent intent = new Intent(this, MissedLog.class);
 		intent.putExtra("recentFlag", true);
