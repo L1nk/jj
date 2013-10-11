@@ -687,7 +687,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             this.pendingStartTime = aStartTime;
             this.startTime = this.pendingStartTime;
         }
-        Toast.makeText(this, "start time set to : " + aStartTime, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "start time set to : " + aStartTime, Toast.LENGTH_SHORT).show();
         removeFragment();
     }
 
@@ -696,7 +696,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         if (!this.pendingEndTime.equalsIgnoreCase(anEndTime) && !anEndTime.equalsIgnoreCase("")) {
             this.pendingEndTime = anEndTime;
             this.endTime = pendingEndTime;
-            Toast.makeText(this, "end time set to : " + pendingEndTime, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "end time set to : " + pendingEndTime, Toast.LENGTH_SHORT).show();
 
         } else {
             // stop code execution, there is a BUG with android calling
