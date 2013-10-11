@@ -2,9 +2,8 @@ package com.wwc.jajing.activities;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.annotation.TargetApi;
@@ -12,6 +11,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -39,17 +39,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.wwc.jajing.R;
+import com.wwc.jajing.activities.callbacks.onUserActivitySelect;
 import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
 import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
+import com.wwc.jajing.domain.entity.TimeSetting;
 import com.wwc.jajing.domain.entity.User;
 import com.wwc.jajing.domain.services.CallManager;
 import com.wwc.jajing.domain.value.AvailabilityTime;
+import com.wwc.jajing.fragment.mTimePicker;
+import com.wwc.jajing.settings.time.TimeSettingId;
+import com.wwc.jajing.settings.time.TimeSettingValidator;
 import com.wwc.jajing.system.JJSystem;
 import com.wwc.jajing.system.JJSystemImpl;
 import com.wwc.jajing.system.JJSystemImpl.Services;
 import com.wwc.jajing.util.AppLogger;
-import com.wwc.jajing.util.DateHelper;
+import android.app.DialogFragment;
 
+
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MainActivity extends Activity implements ActionBar.TabListener, ActionBar.OnMenuVisibilityListener {
 
 	private static final String TAG = "MainActivity";
@@ -67,6 +74,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	private TextView textHeading;
 	private TextView textCallersCanForceDisturb;
 	private Button buttonAvailable;
+    private EditText customStatus;
+    private DialogFragment timeFrag;
 
 	private User user;
 	private CallManager cm;
@@ -74,6 +83,15 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	private Context mContext ;
 	TextView mDisplay;
 	CloudBackendAsync m_cloudAsync ;
+    private String unavailabilityReason;
+
+    private String endTime;
+    private String startTime;
+
+    private String pendingEndTime = "";
+    private String pendingStartTime = "";
+
+
 	
 	private static final String AUTOSYNC = "AutoSync" ;
 	private static final String USER_ID = "id" ;
@@ -82,9 +100,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	private IntentFilter intentFilter = new IntentFilter(
 			MainActivity.DASHBOARD_INTENT);
 
+    private static MainActivity instance;
+
+    public static MainActivity getInstance()
+    {
+        return instance;
+    }
+
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drawer_main);
 		ActionBar actionBar = getActionBar();
@@ -106,6 +132,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		this.buttonAvailable = (Button) findViewById(R.id.buttonAvailable);
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
+        this.customStatus = (EditText) findViewById(R.id.customStatus);
 
 		this.registerReceiver(this.dashboardReceiver, this.intentFilter);
 		// CACHE JJSYSTEM
@@ -290,6 +317,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		startActivity(intent);
 	}
 
+    public void detachCustom(View view) {
+        System.out.println(this.customStatus.getText());
+
+        this.unavailabilityReason = this.customStatus.getText().toString();
+
+        promptUserForTime(true);
+
+        removeFragment();
+
+    }
+
     public void detachDriving(View view) {
 
         Calendar c = Calendar.getInstance();
@@ -302,7 +340,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         String endTime = sdf.format(c.getTime());
 
-        System.out.println("Driving");
         this.user.goUnavailable("Driving", startTime, new AvailabilityTime(endTime));
         Intent awayActivity = new Intent(this, AwayActivity.class);
         startActivity(awayActivity);
@@ -644,5 +681,112 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		d.show();
 	}
 
+
+    public void setStartTime(String aStartTime) {
+        if (!this.pendingStartTime.equalsIgnoreCase(aStartTime)) {
+            this.pendingStartTime = aStartTime;
+            this.startTime = this.pendingStartTime;
+        }
+        Toast.makeText(this, "start time set to : " + aStartTime, Toast.LENGTH_SHORT).show();
+        removeFragment();
+    }
+
+    public void setEndTime(String anEndTime) {
+        //BUG THAT SUBMITS THE CURRENT TIME AS END TIME
+        if (!this.pendingEndTime.equalsIgnoreCase(anEndTime) && !anEndTime.equalsIgnoreCase("")) {
+            this.pendingEndTime = anEndTime;
+            this.endTime = pendingEndTime;
+            Toast.makeText(this, "end time set to : " + pendingEndTime, Toast.LENGTH_SHORT).show();
+
+        } else {
+            // stop code execution, there is a BUG with android calling
+            // onSetTimeTwice, this is a temporary fix.
+            Toast.makeText(this, "could not set end time: " + anEndTime, Toast.LENGTH_SHORT).show();
+            this.pendingEndTime = "";
+            return;
+        }
+
+        if(!TimeSetting.isEndTimeInFuture(anEndTime)) {
+            Toast.makeText(this, "end time must be in future", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!TimeSetting.isValidTimeInterval(this.startTime, pendingEndTime)) {
+            Toast.makeText(this, "invalid interval", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+
+
+        ArrayList<TimeSetting> interferingTimeSettings = TimeSettingValidator
+                .getTimeSettingsThisEndTimeInterferesWith(anEndTime);
+        // POSSIBLE BUG HERE... should not compare size, was used as a temp fix
+        if (interferingTimeSettings.size() < 1) {// check to make sure its set
+            // for the future
+            boolean success = goUnavailable();
+            if (success) {
+                navigateToAway(1L);
+            } else {
+
+            }
+        } else {
+            PlainAlertDialog
+                    .alertUser(
+                            this,
+                            "Sorry",
+                            "This time interferes with your time setting(s), turn them off?",
+                            new onUserActivitySelect(
+                                    getInterferingTimeSettingIds(interferingTimeSettings),
+                                    this.endTime, this.unavailabilityReason),
+                            true);
+        }
+
+    }
+
+    private void navigateToAway(Long timeSettingId) {
+        Log.d(TAG,
+                "availability time is now:"
+                        + new AvailabilityTime(this.endTime)
+                        .getAvailabilityTimeString());
+        // Now we can route the user to the "Away" activity.
+        Intent i = new Intent(this, AwayActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.putExtra(AwayActivity.EXTRA_KEY_TIME_SETTING_ID, timeSettingId);
+        startActivity(i);
+    }
+
+    private ArrayList<TimeSettingId> getInterferingTimeSettingIds(
+            ArrayList<TimeSetting> interferingTimeSettings) {
+
+        ArrayList<TimeSettingId> listOfTimeSettingIds = new ArrayList<TimeSettingId>();
+        for (TimeSetting aTimeSetting : interferingTimeSettings) {
+            listOfTimeSettingIds.add(new TimeSettingId(aTimeSetting.getId()));
+        }
+        return listOfTimeSettingIds;
+    }
+
+    private void removeFragment()
+    {
+        FragmentManager fragManager = this.getFragmentManager();
+        FragmentTransaction ft = fragManager.beginTransaction();
+        ft.remove(this.timeFrag);
+        ft.commit();
+        promptUserForTime(false);// prompt for end time
+    }
+
+    private void promptUserForTime(boolean isStartTime) {
+
+        timeFrag = new mTimePicker(isStartTime);
+
+        timeFrag.setRetainInstance(true);
+
+        timeFrag.show(getFragmentManager(), "timePicker");
+    }
+
+    private boolean goUnavailable() {
+        return this.user.goUnavailable(this.unavailabilityReason,
+                this.startTime, new AvailabilityTime(this.endTime));
+
+    }
 
 }

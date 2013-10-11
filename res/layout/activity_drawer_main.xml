@@ -28,7 +28,7 @@
         <EditText
             android:layout_width="192dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/customStatus"
             android:layout_gravity="center"/>
 
         <Button
@@ -39,8 +39,8 @@
             android:layout_marginBottom="61dp"
             android:layout_marginTop="38dp"
             android:background="#ffffbb33"
-            android:onClick="awayOptionsMenu"
-            android:text="detach"
+            android:onClick="detachCustom"
+            android:text="Detach"
             android:textColor="#000000"
             android:textStyle="bold"
             android:textSize="32dp"/>

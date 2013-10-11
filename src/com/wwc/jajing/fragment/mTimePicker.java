@@ -2,7 +2,6 @@ package com.wwc.jajing.fragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
@@ -14,8 +13,8 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TimePicker;
-
 import com.wwc.jajing.activities.AwayOptions;
+import com.wwc.jajing.activities.MainActivity;
 import com.wwc.jajing.settings.time.TimeSettingTaskManager;
 
 @SuppressLint("ValidFragment")
@@ -82,12 +81,12 @@ public class mTimePicker extends DialogFragment implements
 			TimeSettingTaskManager.getInstance().turnTimeSettingOff(1L);
 
 			// set the start time
-			AwayOptions.getInstance().setStartTime(sdf.format(c.getTime()));
+			MainActivity.getInstance().setStartTime(sdf.format(c.getTime()));
 			Log.d("SA", "setting start time.");
 
 		} else {
 			// set the end time
-			AwayOptions.getInstance().setEndTime(sdf.format(c.getTime()));
+			MainActivity.getInstance().setEndTime(sdf.format(c.getTime()));
 			Log.d("SA", "setting end time.");
 
 		}
