@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_gravity="center|top"
     android:background="#e0e4cc"
     android:orientation="vertical">
 
@@ -14,7 +13,8 @@
         android:paddingTop="0dp"
         android:text="Your current status is set to: "
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#ffffff" />
+        android:textColor="#ff33b5e5"
+        android:layout_marginTop="50dp" />
 
     <TextView
         android:id="@+id/textStatus"
@@ -23,7 +23,10 @@
         android:gravity="center"
         android:text="--"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffbb33" />
+        android:textColor="#ffffbb33"
+        android:layout_marginTop="25dp"
+        android:textStyle="bold"
+        android:textSize="32dp"/>
 
     <TextView
         android:id="@+id/textAvailabilityTime"
@@ -33,7 +36,8 @@
         android:gravity="center"
         android:text="--"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#ffffff" />
+        android:textColor="#ff33b5e5"
+        android:layout_marginTop="22dp" />
 
     <TextView
         android:id="@+id/textNotification"
@@ -43,7 +47,21 @@
         android:gravity="center"
         android:text="--"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#ff33b5e5" />
+        android:textColor="#ff33b5e5"
+        android:layout_marginTop="17dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="When you're ready to connect.
+Let your contacts know."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#ff33b5e5"
+        android:layout_marginTop="31dp" />
 
     <Button
         android:id="@+id/buttonContinue"
@@ -53,9 +71,10 @@
         android:background="#ffffbb33"
         android:gravity="center"
         android:onClick="continueHome"
-        android:text="Ok"
+        android:text="I'm Back"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#000000"
-        android:textStyle="bold" />
+        android:textColor="#ff33b5e5"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp" />
 
 </LinearLayout>

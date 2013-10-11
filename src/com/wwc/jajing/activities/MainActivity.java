@@ -63,7 +63,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-    private String[] navigation = new String[] { "What did I miss?", "I'm Back", "Add Contact" };
+    private String[] navigation = new String[] { "What have I missed?", "I'm Back"};
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -129,7 +129,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		}
 
 		this.buttonStatus = (Button) findViewById(R.id.buttonStatus);
-		this.buttonAvailable = (Button) findViewById(R.id.buttonAvailable);
+		//this.buttonAvailable = (Button) findViewById(R.id.buttonAvailable);
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
         this.customStatus = (EditText) findViewById(R.id.customStatus);
@@ -215,6 +215,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 	@Override
 	protected void onStart() {
+        this.customStatus.setText("");
 		super.onStart();
 		this.status = this.user.getUserStatus().getAvailabilityStatus();
 		this.updateAvailabilityStatus((this.user.getUserStatus()

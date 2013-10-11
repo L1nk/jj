@@ -99,9 +99,30 @@ public class AwayActivity extends Activity {
 	}
 	
 	public void continueHome(View view){
-		Intent i = new Intent(this, MainActivity.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		this.startActivity(i);
+        this.user.goAvailable();
+        CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
+            @Override
+            public void onComplete( JSONObject results ) {
+                Toast.makeText( mContext , "Status pushed to Cloud successfully", Toast.LENGTH_LONG ).show();
+            }
+            @Override
+            public void onError( IOException exception ) {
+                CloudBackendAsync.handleEndpointException( exception );
+            }
+        };
+        //Change userId to actual user phone number
+        long userId = 1l ;
+        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
+        userId = shared.getLong( "id" , 1l ) ;
+        if( userId == 1l ) {
+            Toast.makeText( this, "Not valid phone number for API calls", Toast.LENGTH_LONG ).show();
+        }
+        m_cloudAsync.pushStatusToCloud( userId , user , handler );
+
+        Intent intent = new Intent(this, MissedLog.class);
+        intent.putExtra("recentFlag", true);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
 	}
 	
 	/**

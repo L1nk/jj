@@ -22,14 +22,16 @@
             android:gravity="center"
             android:text="Want to get away?"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:textSize="18dp"/>
+            android:textColor="#ff33b5e5"
+            android:textStyle="bold"
+            android:textSize="32dp"/>
 
         <EditText
-            android:layout_width="192dp"
+            android:layout_width="284dp"
             android:layout_height="wrap_content"
             android:id="@+id/customStatus"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:width="200dp"/>
 
         <Button
             android:id="@+id/buttonStatus"
@@ -41,7 +43,7 @@
             android:background="#ffffbb33"
             android:onClick="detachCustom"
             android:text="Detach"
-            android:textColor="#000000"
+            android:textColor="#ff33b5e5"
             android:textStyle="bold"
             android:textSize="32dp"/>
 
