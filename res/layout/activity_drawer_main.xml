@@ -35,17 +35,13 @@
 
         <Button
             android:id="@+id/buttonStatus"
-            android:layout_width="250dp"
+            android:layout_width="350dp"
             android:layout_height="74dp"
             android:layout_gravity="center"
             android:layout_marginBottom="61dp"
             android:layout_marginTop="38dp"
-            android:background="#ffffbb33"
-            android:onClick="detachCustom"
-            android:text="Detach"
-            android:textColor="#ff33b5e5"
-            android:textStyle="bold"
-            android:textSize="32dp"/>
+            android:background="@drawable/detach"
+            android:onClick="detachCustom"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -59,6 +55,7 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="-5sp"
                 android:onClick="detachDriving"
+                android:background="@drawable/car"
             />
 
             <ImageButton
@@ -67,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="-5sp"
                 android:onClick="detachBusy"
+                android:background="@drawable/work"
             />
 
             <ImageButton
@@ -75,6 +73,7 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="-5sp"
                 android:onClick="detachNapping"
+                android:background="@drawable/nap"
             />
 
         </LinearLayout>
