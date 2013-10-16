@@ -329,6 +329,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void detachDriving(View view) {
 
         Calendar c = Calendar.getInstance();
@@ -346,6 +347,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         startActivity(awayActivity);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void detachBusy(View view) {
         Calendar c = Calendar.getInstance();
 
@@ -363,6 +365,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         startActivity(awayActivity);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void detachNapping(View view) {
         Calendar c = Calendar.getInstance();
 
