@@ -18,7 +18,7 @@ import com.wwc.jajing.activities.MainActivity;
 import com.wwc.jajing.settings.time.TimeSettingTaskManager;
 
 @SuppressLint("ValidFragment")
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@TargetApi(Build.VERSION_CODES.FROYO)
 public class mTimePicker extends DialogFragment implements
 		OnTimeSetListener {
 

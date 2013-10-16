@@ -56,14 +56,14 @@ import com.wwc.jajing.util.AppLogger;
 import android.app.DialogFragment;
 
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@TargetApi(Build.VERSION_CODES.FROYO)
 public class MainActivity extends Activity implements ActionBar.TabListener, ActionBar.OnMenuVisibilityListener {
 
 	private static final String TAG = "MainActivity";
 	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-    private String[] navigation = new String[] { "What have I missed?", "I'm Back"};
+    private String[] navigation = new String[] { "I'm Back"};
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         return instance;
     }
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@TargetApi(Build.VERSION_CODES.FROYO)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         instance = this;
@@ -168,7 +168,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 	}
 	
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @TargetApi(Build.VERSION_CODES.FROYO)
 	private void initNavigationDrawer()
 	{
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -261,7 +261,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 			selectItem(position);
 			Log.d(TAG, position + "");
 			switch (position) {
-			case 0:
+			case 1:
 				// send the user to his missed call/message log
 				Intent intent = new Intent(MainActivity.this, MissedLog.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -289,7 +289,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 			case 2:
 				updatePhoneNumber();
 				break ;
-            case 1:
+            case 0:
                 goAvailable();
                 break;
 			}
@@ -329,7 +329,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @TargetApi(Build.VERSION_CODES.FROYO)
     public void detachDriving(View view) {
 
         Calendar c = Calendar.getInstance();
@@ -347,7 +347,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         startActivity(awayActivity);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @TargetApi(Build.VERSION_CODES.FROYO)
     public void detachBusy(View view) {
         Calendar c = Calendar.getInstance();
 
@@ -365,7 +365,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         startActivity(awayActivity);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @TargetApi(Build.VERSION_CODES.FROYO)
     public void detachNapping(View view) {
         Calendar c = Calendar.getInstance();
 

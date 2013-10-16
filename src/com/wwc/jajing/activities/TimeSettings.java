@@ -49,7 +49,7 @@ public class TimeSettings extends FragmentActivity {
 	
 	private int idOfCheckboxChecked;
 	
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@TargetApi(Build.VERSION_CODES.FROYO)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
