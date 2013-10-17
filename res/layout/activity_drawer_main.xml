@@ -7,7 +7,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e0e4cc"
+        android:background="@drawable/background"
         android:fillViewport="false">
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="101dp"
             android:gravity="center"
-            android:text="Want to get away?"
+            android:text="Need to get away?"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ff33b5e5"
             android:textStyle="bold"
@@ -28,6 +28,8 @@
 
         <EditText
             android:layout_width="284dp"
+            android:text="Say what you're doing."
+            android:textColor="#ACACAC"
             android:layout_height="wrap_content"
             android:id="@+id/customStatus"
             android:layout_gravity="center"
@@ -36,7 +38,7 @@
         <Button
             android:id="@+id/buttonStatus"
             android:layout_width="350dp"
-            android:layout_height="74dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginBottom="61dp"
             android:layout_marginTop="38dp"
@@ -56,7 +58,7 @@
                 android:drawablePadding="-5sp"
                 android:onClick="detachDriving"
                 android:background="@drawable/car"
-            />
+                android:src="@drawable/car" />
 
             <ImageButton
                 android:id="@+id/buttonBusy"
@@ -72,8 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="-5sp"
-                android:onClick="detachNapping"
-                android:background="@drawable/nap"
+                android:onClick="detachEating"
+                android:background="@drawable/eating"
             />
 
         </LinearLayout>

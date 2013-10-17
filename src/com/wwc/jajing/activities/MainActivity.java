@@ -366,7 +366,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
     }
 
     @TargetApi(Build.VERSION_CODES.FROYO)
-    public void detachNapping(View view) {
+    public void detachEating(View view) {
         Calendar c = Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
@@ -377,8 +377,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         String endTime = sdf.format(c.getTime());
 
-        System.out.println("Napping");
-        this.user.goUnavailable("Napping", startTime, new AvailabilityTime(endTime));
+        this.user.goUnavailable("Eating", startTime, new AvailabilityTime(endTime));
         Intent awayActivity = new Intent(this, AwayActivity.class);
         startActivity(awayActivity);
     }
