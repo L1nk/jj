@@ -38,6 +38,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.flurry.android.FlurryAgent;
 import com.wwc.jajing.R;
 import com.wwc.jajing.activities.callbacks.onUserActivitySelect;
 import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
@@ -217,6 +219,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	protected void onStart() {
         this.customStatus.setText("");
 		super.onStart();
+        FlurryAgent.onStartSession(this, "VBM4K2B624PZS5N8N7VD");
 		this.status = this.user.getUserStatus().getAvailabilityStatus();
 		this.updateAvailabilityStatus((this.user.getUserStatus()
 				.getAvailabilityStatus() != null) ? this.user.getUserStatus()
@@ -226,6 +229,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	@Override
 	protected void onStop() {
 		super.onStop();
+        FlurryAgent.onEndSession(this);
 	}
 
 	@Override
