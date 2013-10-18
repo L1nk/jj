@@ -8,8 +8,6 @@
         android:fillViewport="true"
         android:background="#e0e4cc">
 
-         The header view
-
         <TableLayout
             android:id="@+id/tableview"
             android:layout_width="fill_parent"
@@ -86,16 +84,10 @@
             <com.wwc.jajing.activities.FastSearchListView
                 android:id="@+id/left_drawer"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
                 android:layout_gravity="fill_vertical"
-                android:animateLayoutChanges="true"
-                android:layout_marginRight="10dp"
                 android:background="#e0e4cc"
-                android:choiceMode="singleChoice"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="2dp"
-                android:paddingBottom="5dp"
-                android:paddingTop="10dp"
+                android:fastScrollEnabled="true"
+                android:smoothScrollbar="true"
                 />
         </TableLayout>
 

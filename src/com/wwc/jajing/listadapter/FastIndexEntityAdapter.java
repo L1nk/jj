@@ -2,6 +2,7 @@ package com.wwc.jajing.listadapter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -30,13 +31,14 @@ import com.wwc.jajing.activities.DetachUser;
 public class FastIndexEntityAdapter extends BaseAdapter implements
 		SectionIndexer {
 
-	private List<DetachUser> itemList;
+	public List<DetachUser> itemList;
 	private Context context;
 	private static String sections = "abcdefghijklmnopqrstuvwxyz";
 
 	public FastIndexEntityAdapter(List<DetachUser> itemList, Context ctx) {
 		this.itemList = itemList;
-		this.context = ctx;
+        //Collections.sort(this.itemList, DetachUser.DetachUserNameComparator);
+        this.context = ctx;
 	}
 
 	public int getCount() {
@@ -185,4 +187,35 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 	    cursor = null;
 	    return displayName;
 	}
+
+    public String getContactName(String contactId) {
+        String[] projection = new String[] { Contacts.DISPLAY_NAME };
+        Cursor cursor = context.getContentResolver().query(Contacts.CONTENT_URI, projection,
+                Contacts._ID + "=?", new String[] { contactId }, null);
+        String displayName = "Anonymous";
+        if (cursor.moveToFirst()) {
+            displayName = cursor.getString(0);
+        }
+        cursor.close();
+        cursor = null;
+        return displayName;
+    }
+
+    public String getContactId( String phoneNumber ) {
+        Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI,
+                phoneNumber);
+        Cursor cursor = context.getContentResolver().query(uri, new String[] {
+                PhoneLookup.DISPLAY_NAME, BaseColumns._ID }, null, null, null);
+        String contactId = "";
+        if (cursor.moveToFirst()) {
+            do {
+                contactId = cursor.getString(cursor
+                        .getColumnIndex(BaseColumns._ID));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        cursor = null;
+        return contactId;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.wwc.jajing.activities;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.ContentUris;
@@ -91,7 +92,16 @@ public class DetachActivity extends FragmentActivity {
 			public void onComplete( List<DetachUser> results ) {
 				if ( results.size() > 0 ) {
 					m_entityListAdapter = new FastIndexEntityAdapter( results, getApplicationContext() );
-					m_entityListAdapter.notifyDataSetChanged();
+
+                    for(int i =0; i <  m_entityListAdapter.itemList.size(); i++) {
+                        String contactId = m_entityListAdapter.getContactId(m_entityListAdapter.itemList.get(i).getPhoneno());
+                        m_entityListAdapter.itemList.get(i).setName(m_entityListAdapter.getContactName(contactId));
+                    }
+
+                    Collections.sort(m_entityListAdapter.itemList, DetachUser.DetachUserNameComparator);
+
+
+                    m_entityListAdapter.notifyDataSetChanged();
 					m_entityListView.setAdapter( m_entityListAdapter );
 					AppLogger.debug( String.format( "Received contacts : %s " , results.toString() ) ) ;
 				}

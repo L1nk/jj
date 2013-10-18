@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import com.wwc.jajing.activities.ApplicationEnums.UserStatus;
 
+import java.util.Comparator;
+
 /**
  * A simple cloud pojo for user contact lists
  * 
@@ -124,4 +126,21 @@ public class DetachUser {
 	public void setTimeRemaining(String timeRemaining) {
 		this.m_timeRemaining = timeRemaining ;
 	}
+
+    public static Comparator<DetachUser> DetachUserNameComparator
+            = new Comparator<DetachUser>() {
+
+        public int compare(DetachUser userOne, DetachUser userTwo) {
+
+            String userNameOne = userOne.getName().toUpperCase();
+            String userNameTwo = userTwo.getName().toUpperCase();
+
+            //ascending order
+            return userNameOne.compareTo(userNameTwo);
+
+            //descending order
+            //return fruitName2.compareTo(fruitName1);
+        }
+
+    };
 }
