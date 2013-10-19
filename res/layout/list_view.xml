@@ -33,7 +33,7 @@
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
         android:text="@string/username"
-        android:textColor="#00BBEE"
+        android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
         android:typeface="sans" />
@@ -48,7 +48,7 @@
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
         android:text="@string/userstatus"
-        android:textColor="#FFDD11"
+        android:textColor="#000000"
         android:textSize="15sp" />
 
     <!-- Updated Time Status -->

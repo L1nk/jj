@@ -27,6 +27,9 @@ import android.widget.TextView;
 import com.wwc.jajing.R;
 import com.wwc.jajing.activities.DetachUser;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+
 @SuppressLint("DefaultLocale")
 public class FastIndexEntityAdapter extends BaseAdapter implements
 		SectionIndexer {
@@ -89,7 +92,7 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 
 		//Load remaining time
 		TextView remainingHours = (TextView) contactView.findViewById(R.id.timeremaining );
-		remainingHours.setText(( detachUser.getTimeRemainingAsString() == null ? "" : detachUser
+		remainingHours.setText((  detachUser.getLastUpdated() == null ? "In a few minutes" : detachUser
 				.getTimeRemainingAsString()));
 		
 		return contactView;
@@ -148,7 +151,7 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 	 * Query contact id value of any given phone number.
 	 * 
 	 * @param context - Detach activity context
-	 * @param name - should be unique phone number of contact member
+	 * @param phoneNumber - should be unique phone number of contact member
 	 * @return - long raw contact id otherwise -1
 	 */
 	private String getContactId( Context context, String phoneNumber ) {
@@ -172,7 +175,7 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 	 * Query contact display name value of any given phone number.
 	 * 
 	 * @param context - Detach activity context
-	 * @param name - should be unique phone number of contact member
+	 * @param contactId - should be unique phone number of contact member
 	 * @return - string value of name otherwise empty string
 	 */
 	private String getContactName(Context context, String contactId ) {
@@ -216,6 +219,31 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
         cursor.close();
         cursor = null;
         return contactId;
+    }
+
+    private String parseDateTime(String dateTime) {
+
+        if(dateTime == "") {
+            return "";
+        } else {
+            LocalDateTime date = (new DateTime(dateTime)).toLocalDateTime();
+            return date.toString("MMM")+". " +
+                   date.getDayOfMonth()+" " +
+                   date.getYear()+" " +
+                   date.toString("HH:mm");
+        }
+
+    }
+
+    private boolean isSuperCloseToCurrentTime(String dateTime) {
+        if(dateTime == "") {
+            return false;
+        }
+        else if((new DateTime(dateTime)).getMillis() <= DateTime.now().plusMinutes(5).getMillis()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

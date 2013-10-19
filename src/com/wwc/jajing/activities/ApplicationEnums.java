@@ -15,8 +15,8 @@ public class ApplicationEnums {
 	 */
 	public enum UserStatus {
 		AVAILABLE( 1, "available24.png" ), 
-		AWAY( 2, "away24.png" ), 
-		BUSY( 3, "busy24.png" ), 
+		AWAY( 2, "asleep24.png" ),
+		BUSY( 3, "asleep24.png" ),
 		DOD( 4, "flap24.png" ), 
 		IDLE( 5, "asleep24.png" ), 
 		DRIVING( 6, "flap24.png" );
