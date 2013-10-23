@@ -85,7 +85,7 @@ public class MissedMessages extends Activity {
 
 			// create text view for number
 			TextView tvNumber = new TextView(this);
-			tvNumber.setText(missedMessage.phoneNumber().toString() + " | " + DateHelper.dateToString(missedMessage.occuredOn()));
+			tvNumber.setText(missedMessage.getContactName(this) + " | " + DateHelper.dateToString(missedMessage.occuredOn()));
 			tvNumber.setTextColor(Color.WHITE);
 			tvNumber.setPadding(10, 10, 10, 10);
 			tvNumber.setTextColor(Color.parseColor("#ffffbb33"));

@@ -41,9 +41,20 @@ public class JJSMSBroadcastReceiver extends BroadcastReceiver{
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
+
+        String rawSMSstr = jjsmsHelper.getMessageBodyFromSMS(intent);
+        String phoneNumber = jjsmsHelper.getPhoneNumberFromIncomingSMS(intent);
+
+        String formattedIncomingNumber = this.formatIncomingNumber(phoneNumber);
+
+        jjsmsManager.getMessenger()
+                .sendRawSms(new JJSMS(JJSMS.INITIAL_MESSAGE +
+                            this.user.getUserStatus().getAvailabilityStatus() +
+                            " and will be unavailable until " +
+                            this.user.getUserStatus().getavailabilityTime().toLowerCase()),
+                            formattedIncomingNumber);
 		
-		String rawSMSstr = jjsmsHelper.getMessageBodyFromSMS(intent);
-		String phoneNumber = jjsmsHelper.getPhoneNumberFromIncomingSMS(intent);
+
 		Log.d(TAG, "BR got it" + rawSMSstr);
 		
 		if(jjsmsValidator.isValidRawJJSMSStr(rawSMSstr)){
@@ -77,11 +88,24 @@ public class JJSMSBroadcastReceiver extends BroadcastReceiver{
 		}
 
 	}
-	
-	
-	
-	
-	
-	
+
+    private String formatIncomingNumber(String incomingNumber)
+    {
+        if(incomingNumber.length() == 11){
+            return incomingNumber;
+        } else {
+            //now check if first character  is +
+            if(Character.toString(incomingNumber.charAt(0)).equalsIgnoreCase("+")) {
+                return incomingNumber.replace("+", " ");
+            }
+            if (!Character.toString(incomingNumber.charAt(0)).equalsIgnoreCase("1")){
+                Log.d(TAG, "first character was:" + Character.toString(incomingNumber.charAt(0)));
+                return ("1" + incomingNumber);
+            }
+        }
+        return null;
+
+    }
+
 
 }

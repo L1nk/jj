@@ -17,14 +17,16 @@
 
         <TextView
             android:id="@+id/textHeading"
-            android:layout_width="match_parent"
-            android:layout_height="101dp"
             android:gravity="center"
-            android:text="Need to get away?"
+            android:background="@drawable/needtogetaway"
+            android:layout_width="339dp"
+            android:layout_height="40dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ff33b5e5"
             android:textStyle="bold"
-            android:textSize="32dp"/>
+            android:textSize="32dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="14dp" />
 
         <EditText
             android:layout_width="284dp"
@@ -33,15 +35,16 @@
             android:layout_height="wrap_content"
             android:id="@+id/customStatus"
             android:layout_gravity="center"
-            android:width="200dp"/>
+            android:width="200dp"
+            android:layout_marginTop="19dp" />
 
         <Button
             android:id="@+id/buttonStatus"
-            android:layout_width="350dp"
-            android:layout_height="100dp"
+            android:layout_width="261dp"
+            android:layout_height="53dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="61dp"
-            android:layout_marginTop="38dp"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="9dp"
             android:background="@drawable/detach"
             android:onClick="detachCustom"/>
 
@@ -55,16 +58,15 @@
                 android:id="@+id/buttonDriving"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="-5sp"
+                android:drawablePadding="-15sp"
                 android:onClick="detachDriving"
-                android:background="@drawable/car"
-                android:src="@drawable/car" />
+                android:background="@drawable/car" />
 
             <ImageButton
                 android:id="@+id/buttonBusy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="-5sp"
+                android:drawablePadding="-15sp"
                 android:onClick="detachBusy"
                 android:background="@drawable/work"
             />
@@ -73,12 +75,44 @@
                 android:id="@+id/buttonNapping"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="-5sp"
+                android:drawablePadding="-15sp"
                 android:onClick="detachEating"
                 android:background="@drawable/eating"
             />
 
         </LinearLayout>
+
+        <TextView
+        android:id="@+id/currentStatusHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="You are currently"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ff33b5e5"
+        android:textStyle="bold"
+        android:textSize="32dp"
+            android:layout_marginTop="41dp" />
+
+        <TextView
+            android:id="@+id/currentStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ff33b5e5"
+            android:textStyle="bold"
+            android:textSize="32dp"/>
+
+        <Button
+            android:id="@+id/goAvailable"
+            android:layout_width="261dp"
+            android:layout_height="53dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="61dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/imback"
+            android:onClick="goAvailable"/>
 
     </LinearLayout>
 

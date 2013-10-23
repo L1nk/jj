@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.orm.SugarRecord;
@@ -128,6 +131,35 @@ public class MissedCall extends SugarRecord implements Call{
 		Log.d(TAG, "Missed Call Logged.");
 
 	}
+
+    public String getContactName(Context context) {
+
+        String name = null;
+
+        // define the columns I want the query to return
+        String[] projection = new String[] {
+                ContactsContract.PhoneLookup.DISPLAY_NAME,
+                ContactsContract.PhoneLookup._ID};
+
+        // encode the phone number and build the filter URI
+        Uri contactUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(this.phoneNumber));
+
+        // query time
+        Cursor cursor = context.getContentResolver().query(contactUri, projection, null, null, null);
+
+        if(cursor != null) {
+            if (cursor.moveToFirst()) {
+                name =      cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+                Log.v(TAG, "Started uploadcontactphoto: Contact Found @ " + this.phoneNumber);
+                Log.v(TAG, "Started uploadcontactphoto: Contact name  = " + name);
+            } else {
+                Log.v(TAG, "Contact Not Found @ " + this.phoneNumber);
+                return this.phoneNumber;
+            }
+            cursor.close();
+        }
+        return name;
+    }
 
 
 }

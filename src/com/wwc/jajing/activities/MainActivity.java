@@ -50,6 +50,7 @@ import com.wwc.jajing.domain.services.CallManager;
 import com.wwc.jajing.domain.value.AvailabilityTime;
 import com.wwc.jajing.fragment.mTimePicker;
 import com.wwc.jajing.settings.time.TimeSettingId;
+import com.wwc.jajing.settings.time.TimeSettingTaskManager;
 import com.wwc.jajing.settings.time.TimeSettingValidator;
 import com.wwc.jajing.system.JJSystem;
 import com.wwc.jajing.system.JJSystemImpl;
@@ -65,7 +66,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-    private String[] navigation = new String[] { "I'm Back"};
+    private String[] navigation = new String[] { "Contacts"};
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -74,6 +75,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 	private Button buttonStatus;
 	private TextView textHeading;
+    private TextView currentStatusHeader;
+    private TextView currentStatus;
+    private Button goAvailable;
 	private TextView textCallersCanForceDisturb;
 	private Button buttonAvailable;
     private EditText customStatus;
@@ -93,7 +97,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
     private String pendingEndTime = "";
     private String pendingStartTime = "";
 
-
+    private TimeSetting timeSetting;
 	
 	private static final String AUTOSYNC = "AutoSync" ;
 	private static final String USER_ID = "id" ;
@@ -135,6 +139,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
         this.customStatus = (EditText) findViewById(R.id.customStatus);
+        this.currentStatusHeader = (TextView) findViewById(R.id.currentStatusHeader);
+        this.currentStatus = (TextView) findViewById(R.id.currentStatus);
+        this.goAvailable = (Button) findViewById(R.id.goAvailable);
 
 		this.registerReceiver(this.dashboardReceiver, this.intentFilter);
 		// CACHE JJSYSTEM
@@ -239,14 +246,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		switch ( item.getItemId() ) {
-		case R.id.action_detach:
-			Toast.makeText( this, "Detach Contacts loading started", Toast.LENGTH_SHORT ).show();
-			Intent detacher = new Intent(MainActivity.this, DetachActivity.class);  
-		    startActivityForResult(detacher, 100 );  
-			break;
-		}
-		return super.onOptionsItemSelected(item);
+		return false;
 
 	}
 
@@ -294,7 +294,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				updatePhoneNumber();
 				break ;
             case 0:
-                goAvailable();
+                //goAvailable();
+                Intent detacher = new Intent(MainActivity.this, DetachActivity.class);
+                startActivityForResult(detacher, 100 );
                 break;
 			}
 		}
@@ -323,7 +325,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	}
 
     public void detachCustom(View view) {
-        System.out.println(this.customStatus.getText());
+        //System.out.println(this.customStatus.getText());
 
         this.unavailabilityReason = this.customStatus.getText().toString();
 
@@ -347,8 +349,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         String endTime = sdf.format(c.getTime());
 
         this.user.goUnavailable("Driving", startTime, new AvailabilityTime(endTime));
-        Intent awayActivity = new Intent(this, AwayActivity.class);
-        startActivity(awayActivity);
+        this.updateAvailabilityStatus("Driving");
+        //Intent awayActivity = new Intent(this, AwayActivity.class);
+        //startActivity(awayActivity);
     }
 
     @TargetApi(Build.VERSION_CODES.FROYO)
@@ -365,8 +368,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         System.out.println("Busy");
         this.user.goUnavailable("Busy", startTime, new AvailabilityTime(endTime));
-        Intent awayActivity = new Intent(this, AwayActivity.class);
-        startActivity(awayActivity);
+        this.updateAvailabilityStatus("Busy");
+        //Intent awayActivity = new Intent(this, AwayActivity.class);
+        //startActivity(awayActivity);
     }
 
     @TargetApi(Build.VERSION_CODES.FROYO)
@@ -377,13 +381,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         String startTime = sdf.format(c.getTime());
 
-        c.add(Calendar.MINUTE, 30);
+        c.add(Calendar.HOUR, 1);
 
         String endTime = sdf.format(c.getTime());
 
         this.user.goUnavailable("Eating", startTime, new AvailabilityTime(endTime));
-        Intent awayActivity = new Intent(this, AwayActivity.class);
-        startActivity(awayActivity);
+        this.updateAvailabilityStatus("Eating");
+        //Intent awayActivity = new Intent(this, AwayActivity.class);
+        //startActivity(awayActivity);
     }
 
 	public void goAvailable() {
@@ -415,9 +420,26 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 	}
 
+    public void goAvailable(View view) {
+        this.goAvailable();
+    }
+
 	private void updateAvailabilityStatus(String status) {
 
-//		if (status.equalsIgnoreCase("AVAILABLE")) {
+
+
+        if(status.equalsIgnoreCase("Available")) {
+            this.currentStatus.setText("Available");
+            this.goAvailable.setVisibility(View.GONE);
+        } else {
+
+            timeSetting = TimeSetting.findById(TimeSetting.class,
+                    TimeSettingTaskManager.getInstance()
+                            .getTimeSettingIdClosestToBeingDone());
+
+            this.currentStatus.setText(status+"\nuntil\n"+timeSetting.getEndTime());
+            this.goAvailable.setVisibility(View.VISIBLE);
+        }
 //			this.setHeading("What's Your Status ?");
 //			this.showCallersCanForceDisturb(true);
 //			this.changeButtonStatusText("Not Available");
@@ -494,7 +516,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	
 	@Override
 	public boolean onCreateOptionsMenu( Menu menu ) {
-		getMenuInflater().inflate( R.menu.main_activity_menu, menu );
+		//getMenuInflater().inflate( R.menu.main_activity_menu, menu );
 		return true;
 	}
 	
@@ -688,7 +710,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		d.show();
 	}
 
-
     public void setStartTime(String aStartTime) {
         if (!this.pendingStartTime.equalsIgnoreCase(aStartTime)) {
             this.pendingStartTime = aStartTime;
@@ -732,7 +753,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             // for the future
             boolean success = goUnavailable();
             if (success) {
-                navigateToAway(1L);
+                //navigateToAway(1L);
+                updateAvailabilityStatus(this.unavailabilityReason);
             } else {
 
             }

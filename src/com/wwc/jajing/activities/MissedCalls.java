@@ -106,7 +106,7 @@ public class MissedCalls extends Activity implements OnClickListener{
 			TextView tvNumber = new TextView(this);
 			tvNumber.setTag(missedCall.phoneNumber().toString());
 			tvNumber.setOnClickListener(this);
-			tvNumber.setText(missedCall.phoneNumber().toString());
+			tvNumber.setText(missedCall.getContactName(this));
 			tvNumber.setTextColor(Color.parseColor("#ffffbb33"));
 			tvNumber.setPadding(10, 10, 10, 20);
 			Log.d(TAG, missedCall.phoneNumber().toString());

@@ -22,15 +22,15 @@ public class JJSMSValidatorImpl implements JJSMSValidator {
 	}
 
 	/*
-	 * Tells us if a raw sms string has "#jj/" as the first characters of an sms
+	 * Tells us if a raw sms string has "#detach/" as the first characters of an sms
 	 * message.
 	 */
 	private boolean hasJJSMSSignature(String rawSmsStr) {
-		if (rawSmsStr.length() < 4) {
+		if (rawSmsStr.length() < 8) {
 			return false;
 		}
 
-		String firstFourCharacters = rawSmsStr.substring(0, 9);
+		String firstFourCharacters = rawSmsStr.substring(0, 8);
 
 		if (firstFourCharacters.equalsIgnoreCase("#detach/")) {
 			return true;

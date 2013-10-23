@@ -103,6 +103,7 @@ public class FastSearchListView extends ListView {
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN: {
+            this.setFastScrollEnabled(true);
 			if (x < sx)
 				return super.onTouchEvent(event);
 			else {
@@ -130,6 +131,9 @@ public class FastSearchListView extends ListView {
 			}
 			break;
 		}
+            case MotionEvent.ACTION_UP: {
+            this.setFastScrollEnabled(false);
+        }
 		}
 		return false;
 	}

@@ -1,6 +1,5 @@
 package com.wwc.jajing.domain.entity;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,7 +40,7 @@ public class UserImpl extends SugarRecord implements User {
 
 	private static final String TAG = "UserImpl";
 	private Long id;
-	private String availabilityStatus = AVAILAILBLE;
+	private String availabilityStatus = AVAILABLE;
 	private String availabilityTime;
 	@Ignore
 	public static SimpleDateFormat fullDateTimeFormatter = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSZ" );
@@ -58,7 +57,7 @@ public class UserImpl extends SugarRecord implements User {
 	private AvailabilityTime availTime;
 
 	@Ignore
-	public static final String AVAILAILBLE = "AVAILABLE";
+	public static final String AVAILABLE = "Available";
 
 	@Ignore
 	private Context context;
@@ -207,7 +206,7 @@ public class UserImpl extends SugarRecord implements User {
 	 */
 	@Override
 	public void goAvailable() {
-		this.setAvailabilityStatus(this.AVAILAILBLE);
+		this.setAvailabilityStatus(this.AVAILABLE);
 		
 		//TODO - may cause bug issue here...
 		this.availabilityTime = "";
@@ -255,7 +254,7 @@ public class UserImpl extends SugarRecord implements User {
 			throw new IllegalStateException("Availability status cannot be null!");
 		}
 		
-		if (this.availabilityStatus.equals(this.AVAILAILBLE))
+		if (this.availabilityStatus.equals(this.AVAILABLE))
 			return true;
 		else
 			return false;

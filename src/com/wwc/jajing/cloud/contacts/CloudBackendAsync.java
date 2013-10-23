@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -123,7 +124,7 @@ public class CloudBackendAsync {
 		        JSONObject json = new JSONObject();
 		        try {
 					json.put("status", user.getUserStatus().getAvailabilityStatus() );
-					json.put( "status_start", user.getFullStartDateTime() );
+					json.put( "status_start", DateTime.now().toString() );
 					json.put( "status_end", user.getFullEndDateTime() );
 					AppLogger.debug(String.format("Status update json : %s" , json.toString() )) ;
 				} catch (JSONException e) {

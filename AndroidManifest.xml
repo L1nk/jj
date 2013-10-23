@@ -34,7 +34,7 @@
         android:name="com.wwc.jajing.system.JJApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
-        android:label="detach"
+        android:label="Detach"
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="DATABASE"
@@ -53,7 +53,7 @@
         <activity
             android:name="com.wwc.jajing.activities.MainActivity"
             android:clearTaskOnLaunch="true"
-            android:label="detach"
+            android:label="Detach"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
             <intent-filter>

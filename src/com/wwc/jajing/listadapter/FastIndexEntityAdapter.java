@@ -82,8 +82,7 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 
 		//Load status updated @
 		TextView updatedOn = (TextView) contactView.findViewById(R.id.updateon);
-		updatedOn.setText((detachUser.getLastUpdated() == null ? "Just now" : detachUser
-				.getLastUpdated()));
+		updatedOn.setText((detachUser.getStatusmessage() == "" ? "" : "Will return at"));
 
 		//Load status message
 		TextView status = (TextView) contactView.findViewById(R.id.status);

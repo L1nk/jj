@@ -37,8 +37,6 @@ import com.wwc.jajing.system.JJSystemImpl.Services;
  */
 public class JJOnAwayService extends Service {
 
-
-
 	private static final String TAG = "JJOnAwayService";
 	private TelephonyManager tm;
 	private CallManager cm;
@@ -79,9 +77,9 @@ public class JJOnAwayService extends Service {
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void startAwayForegruondService()
 	{
-		/*Notification notification = new Notification.Builder(this).setContentTitle("Unavailable")
+		Notification notification = new Notification.Builder(this).setContentTitle(this.user.getUserStatus().getAvailabilityStatus())
 				.setSmallIcon(R.drawable.logo).build();
-		startForeground(1, notification);*/
+		startForeground(1, notification);
 	}
 
 
