@@ -220,7 +220,7 @@ public class TimeSetting extends SugarRecord implements Entity{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	
 	public boolean hasEndTimePassed()
@@ -313,7 +313,7 @@ public class TimeSetting extends SugarRecord implements Entity{
 		if(endTimeMilli > nowMilli) {
 			return true;
 		} else {
-			return false;
+			return true;
 		}
 	}
 
