@@ -231,7 +231,10 @@ public class JSONParser {
 		} catch (JSONException e) {
 			AppLogger.error(String.format("JSON Parser", "Error parsing data "
 					+ e.toString()));
-		}
+		} catch (NullPointerException e) {
+            AppLogger.error(String.format("JSON Parser", "No service, hence no JSON received."
+                    + e.toString()));
+        }
 
 		// return JSON String
 		return returnObject;
