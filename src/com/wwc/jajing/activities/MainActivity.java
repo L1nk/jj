@@ -433,11 +433,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             this.goAvailable.setVisibility(View.GONE);
         } else {
 
-            timeSetting = TimeSetting.findById(TimeSetting.class,
-                    TimeSettingTaskManager.getInstance()
-                            .getTimeSettingIdClosestToBeingDone());
+//            timeSetting = TimeSetting.findById(TimeSetting.class,
+//                    TimeSettingTaskManager.getInstance()
+//                            .getTimeSettingIdClosestToBeingDone());
 
-            this.currentStatus.setText(status+"\nuntil\n"+timeSetting.getEndTime());
+
+            this.currentStatus.setText(status+"\nuntil\n"+this.user.getReadableTime());
             this.goAvailable.setVisibility(View.VISIBLE);
         }
 //			this.setHeading("What's Your Status ?");

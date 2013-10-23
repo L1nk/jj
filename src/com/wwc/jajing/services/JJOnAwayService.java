@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
@@ -46,6 +47,8 @@ public class JJOnAwayService extends Service {
 	private PhoneStateListener cslOnAvailble;
 
 	private User user;
+
+    AudioManager audio;
 	
 
 	public JJOnAwayService()
@@ -67,7 +70,7 @@ public class JJOnAwayService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		
+        audio.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 		this.startAwayForegruondService();
 		// We want this service to stop running if it gets shut down b/c of memory problems
 		return START_NOT_STICKY;
@@ -93,6 +96,8 @@ public class JJOnAwayService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "JJOnAwayService service created");
+
+        audio =  (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		
 		//if the user's is avaialable when this service is created, set him to unavailable
 		if(this.user.isAvailable()) this.user.goUnavailable(this.user.getUserStatus().getAvailabilityStatus(), this.user.getAvailabilityTime());

@@ -11,8 +11,11 @@ import com.wwc.jajing.permissions.PermissionManager.Permissions;
  * 
  */
 public interface User extends Entity {
-	
-	public void makeCall(PhoneNumber phoneNumber);
+
+    public String getReadableTime();
+
+
+    public void makeCall(PhoneNumber phoneNumber);
 	public void goUnavailable(String aReason, AvailabilityTime anAvailabilityTime); //convenience method, sets start time as now
 	public boolean goUnavailable(String aReason, String aStartTime, AvailabilityTime anAvailabilityTime);//this method specifies a start and end time
 	public void goAvailable();

@@ -42,6 +42,10 @@ public class UserImpl extends SugarRecord implements User {
 	private Long id;
 	private String availabilityStatus = AVAILABLE;
 	private String availabilityTime;
+
+    @Ignore
+    public String readableTime;
+
 	@Ignore
 	public static SimpleDateFormat fullDateTimeFormatter = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSZ" );
 	@Ignore
@@ -126,6 +130,9 @@ public class UserImpl extends SugarRecord implements User {
 		TimeSetting mainTimeSetting = TimeSetting.findById(TimeSetting.class, 1L);
 		mainTimeSetting.setStartTime(start);
 		mainTimeSetting.setEndTime(anAvailabilityTime.getAvailabilityTimeString());
+
+        this.readableTime = mainTimeSetting.getEndTime();
+
 		Log.d(TAG, "setting start time:" + start);
 		Log.d(TAG, "setting end time:" + anAvailabilityTime.getAvailabilityTimeString());
 		mainTimeSetting.save();
@@ -352,4 +359,8 @@ public class UserImpl extends SugarRecord implements User {
 	public void setId( long id ) {
 		this.id = id ;
 	}
+
+    public String getReadableTime() {
+        return this.readableTime;
+    }
 }
