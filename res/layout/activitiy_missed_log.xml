@@ -7,20 +7,20 @@
 
     <TextView
         android:id="@+id/textLogTitle"
-        android:layout_width="373dp"
-        android:layout_height="34dp"
+        android:layout_width="305dp"
+        android:layout_height="28dp"
         android:gravity="center"
         android:paddingBottom="10dp"
         android:background="@drawable/whileaway"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#ffffffff"
         android:layout_marginTop="11dp"
-        android:layout_marginLeft="7dp" />
+        android:layout_marginLeft="40dp" />
 
     <TextView
         android:id="@+id/textLogTitleSubheading"
-        android:layout_width="342dp"
-        android:layout_height="22dp"
+        android:layout_width="274dp"
+        android:layout_height="18dp"
         android:gravity="center"
         android:background="@drawable/reachyou"
         android:textAppearance="?android:attr/textAppearanceSmall"

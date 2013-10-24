@@ -43,6 +43,8 @@
             android:id="@+id/customStatus"
             android:layout_gravity="center"
             android:height="74dp"
+            android:textSize="16dp"
+            android:onClick="removeText"
             android:layout_marginTop="1dp"
             android:layout_marginLeft="8dp" />
 

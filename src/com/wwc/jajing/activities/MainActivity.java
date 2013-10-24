@@ -335,6 +335,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
     }
 
+    public void removeText(View view) {
+        customStatus.setText("");
+    }
+
     @TargetApi(Build.VERSION_CODES.FROYO)
     public void detachDriving(View view) {
 
