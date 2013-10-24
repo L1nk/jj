@@ -62,7 +62,7 @@
         android:layout_marginRight="15dip"
         android:gravity="right"
         android:text="@string/updatedat"
-        android:textColor="#10bcc9"
+        android:textColor="#000000"
         android:textSize="12sp"
         android:textStyle="bold" />
     
@@ -78,7 +78,7 @@
         android:layout_marginTop="25dip"
         android:gravity="right"
         android:text="@string/timeremaining"
-        android:textColor="#10bcc9"
+        android:textColor="#000000"
         android:textSize="12sp"
         android:textStyle="bold" />
     

@@ -36,25 +36,25 @@ public class MissedLog extends TabActivity {
 
 
 		// Tab for Missed Calls
-		TabSpec missedCallsSpec = mTabHost.newTabSpec("Missed Calls");
+		TabSpec missedCallsSpec = mTabHost.newTabSpec("Calls");
 		Intent missedCallsIntent = new Intent().setClass(this,
 				MissedCalls.class);
 		missedCallsSpec.setContent(missedCallsIntent);
-		missedCallsSpec.setIndicator(this.getTabView("Missed Calls", "#ffffbb33"));
+		missedCallsSpec.setIndicator(this.getTabView("Calls", "#ffffbb33"));
 		
 		if(this.receivedListOfRecentCallsFlag()) {
-			this.setTitleOfActivity("Activity While Unavailable");
+			//this.setTitleOfActivity("Activity While Unavailable");
 			missedCallsIntent.putExtra("recentFlag",true);
 		}
 		
 		// Tab for Missed Messages
-		TabSpec missedMessagesSpec = mTabHost.newTabSpec("Missed Messages");
+		TabSpec missedMessagesSpec = mTabHost.newTabSpec("Texts");
 		Intent missedMessagesIntent = new Intent().setClass(this,MissedMessages.class);
 		missedMessagesSpec.setContent(missedMessagesIntent);
-		missedMessagesSpec.setIndicator(this.getTabView("Missed Messages", null));
+		missedMessagesSpec.setIndicator(this.getTabView("Texts", null));
 		
 		if(this.receivedListOfRecentCallsFlag()) {
-			this.setTitleOfActivity("Activity While Unavailable");
+			//this.setTitleOfActivity("Activity While Unavailable");
 			missedMessagesIntent.putExtra("recentFlag",true);
 		}
 
@@ -125,9 +125,9 @@ public class MissedLog extends TabActivity {
 		tv.setPadding(10, 10, 10, 10);
 		tv.setGravity(Gravity.CENTER);
 		if(aColorHex != null) {
-			tv.setBackgroundColor(Color.parseColor(aColorHex));
+			tv.setBackgroundColor(Color.parseColor("#30B4DF"));
 		} else {
-			tv.setBackgroundColor(Color.parseColor("#ff33b5e5"));
+			tv.setBackgroundColor(Color.TRANSPARENT);
 		}
 		return tv;
 	}

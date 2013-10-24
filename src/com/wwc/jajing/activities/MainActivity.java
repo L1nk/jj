@@ -159,6 +159,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 					this.user.getAvailabilityTime());
 		} else {
 			this.user.goAvailable();
+            this.customStatus.setText("Let friends know what you're doing.");
 		}
 
 		String userId = getContactId();
@@ -224,7 +225,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 	@Override
 	protected void onStart() {
-        this.customStatus.setText("");
 		super.onStart();
         FlurryAgent.onStartSession(this, "VBM4K2B624PZS5N8N7VD");
 		this.status = this.user.getUserStatus().getAvailabilityStatus();

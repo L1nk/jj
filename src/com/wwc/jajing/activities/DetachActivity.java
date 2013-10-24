@@ -29,16 +29,6 @@ import com.wwc.jajing.system.JJSystemImpl;
 import com.wwc.jajing.system.JJSystemImpl.Services;
 import com.wwc.jajing.util.AppLogger;
 
-/**
- * This activity initialized through contacts icon of home screen
- * which loads the detach contacts of the prescribed user.
- * 
- * The contacts will be populated through cloudbackendasync 
- * APIs and loads the contacts asynchronously on contact lists
- * 
- * @author nagendhiran
- *
- */
 public class DetachActivity extends FragmentActivity {
 
 	FastIndexEntityAdapter m_entityListAdapter = null;
@@ -46,6 +36,7 @@ public class DetachActivity extends FragmentActivity {
 	List<DetachUser> m_detachUsers = new ArrayList<DetachUser>();
 	CloudBackendAsync m_cloudAsync ;
 	User user ;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,10 +72,6 @@ public class DetachActivity extends FragmentActivity {
 
 	}
 
-	/**
-	 * Asynchronously loads detached user contacts from cloud
-	 * 
-	 */
 	private void startDetachContactsLoading() {
 
 		CloudCallbackHandler<List<DetachUser>> handler = new CloudCallbackHandler<List<DetachUser>>() {
