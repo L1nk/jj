@@ -47,12 +47,14 @@ public class JJSMSBroadcastReceiver extends BroadcastReceiver{
 
         String formattedIncomingNumber = this.formatIncomingNumber(phoneNumber);
 
-        jjsmsManager.getMessenger()
-                .sendRawSms(new JJSMS(JJSMS.INITIAL_MESSAGE +
-                            this.user.getUserStatus().getAvailabilityStatus() +
-                            " and will be unavailable until " +
-                            this.user.getUserStatus().getavailabilityTime().toLowerCase()),
-                            formattedIncomingNumber);
+        if (!this.user.getUserStatus().getAvailabilityStatus().equalsIgnoreCase("Available")) {
+            jjsmsManager.getMessenger()
+            .sendRawSms(new JJSMS(JJSMS.INITIAL_MESSAGE +
+                        this.user.getUserStatus().getAvailabilityStatus() +
+                        " and will be unavailable until " +
+                        this.user.getUserStatus().getavailabilityTime().toLowerCase()),
+                        formattedIncomingNumber);
+        }
 		
 
 		Log.d(TAG, "BR got it" + rawSMSstr);
@@ -82,9 +84,7 @@ public class JJSMSBroadcastReceiver extends BroadcastReceiver{
 				//prevent these sms messages from going into user's inbox
 				abortBroadcast();
 			}
-			
-			
-			
+
 		}
 
 	}

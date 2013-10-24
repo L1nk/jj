@@ -331,7 +331,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         promptUserForTime(true);
 
-        removeFragment();
+        //removeFragment();
 
     }
 

@@ -210,6 +210,10 @@ public class TimeSetting extends SugarRecord implements Entity{
 		}
 		//end time
 		try {
+
+            System.out.println(aStartTime);
+            System.out.println(anEndTime);
+
 			Date endTime = dateFormatterTIME.parse(anEndTime);
 			Date startTime = dateFormatterTIME.parse(aStartTime);
 			
@@ -220,7 +224,7 @@ public class TimeSetting extends SugarRecord implements Entity{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return true;
+		return false;
 	}
 	
 	public boolean hasEndTimePassed()
