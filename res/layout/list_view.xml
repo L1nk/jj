@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dip"
-    android:background="#e0e4cc">
+    android:background="#ffffff">
 
     <!-- Detach Contact List Row With Status Image -->
 

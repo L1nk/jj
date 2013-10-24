@@ -82,7 +82,7 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 
 		//Load status updated @
 		TextView updatedOn = (TextView) contactView.findViewById(R.id.updateon);
-		updatedOn.setText((detachUser.getStatusmessage() == "" ? "" : "Will return at"));
+		updatedOn.setText((detachUser.getStatusmessage().equalsIgnoreCase("Available") ? "" : "Will return at"));
 
 		//Load status message
 		TextView status = (TextView) contactView.findViewById(R.id.status);
@@ -91,7 +91,7 @@ public class FastIndexEntityAdapter extends BaseAdapter implements
 
 		//Load remaining time
 		TextView remainingHours = (TextView) contactView.findViewById(R.id.timeremaining );
-		remainingHours.setText((  detachUser.getLastUpdated() == null ? "In a few minutes" : detachUser
+		remainingHours.setText((  detachUser.getStatusmessage().equalsIgnoreCase("Available") ? "" : detachUser
 				.getTimeRemainingAsString()));
 		
 		return contactView;

@@ -138,10 +138,10 @@ public class JSONParser {
 					DetachUser user = new DetachUser();
 					user.setPhoneno(phone_number);
 					user.setStatusmessage(status);
-					if( Boolean.parseBoolean(detachAvailblilty) == false )
-						user.setStatusId(UserStatus.AWAY);
-					else 
+					if( status.equalsIgnoreCase("Available")  )
 						user.setStatusId(UserStatus.AVAILABLE);
+					else 
+						user.setStatusId(UserStatus.AWAY);
 					user.setDetachAvailablity(Boolean
 							.parseBoolean(detachAvailblilty));
 					user.setLastUpdated( lastUpdatedAt );
