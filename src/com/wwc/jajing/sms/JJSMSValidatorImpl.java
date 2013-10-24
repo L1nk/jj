@@ -32,11 +32,13 @@ public class JJSMSValidatorImpl implements JJSMSValidator {
 
 		String firstFourCharacters = rawSmsStr.substring(0, 8);
 
-		if (firstFourCharacters.equalsIgnoreCase("#detach/")) {
-			return true;
-		} else {
+        // Always returning false for now so as not to swallow this case.
+
+//		if (firstFourCharacters.equalsIgnoreCase("#detach/")) {
 			return false;
-		}
+//		} else {
+//			return false;
+//		}
 
 	}
 
