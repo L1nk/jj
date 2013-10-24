@@ -51,7 +51,7 @@ public class mTimePicker extends DialogFragment implements
 		if (isTimePickerForStartTime) {
 			tpd.setTitle("Start");
 		} else {
-			tpd.setTitle("End");
+			tpd.setTitle("When do you want to return?");
 		}
 	}
 

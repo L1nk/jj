@@ -329,7 +329,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         this.unavailabilityReason = this.customStatus.getText().toString();
 
-        promptUserForTime(true);
+        promptUserForTime(false);
 
         //removeFragment();
 
@@ -434,8 +434,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
     }
 
 	private void updateAvailabilityStatus(String status) {
-
-
 
         if(status.equalsIgnoreCase("Available")) {
             this.currentStatus.setText("Available");
@@ -730,6 +728,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
     }
 
     public void setEndTime(String anEndTime) {
+
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+        String startTime = sdf.format(c.getTime());
+
         //BUG THAT SUBMITS THE CURRENT TIME AS END TIME
         if (!this.pendingEndTime.equalsIgnoreCase(anEndTime) && !anEndTime.equalsIgnoreCase("")) {
             this.pendingEndTime = anEndTime;
@@ -744,41 +749,49 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             return;
         }
 
-        if(!TimeSetting.isEndTimeInFuture(anEndTime)) {
-            Toast.makeText(this, "end time must be in future", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(!TimeSetting.isValidTimeInterval(this.startTime, pendingEndTime)) {
-            Toast.makeText(this, "invalid interval", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        this.user.goUnavailable(this.unavailabilityReason, startTime, new AvailabilityTime(this.endTime));
+
+        this.pushStatusToCloud();
+
+        this.updateAvailabilityStatus(this.unavailabilityReason);
 
 
 
-
-        ArrayList<TimeSetting> interferingTimeSettings = TimeSettingValidator
-                .getTimeSettingsThisEndTimeInterferesWith(anEndTime);
-        // POSSIBLE BUG HERE... should not compare size, was used as a temp fix
-        if (interferingTimeSettings.size() < 1) {// check to make sure its set
-            // for the future
-            boolean success = goUnavailable();
-            if (success) {
-                //navigateToAway(1L);
-                updateAvailabilityStatus(this.unavailabilityReason);
-            } else {
-
-            }
-        } else {
-            PlainAlertDialog
-                    .alertUser(
-                            this,
-                            "Sorry",
-                            "This time interferes with your time setting(s), turn them off?",
-                            new onUserActivitySelect(
-                                    getInterferingTimeSettingIds(interferingTimeSettings),
-                                    this.endTime, this.unavailabilityReason),
-                            true);
-        }
+//        if(!TimeSetting.isEndTimeInFuture(anEndTime)) {
+//            Toast.makeText(this, "end time must be in future", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        if(!TimeSetting.isValidTimeInterval(this.startTime, pendingEndTime)) {
+//            Toast.makeText(this, "invalid interval", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//
+//
+//
+//        ArrayList<TimeSetting> interferingTimeSettings = TimeSettingValidator
+//                .getTimeSettingsThisEndTimeInterferesWith(anEndTime);
+//        // POSSIBLE BUG HERE... should not compare size, was used as a temp fix
+//        if (interferingTimeSettings.size() < 1) {// check to make sure its set
+//            // for the future
+//            boolean success = goUnavailable();
+//            if (success) {
+//                //navigateToAway(1L);
+//                updateAvailabilityStatus(this.unavailabilityReason);
+//            } else {
+//
+//            }
+//        } else {
+//            PlainAlertDialog
+//                    .alertUser(
+//                            this,
+//                            "Sorry",
+//                            "This time interferes with your time setting(s), turn them off?",
+//                            new onUserActivitySelect(
+//                                    getInterferingTimeSettingIds(interferingTimeSettings),
+//                                    this.endTime, this.unavailabilityReason),
+//                            true);
+//        }
 
     }
 
