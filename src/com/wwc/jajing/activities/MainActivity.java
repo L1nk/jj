@@ -739,6 +739,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         String startTime = sdf.format(c.getTime());
 
+        if(anEndTime.equalsIgnoreCase(startTime)) {
+            Toast.makeText(this, "Time of return must be in the future.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //BUG THAT SUBMITS THE CURRENT TIME AS END TIME
         if (!this.pendingEndTime.equalsIgnoreCase(anEndTime) && !anEndTime.equalsIgnoreCase("")) {
             this.pendingEndTime = anEndTime;
