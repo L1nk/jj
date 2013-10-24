@@ -224,7 +224,7 @@ public class TimeSetting extends SugarRecord implements Entity{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	
 	public boolean hasEndTimePassed()
