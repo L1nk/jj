@@ -15,21 +15,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/textHeading"
-            android:gravity="center"
-            android:background="@drawable/needtogetaway"
-            android:layout_width="329dp"
-            android:layout_height="33dp"
-            android:textColor="#ff33b5e5"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginTop="14dp" />
-
         <LinearLayout
             android:width="300dp"
             android:layout_width="300dp"
-            android:layout_height="67dp"
+            android:layout_height="32dp"
             android:orientation="horizontal"
             android:background="@drawable/statusentry"
             android:layout_gravity="center"
@@ -37,13 +26,14 @@
 
         <EditText
             android:layout_width="284dp"
-            android:text="Let friends know what you're doing."
-            android:textColor="#ffffff"
+            android:hint="Let friends know what you're doing."
+            android:textColor="#8f9196"
             android:layout_height="wrap_content"
             android:id="@+id/customStatus"
             android:layout_gravity="center"
             android:height="74dp"
             android:textSize="16dp"
+            android:singleLine="true"
             android:onClick="removeText"
             android:layout_marginTop="1dp"
             android:layout_marginLeft="8dp" />
@@ -55,7 +45,7 @@
             android:layout_width="182dp"
             android:layout_height="37dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="13dp"
+            android:layout_marginBottom="56dp"
             android:layout_marginTop="9dp"
             android:background="@drawable/detach"
             android:onClick="detachCustom"/>
@@ -103,7 +93,7 @@
             android:textColor="#ffffff"
             android:layout_marginTop="41dp"
             android:textSize="20dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="19dp" />
 
         <TextView
             android:id="@+id/currentStatus"
@@ -111,7 +101,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
+            android:textColor="#E78A62"
             android:textSize="20dp"/>
 
         <Button

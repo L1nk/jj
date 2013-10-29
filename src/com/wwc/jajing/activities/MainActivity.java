@@ -159,7 +159,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 					this.user.getAvailabilityTime());
 		} else {
 			this.user.goAvailable();
-            this.customStatus.setText("Let friends know what you're doing.");
+            //this.customStatus.setText("Let friends know what you're doing.");
 		}
 
 		String userId = getContactId();
@@ -331,6 +331,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         promptUserForTime(false);
 
+
+
         //removeFragment();
 
     }
@@ -410,7 +412,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
             @Override
             public void onComplete( JSONObject results ) {
-                Toast.makeText( mContext , "Status pushed to Cloud successfully", Toast.LENGTH_LONG ).show();
+                Toast.makeText( mContext , "Your status will be sent to those trying to reach you.", Toast.LENGTH_LONG ).show();
             }
             @Override
             public void onError( IOException exception ) {
@@ -592,7 +594,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				return ;
 			}
 			m_cloudAsync.pushContactsToCloud( userId , handler );
-			Toast.makeText(mContext, "Phone contacts already pushed",Toast.LENGTH_SHORT).show();
+			//Toast.makeText(mContext, "Phone contacts already pushed",Toast.LENGTH_SHORT).show();
 		} catch ( JSONException e ) {
 			//Toast.makeText( mContext , e.toString(), Toast.LENGTH_LONG ).show();
 			AppLogger.error( String.format( TAG ,e.toString() + ", Unable to push local contacts to Cloud" ) );
@@ -842,6 +844,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         timeFrag.setRetainInstance(true);
 
         timeFrag.show(getFragmentManager(), "timePicker");
+
+        this.customStatus.setText("");
+        this.customStatus.clearFocus();
     }
 
     private boolean goUnavailable() {
@@ -854,7 +859,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
             @Override
             public void onComplete( JSONObject results ) {
-                Toast.makeText( mContext , "Status pushed to Cloud successfully", Toast.LENGTH_LONG ).show();
+                Toast.makeText( mContext , "Your status will be sent to those trying to reach you.", Toast.LENGTH_LONG ).show();
             }
             @Override
             public void onError( IOException exception ) {

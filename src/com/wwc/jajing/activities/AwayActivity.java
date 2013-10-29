@@ -103,7 +103,7 @@ public class AwayActivity extends Activity {
         CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
             @Override
             public void onComplete( JSONObject results ) {
-                Toast.makeText( mContext , "Status pushed to Cloud successfully", Toast.LENGTH_LONG ).show();
+                Toast.makeText( mContext , "Your status will be sent to those trying to reach you.", Toast.LENGTH_LONG ).show();
             }
             @Override
             public void onError( IOException exception ) {
@@ -134,7 +134,7 @@ public class AwayActivity extends Activity {
 		CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
 			@Override
 			public void onComplete( JSONObject results ) {
-				Toast.makeText( mContext , "Status pushed to Cloud successfully", Toast.LENGTH_LONG ).show();
+				Toast.makeText( mContext , "Your status will be sent to those trying to reach you.", Toast.LENGTH_LONG ).show();
 			}
 			@Override
 			public void onError( IOException exception ) {
