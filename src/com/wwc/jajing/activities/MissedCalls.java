@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableLayout;
@@ -91,7 +92,8 @@ public class MissedCalls extends Activity implements OnClickListener{
 			TextView tv = new TextView(this);
 			tv.setText("You do not have any missed calls at this time.");
 			tv.setPadding(10, 10, 10, 10);
-			tv.setTextColor(Color.WHITE);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+            tv.setTextColor(Color.parseColor("#E78A62"));
 			setContentView(tv);
 		}
 		Log.d(TAG, "Missed call list size:"+ missedCalls.size());
@@ -107,7 +109,8 @@ public class MissedCalls extends Activity implements OnClickListener{
 			tvNumber.setTag(missedCall.phoneNumber().toString());
 			tvNumber.setOnClickListener(this);
 			tvNumber.setText(missedCall.getContactName(this));
-			tvNumber.setTextColor(Color.parseColor("#ffffbb33"));
+            tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+            tvNumber.setTextColor(Color.parseColor("#E78A62"));
 			tvNumber.setPadding(10, 10, 10, 20);
 			Log.d(TAG, missedCall.phoneNumber().toString());
 			
@@ -118,15 +121,18 @@ public class MissedCalls extends Activity implements OnClickListener{
 			Log.d(TAG, DateHelper.dateToString(missedCall.occuredOn()));
 			//TODO - maybe rewrite the to string method here, for no we will use substring to format seconds out
 			tvTime.setText(DateHelper.dateToString(missedCall.occuredOn()).trim().substring(0, 19) +DateHelper.dateToString(missedCall.occuredOn()).trim().substring(19, 21).toLowerCase() );
-			tvTime.setTextColor(Color.WHITE);
+            tvTime.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+            tvTime.setTextColor(Color.parseColor("#E78A62"));
 			tvTime.setPadding(10, 10, 10, 10);
+
 
 			//create text view for action taken 
 			TextView tvAction = new TextView(this);
 			String actionTakenBbyCaller = missedCall.getActionTakenByCaller().getName().substring(0,1).toUpperCase() + missedCall.getActionTakenByCaller().getName().substring(1).toLowerCase();
 			if(actionTakenBbyCaller.equalsIgnoreCase("No app")) actionTakenBbyCaller = "";
 			tvAction.setText(actionTakenBbyCaller );
-			tvAction.setTextColor(Color.WHITE);
+            tvAction.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+            tvAction.setTextColor(Color.parseColor("#E78A62"));
 			tvAction.setPadding(20, 10, 10, 20);
 
 

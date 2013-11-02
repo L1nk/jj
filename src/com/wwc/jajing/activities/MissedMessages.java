@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -70,7 +71,8 @@ public class MissedMessages extends Activity {
 			TextView tv = new TextView(this);
 			tv.setText("You do not have any missed messages at this time.");
 			tv.setPadding(10, 10, 10, 10);
-			tv.setTextColor(Color.WHITE);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+            tv.setTextColor(Color.parseColor("#E78A62"));
 			setContentView(tv);
 		}
 
@@ -86,9 +88,9 @@ public class MissedMessages extends Activity {
 			// create text view for number
 			TextView tvNumber = new TextView(this);
 			tvNumber.setText(missedMessage.getContactName(this) + " | " + DateHelper.dateToString(missedMessage.occuredOn()));
-			tvNumber.setTextColor(Color.WHITE);
+            tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
 			tvNumber.setPadding(10, 10, 10, 10);
-			tvNumber.setTextColor(Color.parseColor("#ffffbb33"));
+			tvNumber.setTextColor(Color.parseColor("#E78A62"));
 			Log.d(TAG, missedMessage.phoneNumber().toString());
 
 			// create text view for time
@@ -96,14 +98,16 @@ public class MissedMessages extends Activity {
 			tvTime.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 			Log.d(TAG, DateHelper.dateToString(missedMessage.occuredOn()));
 			tvTime.setText(DateHelper.dateToString(missedMessage.occuredOn()));
-			tvTime.setTextColor(Color.WHITE);
+            tvTime.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+			tvTime.setTextColor(Color.parseColor("#E78A62"));
 			tvTime.setPadding(10, 10, 10, 10);
 
 			// create text view for the message
 			TextView tvMessage = new TextView(this);
 			Log.d(TAG, missedMessage.getMessage());
 			tvMessage.setText(missedMessage.getMessage());
-			tvMessage.setTextColor(Color.WHITE);
+            tvMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
+			tvMessage.setTextColor(Color.parseColor("#E78A62"));
 			tvMessage.setPadding(10, 10, 10, 10);
 
 			// add the view to tthe table row
