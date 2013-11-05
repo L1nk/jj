@@ -38,10 +38,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.flurry.android.FlurryAgent;
 import com.wwc.jajing.R;
-import com.wwc.jajing.activities.callbacks.onUserActivitySelect;
 import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
 import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
 import com.wwc.jajing.domain.entity.TimeSetting;
@@ -50,20 +48,18 @@ import com.wwc.jajing.domain.services.CallManager;
 import com.wwc.jajing.domain.value.AvailabilityTime;
 import com.wwc.jajing.fragment.mTimePicker;
 import com.wwc.jajing.settings.time.TimeSettingId;
-import com.wwc.jajing.settings.time.TimeSettingTaskManager;
-import com.wwc.jajing.settings.time.TimeSettingValidator;
 import com.wwc.jajing.system.JJSystem;
 import com.wwc.jajing.system.JJSystemImpl;
 import com.wwc.jajing.system.JJSystemImpl.Services;
 import com.wwc.jajing.util.AppLogger;
 import android.app.DialogFragment;
 
-
-@TargetApi(Build.VERSION_CODES.FROYO)
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MainActivity extends Activity implements ActionBar.TabListener, ActionBar.OnMenuVisibilityListener {
 
 	private static final String TAG = "MainActivity";
-	public static final String DASHBOARD_INTENT = "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
+	public static final String DASHBOARD_INTENT =
+            "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
     private String[] navigation = new String[] { "Contacts"};
@@ -113,7 +109,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         return instance;
     }
 
-	@TargetApi(Build.VERSION_CODES.FROYO)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         instance = this;
@@ -135,7 +131,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		}
 
 		this.buttonStatus = (Button) findViewById(R.id.buttonStatus);
-		//this.buttonAvailable = (Button) findViewById(R.id.buttonAvailable);
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
         this.customStatus = (EditText) findViewById(R.id.customStatus);
@@ -159,7 +154,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 					this.user.getAvailabilityTime());
 		} else {
 			this.user.goAvailable();
-            //this.customStatus.setText("Let friends know what you're doing.");
 		}
 
 		String userId = getContactId();
@@ -178,7 +172,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
 	}
 	
-    @TargetApi(Build.VERSION_CODES.FROYO)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void initNavigationDrawer()
 	{
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -231,6 +225,16 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		this.updateAvailabilityStatus((this.user.getUserStatus()
 				.getAvailabilityStatus() != null) ? this.user.getUserStatus()
 				.getAvailabilityStatus() : "Not Set!");
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean isFirstTime = prefs.getBoolean(getString(R.string.isFirstTime), true);
+        if(isFirstTime){
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean(getString(R.string.isFirstTime), Boolean.FALSE);
+            edit.commit();
+            showHelp();
+        }
+
 	}
 
 	@Override
@@ -341,7 +345,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         customStatus.setText("");
     }
 
-    @TargetApi(Build.VERSION_CODES.FROYO)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void detachDriving(View view) {
 
         Calendar c = Calendar.getInstance();
@@ -364,7 +368,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         //startActivity(awayActivity);
     }
 
-    @TargetApi(Build.VERSION_CODES.FROYO)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void detachBusy(View view) {
         Calendar c = Calendar.getInstance();
 
@@ -385,7 +389,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         //startActivity(awayActivity);
     }
 
-    @TargetApi(Build.VERSION_CODES.FROYO)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void detachEating(View view) {
         Calendar c = Calendar.getInstance();
 
@@ -874,6 +878,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             Toast.makeText( this, "Not valid phone number for API calls", Toast.LENGTH_LONG ).show();
         }
         m_cloudAsync.pushStatusToCloud( userId , user , handler );
+    }
+
+    private void showHelp() {
+        Toast.makeText( this, "HALP!", Toast.LENGTH_LONG ).show();
     }
 
 }

@@ -21,7 +21,7 @@ public class MissedLog extends TabActivity {
 	TabHost mTabHost;
 	TextView tvCallLogTitle;
 
-	@TargetApi(Build.VERSION_CODES.FROYO)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

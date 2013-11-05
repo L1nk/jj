@@ -20,6 +20,7 @@
 	<string name="userstatus">User Status</string>
 	<string name="updatedat">Updated At</string>
 	<string name="timeremaining">Time Remaining</string>
+    <string name="isFirstTime">is_first_time</string>
 	
 	<string name="PhoneNumber">Phone number</string>
 </resources>

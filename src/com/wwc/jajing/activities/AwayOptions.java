@@ -212,7 +212,7 @@ public class AwayOptions extends Activity implements OnClickListener {
 
 	}
 
-	@TargetApi(Build.VERSION_CODES.FROYO)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void promptUserForTime(boolean isStartTime) {
 
 		timeFrag = new mTimePicker(isStartTime);
@@ -231,7 +231,7 @@ public class AwayOptions extends Activity implements OnClickListener {
 		removeFragment();
 	}
 	
-	@TargetApi(Build.VERSION_CODES.FROYO)
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void removeFragment()
 	{
 		FragmentManager fragManager = this.getFragmentManager();
