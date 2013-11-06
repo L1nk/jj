@@ -20,6 +20,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -35,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +80,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	private Button buttonAvailable;
     private EditText customStatus;
     private DialogFragment timeFrag;
+    private ImageButton help;
 
 	private User user;
 	private CallManager cm;
@@ -137,6 +140,15 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         this.currentStatusHeader = (TextView) findViewById(R.id.currentStatusHeader);
         this.currentStatus = (TextView) findViewById(R.id.currentStatus);
         this.goAvailable = (Button) findViewById(R.id.goAvailable);
+        this.help = (ImageButton) findViewById(R.id.help);
+
+        help.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://detach.helpshift.com"));
+                startActivity(i);
+            }
+        });
 
 		this.registerReceiver(this.dashboardReceiver, this.intentFilter);
 		// CACHE JJSYSTEM
