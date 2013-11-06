@@ -225,16 +225,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		this.updateAvailabilityStatus((this.user.getUserStatus()
 				.getAvailabilityStatus() != null) ? this.user.getUserStatus()
 				.getAvailabilityStatus() : "Not Set!");
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        boolean isFirstTime = prefs.getBoolean(getString(R.string.isFirstTime), true);
-        if(isFirstTime){
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putBoolean(getString(R.string.isFirstTime), Boolean.FALSE);
-            edit.commit();
-            showHelp();
-        }
-
 	}
 
 	@Override
@@ -450,25 +440,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             this.goAvailable.setVisibility(View.GONE);
         } else {
 
-//            timeSetting = TimeSetting.findById(TimeSetting.class,
-//                    TimeSettingTaskManager.getInstance()
-//                            .getTimeSettingIdClosestToBeingDone());
-
-
-            this.currentStatus.setText(status+"\nuntil\n"+this.user.getReadableTime());
+            this.currentStatus.setText(status+" until "+this.user.getReadableTime());
             this.goAvailable.setVisibility(View.VISIBLE);
         }
-//			this.setHeading("What's Your Status ?");
-//			this.showCallersCanForceDisturb(true);
-//			this.changeButtonStatusText("Not Available");
-//			this.changeButtonAvailableText("Available");
-//
-//		} else {
-//			this.setHeading("Change Status");
-//			this.showCallersCanForceDisturb(false);
-//			this.changeButtonStatusText("Still Not Available");
-//			this.changeButtonAvailableText("I am now Available");
-//		}
 		Log.d(TAG, "Availability Status has been updated!" + status);
 	}
 
@@ -483,14 +457,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 			this.textCallersCanForceDisturb.setVisibility(View.GONE);
 
 		}
-	}
-
-	private void changeButtonStatusText(String textForButton) {
-		this.buttonStatus.setText(textForButton);
-	}
-
-	private void changeButtonAvailableText(String textForButton) {
-		//this.buttonAvailable.setText(textForButton);
 	}
 
 	private BroadcastReceiver dashboardReceiver = new BroadcastReceiver() {
@@ -511,25 +477,25 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	@Override
 	public void onMenuVisibilityChanged(boolean arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	
 	@Override
@@ -770,44 +736,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         this.updateAvailabilityStatus(this.unavailabilityReason);
 
-
-
-//        if(!TimeSetting.isEndTimeInFuture(anEndTime)) {
-//            Toast.makeText(this, "end time must be in future", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        if(!TimeSetting.isValidTimeInterval(this.startTime, pendingEndTime)) {
-//            Toast.makeText(this, "invalid interval", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//
-//
-//
-//        ArrayList<TimeSetting> interferingTimeSettings = TimeSettingValidator
-//                .getTimeSettingsThisEndTimeInterferesWith(anEndTime);
-//        // POSSIBLE BUG HERE... should not compare size, was used as a temp fix
-//        if (interferingTimeSettings.size() < 1) {// check to make sure its set
-//            // for the future
-//            boolean success = goUnavailable();
-//            if (success) {
-//                //navigateToAway(1L);
-//                updateAvailabilityStatus(this.unavailabilityReason);
-//            } else {
-//
-//            }
-//        } else {
-//            PlainAlertDialog
-//                    .alertUser(
-//                            this,
-//                            "Sorry",
-//                            "This time interferes with your time setting(s), turn them off?",
-//                            new onUserActivitySelect(
-//                                    getInterferingTimeSettingIds(interferingTimeSettings),
-//                                    this.endTime, this.unavailabilityReason),
-//                            true);
-//        }
-
     }
 
     private void navigateToAway(Long timeSettingId) {
@@ -878,10 +806,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             Toast.makeText( this, "Not valid phone number for API calls", Toast.LENGTH_LONG ).show();
         }
         m_cloudAsync.pushStatusToCloud( userId , user , handler );
-    }
-
-    private void showHelp() {
-        Toast.makeText( this, "HALP!", Toast.LENGTH_LONG ).show();
     }
 
 }

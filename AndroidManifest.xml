@@ -69,6 +69,17 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
+
+        <!-- This is the help screen -->
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:name="com.wwc.jajing.activities.HelpActivity"
+            android:clearTaskOnLaunch="true"
+            android:label="Detach"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+
         <!-- This shows the available away options -->
         <activity
             android:name="com.wwc.jajing.activities.AwayOptions"
