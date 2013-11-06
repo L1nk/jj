@@ -1,8 +1,11 @@
 package com.wwc.jajing.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+
 import com.wwc.jajing.helpers.ViewPageAdapter;
 import com.wwc.jajing.R;
 
@@ -12,14 +15,30 @@ public class HelpActivity extends Activity {
     private int imageArray[] = { R.drawable.help_one, R.drawable.help_two,
             R.drawable.help_three, R.drawable.help_four};
 
+    private ViewPageAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
-        ViewPageAdapter adapter = new ViewPageAdapter(this, imageArray);
+        adapter = new ViewPageAdapter(this, imageArray);
         ViewPager myPager = (ViewPager) findViewById(R.id.myfivepanelpager);
         myPager.setAdapter(adapter);
         myPager.setCurrentItem(0);
     }
+
+    public void goToMain(View view) {
+
+
+
+        System.out.println(adapter.position + " FUck");
+
+        if(adapter.position == 3) {
+            Intent mainActivity = new Intent(this, MainActivity.class);
+            startActivity(mainActivity);
+        }
+    }
+
+
 
 }

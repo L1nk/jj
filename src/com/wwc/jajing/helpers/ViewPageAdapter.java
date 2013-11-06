@@ -1,6 +1,7 @@
 package com.wwc.jajing.helpers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -9,13 +10,16 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
+import com.wwc.jajing.activities.MainActivity;
+
 public class ViewPageAdapter extends PagerAdapter {
 
-    Activity activity;
+    final Activity activity;
     int imageArray[];
+    public int position;
 
-    public ViewPageAdapter(Activity act, int[] imgArra) {
-        imageArray = imgArra;
+    public ViewPageAdapter(Activity act, int[] imgArray) {
+        this.imageArray = imgArray;
         activity = act;
     }
 
@@ -23,12 +27,26 @@ public class ViewPageAdapter extends PagerAdapter {
         return imageArray.length;
     }
 
-    public Object instantiateItem(View collection, int position) {
+    public Object instantiateItem(View collection, final int position) {
         ImageView view = new ImageView(activity);
-        view.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-                LayoutParams.FILL_PARENT));
-        view.setScaleType(ScaleType.FIT_XY);
+        view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT));
+        view.setScaleType(ScaleType.CENTER);
         view.setBackgroundResource(imageArray[position]);
+        view.setOnClickListener( new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View view) {
+                System.out.println(view.getBackground().getClass().getName() + " FUCK" + position );
+
+                if(position == 3) {
+                    Intent i = new Intent(activity, MainActivity.class);
+                    activity.startActivity(i);
+                }
+            }
+        });
+        this.position = position;
         ((ViewPager) collection).addView(view, 0);
         return view;
     }

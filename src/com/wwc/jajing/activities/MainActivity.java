@@ -319,15 +319,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	}
 
     public void detachCustom(View view) {
-        //System.out.println(this.customStatus.getText());
 
         this.unavailabilityReason = this.customStatus.getText().toString();
 
         promptUserForTime(false);
-
-
-
-        //removeFragment();
 
     }
 
@@ -354,8 +349,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         this.pushStatusToCloud();
 
         this.updateAvailabilityStatus("Driving");
-        //Intent awayActivity = new Intent(this, AwayActivity.class);
-        //startActivity(awayActivity);
+
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -375,8 +369,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         this.pushStatusToCloud();
 
         this.updateAvailabilityStatus("Busy");
-        //Intent awayActivity = new Intent(this, AwayActivity.class);
-        //startActivity(awayActivity);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
