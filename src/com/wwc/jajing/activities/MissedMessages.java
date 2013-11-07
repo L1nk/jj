@@ -80,9 +80,9 @@ public class MissedMessages extends Activity {
 
 			// create a table row
 			TableRow tr = new TableRow(this);
-			tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+			tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
 			TableRow messageRow = new TableRow(this);
-			messageRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+			messageRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
 		
 
 			// create text view for number
@@ -90,7 +90,7 @@ public class MissedMessages extends Activity {
 			tvNumber.setText(missedMessage.getContactName(this) + " | " + DateHelper.dateToString(missedMessage.occuredOn()));
             tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
 			tvNumber.setPadding(10, 10, 10, 10);
-			tvNumber.setTextColor(Color.parseColor("#E78A62"));
+			tvNumber.setTextColor(Color.parseColor("#000000"));
 			Log.d(TAG, missedMessage.phoneNumber().toString());
 
 			// create text view for time
@@ -99,7 +99,7 @@ public class MissedMessages extends Activity {
 			Log.d(TAG, DateHelper.dateToString(missedMessage.occuredOn()));
 			tvTime.setText(DateHelper.dateToString(missedMessage.occuredOn()));
             tvTime.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
-			tvTime.setTextColor(Color.parseColor("#E78A62"));
+			tvTime.setTextColor(Color.parseColor("#000000"));
 			tvTime.setPadding(10, 10, 10, 10);
 
 			// create text view for the message
@@ -107,7 +107,7 @@ public class MissedMessages extends Activity {
 			Log.d(TAG, missedMessage.getMessage());
 			tvMessage.setText(missedMessage.getMessage());
             tvMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
-			tvMessage.setTextColor(Color.parseColor("#E78A62"));
+			tvMessage.setTextColor(Color.parseColor("#000000"));
 			tvMessage.setPadding(10, 10, 10, 10);
 
 			// add the view to tthe table row

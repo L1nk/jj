@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract.RawContacts;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -70,6 +71,9 @@ public class DetachActivity extends FragmentActivity {
 		
 		m_entityListView.setOnItemLongClickListener( listItemClicked );
 
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
 	}
 
 	private void startDetachContactsLoading() {
@@ -115,4 +119,13 @@ public class DetachActivity extends FragmentActivity {
 		Toast.makeText( this, e.toString(), Toast.LENGTH_LONG ).show();
 		Log.e( "Error", e.toString() );
 	}
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        startActivity(new Intent(this,MainActivity.class));
+        return true;
+    }
+
 }

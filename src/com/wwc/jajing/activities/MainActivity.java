@@ -32,12 +32,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.flurry.android.FlurryAgent;
@@ -64,7 +67,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-    private String[] navigation = new String[] { "Contacts"};
+    private String[] navigation = new String[] { "Friends on Detach"};
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -92,6 +95,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
     private String endTime;
     private String startTime;
+
+    private LinearLayout main;
 
     private String pendingEndTime = "";
     private String pendingStartTime = "";
@@ -147,6 +152,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://detach.helpshift.com"));
                 startActivity(i);
+            }
+        });
+
+        this.main = (LinearLayout) findViewById(R.id.mainView);
+
+        main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(customStatus.getWindowToken(), 0);
             }
         });
 

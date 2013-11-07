@@ -102,7 +102,7 @@ public class MissedCalls extends Activity implements OnClickListener{
 			
 			//create a table row
 			TableRow tr = new TableRow(this);
-			
+
 			
 			//create test view for number
 			TextView tvNumber = new TextView(this);
@@ -110,11 +110,11 @@ public class MissedCalls extends Activity implements OnClickListener{
 			tvNumber.setOnClickListener(this);
 			tvNumber.setText(missedCall.getContactName(this));
             tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-            tvNumber.setTextColor(Color.parseColor("#E78A62"));
+            tvNumber.setTextColor(Color.parseColor("#000000"));
 			tvNumber.setPadding(10, 10, 10, 20);
 			Log.d(TAG, missedCall.phoneNumber().toString());
-			
-			
+
+
 			
 			//create text view for time
 			TextView tvTime = new TextView(this);
@@ -122,7 +122,7 @@ public class MissedCalls extends Activity implements OnClickListener{
 			//TODO - maybe rewrite the to string method here, for no we will use substring to format seconds out
 			tvTime.setText(DateHelper.dateToString(missedCall.occuredOn()).trim().substring(0, 19) +DateHelper.dateToString(missedCall.occuredOn()).trim().substring(19, 21).toLowerCase() );
             tvTime.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
-            tvTime.setTextColor(Color.parseColor("#E78A62"));
+            tvTime.setTextColor(Color.parseColor("#000000"));
 			tvTime.setPadding(10, 10, 10, 10);
 
 
@@ -132,7 +132,7 @@ public class MissedCalls extends Activity implements OnClickListener{
 			if(actionTakenBbyCaller.equalsIgnoreCase("No app")) actionTakenBbyCaller = "";
 			tvAction.setText(actionTakenBbyCaller );
             tvAction.setTextSize(TypedValue.COMPLEX_UNIT_SP,15);
-            tvAction.setTextColor(Color.parseColor("#E78A62"));
+            tvAction.setTextColor(Color.parseColor("#000000"));
 			tvAction.setPadding(20, 10, 10, 20);
 
 
