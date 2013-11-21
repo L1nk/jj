@@ -59,6 +59,8 @@ public class TimeSetting extends SugarRecord implements Entity{
 	private String startTime;
 	private String endTime;
 	private String daysStr = "";
+
+    public String status;
 	
 	@Ignore
 	public static SimpleDateFormat dateFormatterTIME = new SimpleDateFormat("hh:mm a");
@@ -75,9 +77,10 @@ public class TimeSetting extends SugarRecord implements Entity{
 		
 	}
 	
-	public TimeSetting(Context context, String startTime, String endTime, Days[] days) {
+	public TimeSetting(Context context, String startTime, String endTime, Days[] days, String status) {
 		super(context);
-		
+
+        this.status = status;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.days = days;

@@ -28,7 +28,7 @@ public class JJSystemInitReceiver extends BroadcastReceiver {
 			//Create our MAIN time setting
 			if(TimeSetting.findById(TimeSetting.class, 1L) == null) {
 				Days[] allDays = new Days[] {Days.SUNDAY, Days.MONDAY, Days.TUESDAY, Days.WEDNESDAY, Days.THURSDAY, Days.FRIDAY, Days.SATURDAY};
-				TimeSetting main = new TimeSetting(context,"", "", allDays);
+				TimeSetting main = new TimeSetting(context,"", "", allDays, "Available");
 				main.save();
 			}
 			
