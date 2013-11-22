@@ -23,4 +23,12 @@
     <string name="isFirstTime">is_first_time</string>
 	
 	<string name="PhoneNumber">Phone number</string>
+
+    <string-array name="statusCompletion_array">
+        <item>Driving</item>
+        <item>in a meeting</item>
+        <item>tied up for the moment</item>
+        <item>busy. I\'ll call you in a sec.</item>
+    </string-array>
+
 </resources>

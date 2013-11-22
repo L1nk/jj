@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -81,7 +82,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
     private Button goAvailable;
 	private TextView textCallersCanForceDisturb;
 	private Button buttonAvailable;
-    private EditText customStatus;
+    private AutoCompleteTextView customStatus;
     private DialogFragment timeFrag;
     private ImageButton help;
 
@@ -92,6 +93,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	TextView mDisplay;
 	CloudBackendAsync m_cloudAsync ;
     private String unavailabilityReason;
+    private String[] pastStatuses;
 
     private String endTime;
     private String startTime;
@@ -138,14 +140,19 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 					Toast.LENGTH_SHORT).show();
 		}
 
+
 		this.buttonStatus = (Button) findViewById(R.id.buttonStatus);
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
-        this.customStatus = (EditText) findViewById(R.id.customStatus);
+        this.customStatus = (AutoCompleteTextView) findViewById(R.id.customStatus);
         this.currentStatusHeader = (TextView) findViewById(R.id.currentStatusHeader);
         this.currentStatus = (TextView) findViewById(R.id.currentStatus);
         this.goAvailable = (Button) findViewById(R.id.goAvailable);
         this.help = (ImageButton) findViewById(R.id.help);
+
+        String[] pastStatuses = getResources().getStringArray(R.array.statusCompletion_array);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, pastStatuses);
+        customStatus.setAdapter(adapter);
 
         help.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -349,6 +356,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
     public void detachCustom(View view) {
 
         this.unavailabilityReason = this.customStatus.getText().toString();
+        this.pastStatuses[3] = this.unavailabilityReason;
+        removeText(view);
 
         promptUserForTime(false);
 

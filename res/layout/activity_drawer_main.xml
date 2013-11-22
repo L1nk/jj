@@ -58,7 +58,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="13dp">
 
-        <EditText
+        <AutoCompleteTextView
             android:layout_width="match_parent"
             android:hint="Share a unique status..."
             android:textColor="#8f9196"
@@ -66,8 +66,7 @@
             android:id="@+id/customStatus"
             android:layout_gravity="center"
             android:textSize="18dp"
-            android:singleLine="true"
-            android:onClick="removeText" />
+            android:singleLine="true"/>
 
         </LinearLayout>
 
