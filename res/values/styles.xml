@@ -20,12 +20,12 @@ ga//schemas.android.com/apk/res/android">
 
     <style name="onTimeSetting" parent="@android:style/TextAppearance.Medium">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#ffffbb33</item>
+        <item name="android:textColor">#E78A62</item>
     </style>
 
     <style name="offTimeSetting" parent="@android:style/TextAppearance.Medium">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#444</item>
+        <item name="android:textColor">#ffffff</item>
     </style>
 
     <style name="WhiteTextColor">

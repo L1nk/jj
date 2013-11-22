@@ -68,7 +68,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-    private String[] navigation = new String[] { "Friends on Detach"};
+    private String[] navigation = new String[] { "Friends", "Scheduler"};
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -294,13 +294,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 			selectItem(position);
 			Log.d(TAG, position + "");
 			switch (position) {
-			case 1:
+			case 3:
 				// send the user to his missed call/message log
 				Intent intent = new Intent(MainActivity.this, MissedLog.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
-			case 3:
+			case 1:
 				// send the user to set his time settings
 				Intent i1 = new Intent(MainActivity.this, TimeSettings.class);
 				i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -323,7 +323,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 				updatePhoneNumber();
 				break ;
             case 0:
-                //goAvailable();
                 Intent detacher = new Intent(MainActivity.this, DetachActivity.class);
                 startActivityForResult(detacher, 100 );
                 break;

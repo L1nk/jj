@@ -101,8 +101,7 @@ public class MyTimeSettings extends Activity {
 		
 		
 		aParentTableLayout.setId(Integer.parseInt(aTimeSetting.getId()
-				.toString()));
-		aParentTableLayout.setBackgroundColor(Color.BLACK);
+                .toString()));
 
 		// we need a table row
 		TableRow aTableRow = new TableRow(this);
@@ -148,11 +147,6 @@ public class MyTimeSettings extends Activity {
 
 		}
 
-		// empty view to act as a separator
-		// add a view to the table layout
-		TextView randomText = new TextView(this);
-		randomText.setText("hghjgjhgjh");
-		randomText.setTextColor(Color.BLACK);
 
 
 		// toggle button is last
@@ -160,25 +154,26 @@ public class MyTimeSettings extends Activity {
 		// TAG*****
 		tb.setTag(aTimeSetting.getId());
 		tb.setOnCheckedChangeListener(new mToggleButtonListener());
+        
 		if (aTimeSetting.isOn()) {
-			tb.setTextColor(Color.parseColor("#ff33b5e5"));
+			tb.setTextColor(Color.parseColor("#E78A62"));
 			tb.setChecked(true);
 		} else {
 			tb.setChecked(false);
-			tb.setTextColor(Color.BLACK);
+			tb.setTextColor(Color.WHITE);
 		}
 
 		// add these child view first table row
 		aTableRow.addView(startTimeView);
 		aTableRow.addView(separator);
 		aTableRow.addView(endTimeView);
-		aTableRow.addView(randomText);
+		//aTableRow.addView(randomText);
 		aTableRow.addView(tb);
 
 		// add a view to the table layout
 		View aLine = new View(this);
 		aLine.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 2));
-		aLine.setBackgroundColor(Color.parseColor("#444444"));
+		aLine.setBackgroundColor(Color.parseColor("#ffffff"));
 
 		// add a second view this will be the days of the week the time setting
 		// is ON for
@@ -192,9 +187,9 @@ public class MyTimeSettings extends Activity {
 				+ aTimeSetting.getId().toString());
 		daysTimeSettingIsOn.setPadding(0, 0, 0, 20);
 		if (aTimeSetting.isOn()) {
-			daysTimeSettingIsOn.setTextColor(Color.parseColor("#ffffbb33"));
+			daysTimeSettingIsOn.setTextColor(Color.parseColor("#E78A62"));
 		} else {
-			daysTimeSettingIsOn.setTextColor(Color.parseColor("#444444"));
+			daysTimeSettingIsOn.setTextColor(Color.parseColor("#ffffff"));
 		}
 		// append all this to parent table
 		aParentTableLayout.addView(aTableRow);
@@ -254,18 +249,18 @@ public class MyTimeSettings extends Activity {
 					.findViewWithTag("daysTimeSettingIsOn" + aTimeSettingID);
 
 			if (isChecked) {
-				buttonView.setTextColor(Color.parseColor("#ff33b5e5"));
+				buttonView.setTextColor(Color.parseColor("#E78A62"));
 
-				startTimeView.setTextColor(Color.parseColor("#ffffbb33"));
-				endTimeView.setTextColor(Color.parseColor("#ffffbb33"));
-				separator.setTextColor(Color.parseColor("#ffffbb33"));
-				daysTimeSettingIsOnView.setTextColor(Color.parseColor("#ffffbb33"));
+				startTimeView.setTextColor(Color.parseColor("#E78A62"));
+				endTimeView.setTextColor(Color.parseColor("#E78A62"));
+				separator.setTextColor(Color.parseColor("#E78A62"));
+				daysTimeSettingIsOnView.setTextColor(Color.parseColor("#E78A62"));
 			} else {
-				startTimeView.setTextColor(Color.parseColor("#444444"));
-				endTimeView.setTextColor(Color.parseColor("#444444"));
-				separator.setTextColor(Color.parseColor("#444444"));
-				daysTimeSettingIsOnView.setTextColor(Color.parseColor("#444444"));
-				buttonView.setTextColor(Color.BLACK);
+				startTimeView.setTextColor(Color.parseColor("#ffffff"));
+				endTimeView.setTextColor(Color.parseColor("#ffffff"));
+				separator.setTextColor(Color.parseColor("#ffffff"));
+				daysTimeSettingIsOnView.setTextColor(Color.parseColor("#ffffff"));
+				buttonView.setTextColor(Color.parseColor("#ffffff"));
 
 			}
 		}

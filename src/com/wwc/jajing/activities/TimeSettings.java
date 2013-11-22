@@ -16,7 +16,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,27 +29,22 @@ import com.wwc.jajing.domain.entity.TimeSetting.Days;
 import com.wwc.jajing.fragment.EndTimeTimePickerFragment;
 import com.wwc.jajing.fragment.StartTimeTimePickerFragment;
 
+import org.joda.time.DateTime;
+
 public class TimeSettings extends FragmentActivity {
 
 	private static final String TAG = "TimeSettings";
 	
 	private String startTime;
 	private String endTime;
-	
-	private TextView startTimeDisplay;
-	private TextView endTimeDisplay;
-	
-
-	
-	private CheckBox checkboxRepeat;
-	private CheckBox checkboxEveryDay;
 
 	private TableLayout tableDaysOfTheWeek;
-	
+	private Button startTimeButton;
+    private Button endTimeButton;
+    private EditText scheduledStatus;
 	
 	private HashMap<Days, Boolean> daysToRepeatCollection = new HashMap<Days, Boolean>();
-	
-	private int idOfCheckboxChecked;
+
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
@@ -58,13 +55,14 @@ public class TimeSettings extends FragmentActivity {
 	    actionBar.setIcon(R.drawable.logo);
 	    actionBar.setHomeButtonEnabled(true);
 	    actionBar.setDisplayHomeAsUpEnabled(true);
-		
-		this.startTimeDisplay = (TextView) findViewById(R.id.textStartDisplay);
-		this.endTimeDisplay = (TextView) findViewById(R.id.textEndDisplay);
-		this.checkboxRepeat = (CheckBox) findViewById(R.id.checkboxRepeat);
-		this.checkboxEveryDay = (CheckBox) findViewById(R.id.checkboxEveryDay);
 
 
+        startTimeButton = (Button) findViewById(R.id.buttonStartTime);
+        endTimeButton = (Button) findViewById(R.id.buttonEndTime);
+        scheduledStatus = (EditText) findViewById(R.id.scheduledStatus);
+
+
+        this.initDaysToRepeatCollection();
 		
 		this.tableDaysOfTheWeek = (TableLayout) findViewById(R.id.tableDaysOfTheWeek);
 
@@ -121,83 +119,23 @@ public class TimeSettings extends FragmentActivity {
 	protected void onStop() {
 		super.onStop();
 	}
-	
 
-	public void checkboxHandler(View view)
-	{
-		CheckBox cb = (CheckBox) view;
-		int viewId = view.getId();
-		switch(viewId) 
-		{
-			case R.id.checkboxRepeat:
-				if(cb.isChecked()) {
-					this.tableDaysOfTheWeek.setVisibility(View.VISIBLE);
-					//init the days to repeat collection
-					this.initDaysToRepeatCollection();
-
-				} else {
-					this.tableDaysOfTheWeek.setVisibility(View.GONE);
-
-				}
-				this.uncheckExcept(cb);
-
-				
-				break;
-				
-			case R.id.checkboxEveryDay:
-				if(cb.isChecked()) {
-					this.tableDaysOfTheWeek.setVisibility(View.GONE);
-
-				}
-				this.uncheckExcept(cb);
-				
-				break;
-		}
-		
-		
-	}
 	
 	private void initDaysToRepeatCollection() {
 		
-		this.daysToRepeatCollection.put(Days.SUNDAY, true);
-		this.daysToRepeatCollection.put(Days.MONDAY, true);
-		this.daysToRepeatCollection.put(Days.TUESDAY, true);
+		this.daysToRepeatCollection.put(Days.SUNDAY, false);
+		this.daysToRepeatCollection.put(Days.MONDAY, false);
+		this.daysToRepeatCollection.put(Days.TUESDAY, false);
 		
-		this.daysToRepeatCollection.put(Days.WEDNESDAY, true);
-		this.daysToRepeatCollection.put(Days.THURSDAY, true);
-		this.daysToRepeatCollection.put(Days.FRIDAY, true);
+		this.daysToRepeatCollection.put(Days.WEDNESDAY, false);
+		this.daysToRepeatCollection.put(Days.THURSDAY, false);
+		this.daysToRepeatCollection.put(Days.FRIDAY, false);
 		
-		this.daysToRepeatCollection.put(Days.SATURDAY, true);
+		this.daysToRepeatCollection.put(Days.SATURDAY, false);
 		
 		
 
 	}
-	
-	private void uncheckExcept(View aCheckedCheckboxToKeepChecked)
-	{
-		CheckBox[] checkBoxes = new CheckBox[] {
-				(CheckBox) findViewById(R.id.checkboxRepeat),
-				(CheckBox) findViewById(R.id.checkboxEveryDay)};
-		
-		for(CheckBox aCheckbox : checkBoxes) {
-			
-			if(aCheckbox.getId() == aCheckedCheckboxToKeepChecked.getId()) {
-				if (aCheckbox.isChecked()) {
-					Log.d(TAG, "checbox is checked...");
-					this.idOfCheckboxChecked = aCheckedCheckboxToKeepChecked.getId();
-
-				} else {
-					//we set the id to 99 to singal the user they need to select a frequency
-					this.idOfCheckboxChecked = 99;
-					Log.d(TAG, "setting id of checkbox to 99");
-				}
-				continue;
-			} else {
-				aCheckbox.setChecked(false);
-			}
-		}
-	}
-	
 	
 	public void toggleDayToRepeat(View aView)
 	{
@@ -209,32 +147,32 @@ public class TimeSettings extends FragmentActivity {
 		{
 		case R.id.textSun:
 			//togle color before toggleing day, because if ui color update
-			this.toggleTextViewColorForDays(aView);
 			this.toggleDay(aDay);
+            this.toggleTextViewColorForDays(aView);
 			break;
 		case R.id.textMon:
-			this.toggleTextViewColorForDays(aView);
 			this.toggleDay(aDay);
+            this.toggleTextViewColorForDays(aView);
 			break;
 		case R.id.textTu:
-			this.toggleTextViewColorForDays(aView);
 			this.toggleDay(aDay);
+            this.toggleTextViewColorForDays(aView);
 			break;
 		case R.id.textWed:
-			this.toggleTextViewColorForDays(aView);
 			this.toggleDay(aDay);
+            this.toggleTextViewColorForDays(aView);
 			break;
 		case R.id.textThu:
-			this.toggleTextViewColorForDays(aView);
 			this.toggleDay(aDay);
+            this.toggleTextViewColorForDays(aView);
 			break;
 		case R.id.textFri:
-			this.toggleTextViewColorForDays(aView);
 			this.toggleDay(aDay);
+            this.toggleTextViewColorForDays(aView);
 			break;
 		case R.id.textSat:
-			this.toggleTextViewColorForDays(aView);
 			this.toggleDay(aDay);
+            this.toggleTextViewColorForDays(aView);
 			break;
 		}
 		
@@ -245,11 +183,15 @@ public class TimeSettings extends FragmentActivity {
 	private void toggleDay(Days aDay) {
 		
 		if(this.daysToRepeatCollection.get(aDay)) { //if this day is set to repeat, toggle it...
-			//toggle state
+
+            System.out.println("Day False: " + aDay);
+
 			this.daysToRepeatCollection.put(aDay, false);
 						
 		} else {
 			//toggle state
+
+            System.out.println("Day True: " + aDay);
 			this.daysToRepeatCollection.put(aDay, true);
 			
 		}
@@ -265,11 +207,11 @@ public class TimeSettings extends FragmentActivity {
 		
 		if(this.daysToRepeatCollection.get(aDay)) { //if this day is set to repeat, toggle it...
 			//toggle color
-			tv.setTextColor(Color.DKGRAY);
+			tv.setTextColor(Color.parseColor("#E78A62"));
 			
 		} else {
 			//day is not set to repeat, do this...
-			tv.setTextColor(Color.parseColor("#ff33b5e5"));
+			tv.setTextColor(Color.parseColor("#ffffff"));
 			
 		}
 		
@@ -327,13 +269,13 @@ public class TimeSettings extends FragmentActivity {
 	
 	private void displayStartTimeToUser(String aFormattedTime)
     {
-    	startTimeDisplay.setText("start time: " + aFormattedTime);
+    	startTimeButton.setText("Detach at: " + aFormattedTime);
     }
 	
 	private void displayEndTimeToUser(String aFormattedTime)
     {
 
-    	endTimeDisplay.setText("end time: " + aFormattedTime);
+    	endTimeButton.setText("end time: " + aFormattedTime);
     }
 
 	
@@ -344,26 +286,19 @@ public class TimeSettings extends FragmentActivity {
 			Toast.makeText(this, "select both a start and end time", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		if (this.idOfCheckboxChecked == R.id.checkboxEveryDay) {
-			
-			Days[] allDaysOfTheWeek = new Days[] {
-					Days.MONDAY, Days.TUESDAY,Days.WEDNESDAY,Days.THURSDAY,Days.FRIDAY,Days.SATURDAY,Days.SUNDAY};
-			//create a new time setting
-			TimeSetting ts = new TimeSetting(this, startTime, endTime, allDaysOfTheWeek);
-			ts.save();
-			this.moveToMyTimeSettings(true);
-		} else if(this.idOfCheckboxChecked == R.id.checkboxRepeat) {
-			//on repeat, do this...
-			
-			Days[] daysToRepeat = this.getDaysToRepeat();
-			//create a new time setting
-			TimeSetting ts = new TimeSetting(this, startTime, endTime, daysToRepeat);
-			ts.save();
-			this.moveToMyTimeSettings(true);
-			
-		} else {
-			Toast.makeText(this, "select a frequency", Toast.LENGTH_SHORT).show();
-		}
+
+        Days[] daysToRepeat = this.getDaysToRepeat();
+
+        if(daysToRepeat.length == 0) {
+            Toast.makeText(this, "Select at least one day.", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            //create a new time setting
+            String status = scheduledStatus.getText().toString();
+            TimeSetting ts = new TimeSetting(this, startTime, endTime, daysToRepeat, status);
+            ts.save();
+            this.moveToMyTimeSettings(true);
+        }
 	}
 	
 	private Days[] getDaysToRepeat()
