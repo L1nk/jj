@@ -91,14 +91,24 @@ public class TimeSetting extends SugarRecord implements Entity{
 	{
 		return this.startTime;
 	}
+
+    public String getStatus()
+    {
+        return this.status;
+    }
 	
 	public String getEndTime()
 	{
 		return this.endTime;
 
 	}
-	
-	public void setStartTime(String aStartTime)
+
+    public void setStatus(String astatus)
+    {
+        this.status = astatus;
+    }
+
+    public void setStartTime(String aStartTime)
 	{
 		this.startTime = aStartTime;
 	}

@@ -153,6 +153,13 @@ public class MissedCalls extends Activity implements OnClickListener{
 		this.user.setIsMakingCall(false);
 	}
 
+    public void onSwipe(View view) {
+
+
+            Intent mainActivity = new Intent(this, MainActivity.class);
+            startActivity(mainActivity);
+    }
+
 
 
 }

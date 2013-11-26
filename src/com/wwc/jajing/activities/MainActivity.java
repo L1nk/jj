@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.annotation.TargetApi;
@@ -48,6 +50,8 @@ import com.flurry.android.FlurryAgent;
 import com.wwc.jajing.R;
 import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
 import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
+import com.wwc.jajing.domain.entity.Status;
+import com.wwc.jajing.domain.entity.StatusLog;
 import com.wwc.jajing.domain.entity.TimeSetting;
 import com.wwc.jajing.domain.entity.User;
 import com.wwc.jajing.domain.services.CallManager;
@@ -93,7 +97,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 	TextView mDisplay;
 	CloudBackendAsync m_cloudAsync ;
     private String unavailabilityReason;
-    private String[] pastStatuses;
+    private ArrayList<String> pastStatuses;
 
     private String endTime;
     private String startTime;
@@ -149,7 +153,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         this.goAvailable = (Button) findViewById(R.id.goAvailable);
         this.help = (ImageButton) findViewById(R.id.help);
 
-        String[] pastStatuses = getResources().getStringArray(R.array.statusCompletion_array);
+        //pastStatuses = getResources().getStringArrayList(R.array.statusCompletion_array);
+        pastStatuses = StatusLog.getStringLog();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, pastStatuses);
         customStatus.setAdapter(adapter);
 
@@ -356,10 +361,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
     public void detachCustom(View view) {
 
         this.unavailabilityReason = this.customStatus.getText().toString();
-        this.pastStatuses[3] = this.unavailabilityReason;
-        removeText(view);
-
+        StatusLog.getInstance().addStatus(mContext, this.unavailabilityReason);
         promptUserForTime(false);
+        removeText(view);
+        //updatePastStatusLog
+        pastStatuses = StatusLog.getStringLog();
 
     }
 
