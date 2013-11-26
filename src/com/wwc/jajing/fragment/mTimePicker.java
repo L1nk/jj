@@ -38,6 +38,15 @@ public class mTimePicker extends DialogFragment implements
 		final Calendar c = Calendar.getInstance();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int minute = c.get(Calendar.MINUTE);
+        if(!isTimePickerForStartTime){
+           //add 15 minutes for the end time
+            minute +=15;
+            if(minute - 60 > 0 ){
+                hour += 1;
+                minute = minute -60;
+                if(hour > 24){ hour = 0;}
+            }
+        }
 
 		TimePickerDialog tpd = new TimePickerDialog(getActivity(), this,
 				hour, minute, DateFormat.is24HourFormat(getActivity()));

@@ -360,11 +360,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
     public void detachCustom(View view) {
 
         this.unavailabilityReason = this.customStatus.getText().toString();
-        //this.pastStatuses[3] = this.unavailabilityReason;
         StatusLog.getInstance().addStatus(mContext, this.unavailabilityReason);
-
-        removeText(view);
         promptUserForTime(false);
+        removeText(view);
+        //updatePastStatusLog
+        pastStatuses = StatusLog.getStringLog();
 
     }
 
