@@ -33,7 +33,7 @@ public class HelpActivity extends Activity {
 
         System.out.println(adapter.position + " FUck");
 
-        if(adapter.position == 4) {
+        if(adapter.position ==  4) {
             Intent mainActivity = new Intent(this, MainActivity.class);
             startActivity(mainActivity);
         }
