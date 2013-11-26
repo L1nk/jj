@@ -193,7 +193,7 @@ public class TimeSettingTaskManager implements onDayChangeListner {
 					// we need the user to go unavailable immediately
 					String status = this.user.getUserStatus().getAvailabilityStatus();
 					if(status.equalsIgnoreCase("AVAILABLE")) status = aTimeSetting.status;
-					this.user.goUnavailable(status, new AvailabilityTime(
+                    this.user.goUnavailable(status, new AvailabilityTime(
 							aTimeSetting.getEndTime()));
 					// then we need to commit a new start task immediately
 					this.scheduelNewStartTaskToRunNow(aTimeSetting);

@@ -11,7 +11,6 @@ import com.wwc.jajing.R;
 
 public class HelpActivity extends Activity {
 
-
     private int imageArray[] = { R.drawable.help_one, R.drawable.help_two,
             R.drawable.help_three, R.drawable.help_four, R.drawable.help_five};
 
@@ -26,19 +25,5 @@ public class HelpActivity extends Activity {
         myPager.setAdapter(adapter);
         myPager.setCurrentItem(0);
     }
-
-    public void goToMain(View view) {
-
-
-
-        System.out.println(adapter.position + " FUck");
-
-        if(adapter.position == 4) {
-            Intent mainActivity = new Intent(this, MainActivity.class);
-            startActivity(mainActivity);
-        }
-    }
-
-
 
 }

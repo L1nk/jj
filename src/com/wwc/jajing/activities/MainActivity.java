@@ -140,7 +140,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 					Toast.LENGTH_SHORT).show();
 		}
 
-
 		this.buttonStatus = (Button) findViewById(R.id.buttonStatus);
 		this.textHeading = (TextView) findViewById(R.id.textHeading);
 		this.textCallersCanForceDisturb = (TextView) findViewById(R.id.textCallersCanForceDisturb);
@@ -178,6 +177,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 		JJSystem jjSystem = JJSystemImpl.getInstance();
 		// set our user
 		this.user = (User) jjSystem.getSystemService(Services.USER);
+
+        this.user.setCloudBackendAsync(m_cloudAsync);
 		// set our call manager
 		this.cm = (CallManager) jjSystem
 				.getSystemService(Services.CALL_MANAGER);
@@ -381,9 +382,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         this.user.goUnavailable("Driving", startTime, new AvailabilityTime(endTime));
 
-
-        this.pushStatusToCloud();
-
         this.updateAvailabilityStatus("Driving");
 
     }
@@ -402,8 +400,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         this.user.goUnavailable("Busy", startTime, new AvailabilityTime(endTime));
 
-        this.pushStatusToCloud();
-
         this.updateAvailabilityStatus("Busy");
     }
 
@@ -421,34 +417,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         this.user.goUnavailable("Eating", startTime, new AvailabilityTime(endTime));
 
-        this.pushStatusToCloud();
-
         this.updateAvailabilityStatus("Eating");
-        //Intent awayActivity = new Intent(this, AwayActivity.class);
-        //startActivity(awayActivity);
     }
 
 	public void goAvailable() {
 		this.user.goAvailable();
-
-        CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
-            @Override
-            public void onComplete( JSONObject results ) {
-                Toast.makeText( mContext , "Your status will be sent to those trying to reach you.", Toast.LENGTH_LONG ).show();
-            }
-            @Override
-            public void onError( IOException exception ) {
-                CloudBackendAsync.handleEndpointException( exception );
-            }
-        };
-        //Change userId to actual user phone number
-        long userId = 1l ;
-        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
-        userId = shared.getLong( "id" , 1l ) ;
-        if( userId == 1l ) {
-            Toast.makeText( this, "Not valid phone number for API calls", Toast.LENGTH_LONG ).show();
-        }
-        m_cloudAsync.pushStatusToCloud( userId , user , handler );
 
 		Intent intent = new Intent(this, MissedLog.class);
 		intent.putExtra("recentFlag", true);
@@ -760,8 +733,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         this.user.goUnavailable(this.unavailabilityReason, startTime, new AvailabilityTime(this.endTime));
 
-        this.pushStatusToCloud();
-
         this.updateAvailabilityStatus(this.unavailabilityReason);
 
     }
@@ -794,7 +765,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
         FragmentTransaction ft = fragManager.beginTransaction();
         ft.remove(this.timeFrag);
         ft.commit();
-        promptUserForTime(false);// prompt for end time
+        promptUserForTime(false);
     }
 
     private void promptUserForTime(boolean isStartTime) {
@@ -807,33 +778,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 
         this.customStatus.setText("");
         this.customStatus.clearFocus();
-    }
-
-    private boolean goUnavailable() {
-        return this.user.goUnavailable(this.unavailabilityReason,
-                this.startTime, new AvailabilityTime(this.endTime));
-
-    }
-
-    private void pushStatusToCloud() {
-        CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
-            @Override
-            public void onComplete( JSONObject results ) {
-                Toast.makeText( mContext , "Your status will be sent to those trying to reach you.", Toast.LENGTH_LONG ).show();
-            }
-            @Override
-            public void onError( IOException exception ) {
-                CloudBackendAsync.handleEndpointException( exception );
-            }
-        };
-        //Change userId to actual user phone number
-        long userId = 1l ;
-        SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
-        userId = shared.getLong( "id" , 1l ) ;
-        if( userId == 1l ) {
-            Toast.makeText( this, "Not valid phone number for API calls", Toast.LENGTH_LONG ).show();
-        }
-        m_cloudAsync.pushStatusToCloud( userId , user , handler );
     }
 
 }

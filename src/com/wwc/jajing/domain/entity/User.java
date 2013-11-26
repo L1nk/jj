@@ -1,5 +1,6 @@
 package com.wwc.jajing.domain.entity;
 
+import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
 import com.wwc.jajing.domain.value.AvailabilityTime;
 import com.wwc.jajing.domain.value.PhoneNumber;
 import com.wwc.jajing.domain.value.UserStatus;
@@ -26,6 +27,7 @@ public interface User extends Entity {
 	public void denyPermission(Caller aPermissable, Permissions aPermission);
 	public boolean isMakingCall();
 	public void setIsMakingCall(boolean isMakingCall);
+    public void setCloudBackendAsync(CloudBackendAsync cloudBackendAsync);
 	
 	public String getFullStartDateTime();
 	public String getFullEndDateTime();

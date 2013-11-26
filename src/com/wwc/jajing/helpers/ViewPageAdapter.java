@@ -38,9 +38,8 @@ public class ViewPageAdapter extends PagerAdapter {
 
             @Override
             public void onClick(View view) {
-                System.out.println(view.getBackground().getClass().getName() + " FUCK" + position );
 
-                if(position == 3) {
+                if(position == 4) {
                     Intent i = new Intent(activity, MainActivity.class);
                     activity.startActivity(i);
                 }

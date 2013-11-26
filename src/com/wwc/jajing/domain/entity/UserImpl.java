@@ -1,12 +1,12 @@
 package com.wwc.jajing.domain.entity;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
@@ -14,9 +14,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Looper;
 import android.util.Log;
-
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
+import com.wwc.jajing.cloud.contacts.CloudBackendAsync;
+import com.wwc.jajing.cloud.contacts.CloudCallbackHandler;
 import com.wwc.jajing.domain.value.AvailabilityTime;
 import com.wwc.jajing.domain.value.PhoneNumber;
 import com.wwc.jajing.domain.value.UserStatus;
@@ -27,6 +28,8 @@ import com.wwc.jajing.settings.time.TimeSettingTaskManager;
 import com.wwc.jajing.system.JJSystemImpl;
 import com.wwc.jajing.system.JJSystemImpl.Services;
 
+import org.json.JSONObject;
+
 /*
  * Represents the User.
  * 
@@ -35,7 +38,6 @@ import com.wwc.jajing.system.JJSystemImpl.Services;
  * 
  * 
  */
-
 public class UserImpl extends SugarRecord implements User {
 
 	private static final String TAG = "UserImpl";
@@ -73,6 +75,8 @@ public class UserImpl extends SugarRecord implements User {
 	@Ignore
 	private String status = "" ;
 
+    CloudBackendAsync m_cloudAsync ;
+
 	@Ignore
 	private PermissionManager pm = null;
 
@@ -80,7 +84,6 @@ public class UserImpl extends SugarRecord implements User {
 	public UserImpl(Context context) {
 		super(context);
 		this.context = context;
-		
 	}
 
 	public static UserImpl getInstance() {
@@ -110,8 +113,7 @@ public class UserImpl extends SugarRecord implements User {
 		this.isMakingCall = isMakingCall;
 		Log.d(TAG, "User is now making a new call. Field:ismakingcall was set to:" + isMakingCall);
 	}
-	
-	
+
 	@Override
 	public boolean goUnavailable(String aReason, String aStartTime, AvailabilityTime anAvailabilityTime) {
 		this.setAvailabilityStatus(aReason);
@@ -121,11 +123,9 @@ public class UserImpl extends SugarRecord implements User {
 		int dayOfTheWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
 		String start = TimeSetting.dateFormatterTIME.format(TimeSetting.getDateOfTimeString(aStartTime));
-		if(!TimeSetting.isValidTimeInterval(start, anAvailabilityTime.getAvailabilityTimeString())) { //check to make sure its a valid interval
-			//Toast.makeText(context, "invalid interval", Toast.LENGTH_SHORT).show();
+		if(!TimeSetting.isValidTimeInterval(start, anAvailabilityTime.getAvailabilityTimeString())) {
 			return false;
 		}
-		
 
 		TimeSetting mainTimeSetting = TimeSetting.findById(TimeSetting.class, 1L);
 		mainTimeSetting.setStartTime(start);
@@ -138,11 +138,27 @@ public class UserImpl extends SugarRecord implements User {
 		mainTimeSetting.save();
 		TimeSettingTaskManager taskManager = TimeSettingTaskManager.getInstance();
 		taskManager.turnTimeSettingOn(1L);
+
+        this.pushStatusToCloud(aReason);
+
 		return true;
 
 	}
-	
-	
+
+    public void pushStatusToCloud(String status) {
+        this.setAvailabilityStatus(status);
+        CloudCallbackHandler<JSONObject> handler = new CloudCallbackHandler<JSONObject>() {
+            @Override
+            public void onComplete( JSONObject results ) {
+                System.out.println("Update pushed");
+            }
+            @Override
+            public void onError( IOException exception ) {
+                CloudBackendAsync.handleEndpointException(exception);
+            }
+        };
+        m_cloudAsync.pushStatusToCloud( this.getId() , this , handler );
+    }
 
 	/*
 	 * Time setting activity, will go unavailable immediately and be set to return in the future
@@ -179,11 +195,11 @@ public class UserImpl extends SugarRecord implements User {
 		} 
 		this.currentEndTask = pendingTask;
 		TimeSettingTaskManager.getInstance().aTimer.schedule(this.currentEndTask, end);
+        this.pushStatusToCloud(aReason);
 		
 	}
 	
-	private class mEndTaskTimerTask extends TimerTask
-	{
+	private class mEndTaskTimerTask extends TimerTask {
 		private volatile Looper mMyLooper;
 
 		@Override
@@ -201,16 +217,11 @@ public class UserImpl extends SugarRecord implements User {
 		Log.d(TAG, "availability time is now: " + this.availabilityTime);
 	}
 	
-	private void startJJOnAwayService()
-	{
+	private void startJJOnAwayService() {
 		Intent service = new Intent(context, JJOnAwayService.class);
 		context.startService(service); 
 	}
 
-	/*
-	 * 
-	 * 
-	 */
 	@Override
 	public void goAvailable() {
 		this.setAvailabilityStatus(this.AVAILABLE);
@@ -224,15 +235,15 @@ public class UserImpl extends SugarRecord implements User {
 			TimeSettingTaskManager.getInstance().turnTimeSettingOff(1L);
 
 		}
+
+        this.pushStatusToCloud(this.availabilityStatus);
 		
 	}
-	
-	
+
 	private void stopJJOnAwayService() {
 		Intent intent = new Intent(context, JJOnAwayService.class);
 		context.stopService(intent);
 	}
-	
 
 	public UserStatus getUserStatus() {
 		if(this.availTime != null) {
@@ -240,7 +251,7 @@ public class UserImpl extends SugarRecord implements User {
 			return us;
 		} else {
 			//FIXED BUG, app would not start if user status was null
-			UserStatus us = new UserStatus(availabilityStatus, "Unknown");
+			UserStatus us = new UserStatus(availabilityStatus, "Available");
 			return us;
 
 		}
@@ -250,10 +261,7 @@ public class UserImpl extends SugarRecord implements User {
 	private void setAvailabilityStatus(String status) {
 		this.availabilityStatus = status;
 		this.save();
-
 	}
-
-
 
 	@Override
 	public boolean isAvailable() {
@@ -267,10 +275,6 @@ public class UserImpl extends SugarRecord implements User {
 			return false;
 	}
 
-	/*
-	 * Delegates to Permission Manager
-	 *
-	 */
 	@Override
 	public void givePermission(Caller aPermissable,
 			Permissions aPermission) {
@@ -282,15 +286,9 @@ public class UserImpl extends SugarRecord implements User {
 
 	}
 	
-	/*
-	 * Delegates to Permission Manager
-	 * 
-	 *
-	 */
 	@Override
 	public void denyPermission(Caller aPermissable,
-			Permissions aPermission)
-	{
+			Permissions aPermission) {
 		if(aPermissable == null) throw new IllegalArgumentException("Caller cannot be null. Please make sure caller is persisted before removing permissions from him.");
 		PermissionManager pm = this.getPermissionManager();
 		pm.attachPermission( aPermissable, pm.getPermission(aPermission), false);
@@ -299,8 +297,7 @@ public class UserImpl extends SugarRecord implements User {
 		
 	}
 	
-	private PermissionManager getPermissionManager() //lazy load permission manager
-	{
+	private PermissionManager getPermissionManager() {
 		if (this.pm == null) {
 			this.pm = PermissionManager.getInstance();
 			return this.pm;
@@ -349,10 +346,14 @@ public class UserImpl extends SugarRecord implements User {
 	@Override
 	public String getFullEndDateTime() {
 		Date endTime = new Date() ;
-		int minute = (int) (availTime.getTime() / (1000 * 60)) % 60;
-		int hour = (int) (availTime.getTime() / (1000 * 60 * 60)) % 24;
-		endTime.setHours( hour );
-		endTime.setMinutes( minute );
+
+        if(availTime != null) {
+            int minute = (int) (availTime.getTime() / (1000 * 60)) % 60;
+            int hour = (int) (availTime.getTime() / (1000 * 60 * 60)) % 24;
+            endTime.setHours( hour );
+            endTime.setMinutes( minute );
+        }
+
 		return fullDateTimeFormatter.format( endTime );
 	}
 
@@ -362,5 +363,9 @@ public class UserImpl extends SugarRecord implements User {
 
     public String getReadableTime() {
         return this.readableTime;
+    }
+
+    public void setCloudBackendAsync(CloudBackendAsync cloudBackendAsync) {
+        this.m_cloudAsync = cloudBackendAsync;
     }
 }

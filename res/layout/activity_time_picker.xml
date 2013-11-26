@@ -20,7 +20,7 @@
             android:text="Give yourself a breather."
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffffff"
-            android:layout_marginTop="32dp" />
+            android:layout_marginTop="20dp" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:text="Schedule something unique."
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffffff"
-            android:layout_marginTop="32dp" />
+            android:layout_marginTop="6dp" />
 
         <Button
             android:id="@+id/buttonStartTime"
@@ -64,10 +64,10 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="On days selected below"
+            android:text="For the following days"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffffff"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="15dp" />
 
         <LinearLayout
             android:layout_width="350dp"
@@ -170,7 +170,7 @@
             android:layout_width="250dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="47dp"
             android:background="#E78A62"
             android:onClick="saveTimeSetting"
             android:text="Add to itinerary"
