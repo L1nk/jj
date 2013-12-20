@@ -13,7 +13,7 @@ public class HelpActivity extends Activity {
 
 
     private int imageArray[] = { R.drawable.help_one, R.drawable.help_two,
-            R.drawable.help_three, R.drawable.help_four};
+            R.drawable.help_three, R.drawable.help_four, R.drawable.help_five};
 
     private ViewPageAdapter adapter;
 
@@ -29,11 +29,7 @@ public class HelpActivity extends Activity {
 
     public void goToMain(View view) {
 
-
-
-        System.out.println(adapter.position + " FUck");
-
-        if(adapter.position == 3) {
+        if(adapter.position == 4) {
             Intent mainActivity = new Intent(this, MainActivity.class);
             startActivity(mainActivity);
         }

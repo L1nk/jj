@@ -67,7 +67,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
             "com.exmaple.jajingprototype.intent.DASHBOARD_NOTIFICATION_AVAILABILITY_STATUS";
 	
 	/* For Navigation Drawer */
-    private String[] navigation = new String[] { "Friends on Detach"};
+    private String[] navigation = new String[] { "Friends"};
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView mDrawerList;
@@ -585,7 +585,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Act
 			}
 			m_cloudAsync.pushContactsToCloud( userId , handler );
 			//Toast.makeText(mContext, "Phone contacts already pushed",Toast.LENGTH_SHORT).show();
-		} catch ( JSONException e ) {
+		} catch ( Exception e ) {
 			//Toast.makeText( mContext , e.toString(), Toast.LENGTH_LONG ).show();
 			AppLogger.error( String.format( TAG ,e.toString() + ", Unable to push local contacts to Cloud" ) );
 		}

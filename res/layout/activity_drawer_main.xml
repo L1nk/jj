@@ -16,12 +16,91 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent" >
 
+        <TextView
+            android:id="@+id/currentStatusHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="You are currently"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff"
+            android:layout_marginTop="40dp"
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/currentStatus"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#E78A62"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+        <Button
+            android:id="@+id/goAvailable"
+            android:layout_width="183dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/imback"
+            android:onClick="goAvailable"/>
+
+        <LinearLayout
+            android:width="300dp"
+            android:layout_width="305dp"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="13dp">
+
+            <EditText
+                android:layout_width="250dp"
+                android:hint="Share a unique status..."
+                android:textColor="#8f9196"
+                android:paddingLeft="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/customStatus"
+                android:layout_gravity="center"
+                android:textSize="18dp"
+                android:singleLine="true"
+                android:background="@drawable/statusentry"
+                android:onClick="removeText" />
+
+            <Button
+                android:id="@+id/buttonStatus"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:background="@drawable/submit"
+                android:onClick="detachCustom"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/currentStatusHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="OR"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffffff"
+            android:layout_marginTop="30dp"
+            android:textSize="20dp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginTop="59dp">
+            android:layout_marginTop="50dp">
 
             <ImageButton
                 android:id="@+id/buttonDriving"
@@ -48,72 +127,6 @@
                 android:background="@drawable/eating" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:width="300dp"
-            android:layout_width="305dp"
-            android:layout_height="45dp"
-            android:orientation="horizontal"
-            android:background="@drawable/statusentry"
-            android:layout_gravity="center"
-            android:layout_marginTop="13dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:hint="Share a unique status..."
-            android:textColor="#8f9196"
-            android:layout_height="match_parent"
-            android:id="@+id/customStatus"
-            android:layout_gravity="center"
-            android:textSize="18dp"
-            android:singleLine="true"
-            android:onClick="removeText" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/buttonStatus"
-            android:layout_width="182dp"
-            android:layout_height="37dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/detach"
-            android:onClick="detachCustom"/>
-
-
-        <TextView
-            android:id="@+id/currentStatusHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            android:layout_gravity="center"
-            android:text="You are currently"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ffffff"
-            android:layout_marginTop="2dp"
-            android:textSize="20dp"
-            android:layout_marginBottom="10dp" />
-
-        <TextView
-            android:id="@+id/currentStatus"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#E78A62"
-            android:textStyle="bold"
-            android:textSize="20dp"/>
-
-        <Button
-            android:id="@+id/goAvailable"
-            android:layout_width="183dp"
-            android:layout_height="37dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/imback"
-            android:onClick="goAvailable"/>
 
         <RelativeLayout
             android:layout_height="match_parent"
